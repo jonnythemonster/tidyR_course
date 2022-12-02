@@ -1,6 +1,8 @@
 ![Kurs Logo](tidyverse_packages.png)
 Foto von [Sylvia Canelón](https://github.com/spcanelon/tour-of-the-tidyverse)
 
+Hier geht es zur Website vom Kurs: [https://jonnythemonster.github.io/tidyR_course/](https://jonnythemonster.github.io/tidyR_course/)
+
 # Effizientes Programmieren mit R
 ## Einführung in tidyverse
 
