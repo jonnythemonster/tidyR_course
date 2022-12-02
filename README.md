@@ -1,5 +1,5 @@
 ![Kurs Logo](tidyverse_packages.png)
-Foto von (Sylvia Canelón)[https://github.com/spcanelon/tour-of-the-tidyverse]
+Foto von [Sylvia Canelón](https://github.com/spcanelon/tour-of-the-tidyverse)
 
 # Effizientes Programmieren mit R
 ## Einführung in tidyverse
