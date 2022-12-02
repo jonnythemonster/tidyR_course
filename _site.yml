@@ -1,0 +1,11 @@
+name: "Effizientes Programmieren mit R: eine Einführung in tidyverse"
+navbar:
+  title: "Effizientes Programmieren mit R"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Skript"
+      href: Journal.html
+    - text: "Links"
+      href: Links.html
+output_dir: "docs"

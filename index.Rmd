@@ -1,0 +1,23 @@
+---
+title: "MyLabJournal"
+output: html_document
+---
+
+<style type="text/css">
+.title {
+  display: none;
+}
+
+#getting-started img {
+  margin-right: 10px;
+}
+
+</style>
+
+
+
+# **Eine Einführung in tidyverse**
+Das tidyverse ist eine Sammlung von R-Paketen, die für Data Science entwickelt wurden. Alle Pakete teilen eine zugrunde liegende Design-Philosophie, Grammatik und Datenstrukturen. Diese wollen wir in diesem Kurs nach einer super kurzen Einführung in R lernen. Hier stehen vor allem die Pakete dplyr, tidyr und ggplot2 im Vordergrund.
+
+### How to use
+Das Skript könnt irh über diese Website anschauen und als Vorlage für eure eigene Arbeit in R nehmen. Ihr könnt es aber auch runterladen und direkt bearbeiten. Um es herunterzuladen, klickt auf die Schaltfläche "Als .zip herunterladen", um von einem lokalen Computer aus zu starten, oder forke es über GitHub. Hierfür bracuhst du ein GitHub Account. Der entpackte Ordner enthält alle Dateien, die du im Kurs benötigen wirst. 

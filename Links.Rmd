@@ -1,0 +1,9 @@
+---
+title: "Links"
+output: html_document
+---
+
+1. Google ist großartig, googeln Sie Ihr Problem
+2. [Stackoverflow](https://stackoverflow.com) ist großartig, Google führt dich oft dorthin, weil jemand dein Frage bereits gestellt hat und jemand anderes darauf geantwortet hat, normalerweise haben viele Leute deine Frage auf viele Arten zu beantwortet.
+3. Dies ist der endgültige Leitfaden für alles, was mit R Markdown zu tun hat (Du wirst ihn sehr nützlich finden, wenn du diese Fähigkeit besser beherrscht): [https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/) [https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/)
+
