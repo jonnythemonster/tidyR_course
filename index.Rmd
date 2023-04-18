@@ -2,46 +2,364 @@
 title: "Skript"
 output:
   html_document:
+    css: style.css
     toc: true
     toc_float: true
-    collapsed: false
+    collapsed: true
     number_sections: false
-    toc_depth: 1
+    toc_depth: 3
     #code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
+knitr::opts_chunk$set(message=TRUE,warning=TRUE, cache=TRUE)
 ```
 
 Sommersemester 2023 | Stand: `r Sys.Date()`
 
-# Einführung in R
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. 
+# Einführung
+In diesem Kurs geht es um die Programmiersprache R. Doch was ist das eigebntlich?
 
 ## Was ist R
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+R ist eine Programmiersprache und eine Umgebung für statistische Berechnungen und Grafiken. Es wurde von Statistik-begeisterten Menschen entwickelt und ist heute eine der am häufigsten verwendeten Sprachen in der Datenanalyse und im Machine Learning. R bietet eine Vielzahl von Paketen und Bibliotheken, die es Benutzern ermöglichen, verschiedene statistische Analysen durchzuführen, Daten zu visualisieren und Modelle zu entwickeln. Die Syntax von R ähnelt der von MATLAB und Python, aber R wurde speziell für die statistische Analyse entwickelt.
 
 ## Was ist RStudio
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+RStudio ist eine integrierte Entwicklungsumgebung (IDE) für R. Es ist eine kostenlose und quelloffene Software, die von Posit entwickelt wird und die es Benutzern erleichtert, R-Code zu schreiben und auszuführen. RStudio bietet eine Reihe von Funktionen, die den Workflow erleichtern, einschließlich der Möglichkeit, R-Skripte zu erstellen, Daten und Grafiken zu visualisieren, R-Pakete zu verwalten und RMarkdown-Dokumente zu erstellen, die Text und Code kombinieren. RStudio ist eine der beliebtesten IDEs für R und wird von vielen Benutzern aufgrund seiner Benutzerfreundlichkeit, Funktionalität und Erweiterbarkeit bevorzugt.
 
-# Datenmanipulation mit dplyr
+## Das Tidyverse
+Tidyverse ist eine Sammlung von R-Paketen, die von Posit entwickelt wurde, um die Arbeit mit Daten in R zu erleichtern. Tidyverse stellt eine alternative Arbeitsweise zur Datenmanipulation und Visualisierung im Vergleich zur traditionellen Basis-R-Syntax bereit.
 
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
+Tidyverse bietet eine Vielzahl von Paketen, die speziell für die Datenanalyse konzipiert sind. Diese Pakete sind so konzipiert, dass sie nahtlos miteinander arbeiten und es dem Benutzer ermöglichen, Daten schnell und effektiv zu manipulieren, zu bereinigen, zu transformieren und zu visualisieren. Einige der wichtigsten Pakete in Tidyverse sind:
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+- ggplot2: Ein Paket für die Erstellung ansprechender und professioneller Grafiken.
+- dplyr: Ein Paket für die Datenmanipulation und -filterung.
+- tidyr: Ein Paket für die Bereinigung und Umstrukturierung von Daten.
+- readr: Ein Paket für den Import von Daten aus verschiedenen Dateiformaten.
 
-# Aufräumen mit tidyr
+Tidyverse hat einige Vorteile gegenüber traditionellen Basis-R-Syntax, insbesondere bei der Datenmanipulation. Der Einsatz des Pipe-Operators (%>%) ermöglicht es Benutzern, eine Folge von Operationen in einer einzigen Zeile zu schreiben, was die Lesbarkeit und den Workflow verbessert. Tidyverse ist auch so konzipiert, dass es gut mit dem Konzept der "tidy data" (saubere Daten) arbeitet, das besagt, dass Daten in einer strukturierten, les- und bearbeitbaren Art und Weise organisiert sein sollten.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+Insgesamt ist Tidyverse eine leistungsstarke und intuitive Alternative zur traditionellen Basis-R-Syntax, die es Benutzern ermöglicht, Daten effektiver und schneller zu manipulieren und zu visualisieren. Es hat sich als eine der wichtigsten R-Bibliotheken für die Datenanalyse und -visualisierung etabliert und wird von vielen R-Entwicklern und Datenwissenschaftlern weltweit genutzt.
 
-```{r}
-samples <- rnorm(100, mean=0, sd=1)
-hist(samples)
+## Tidy Data
+Unter diesem Begriff verbirgt sich die Idee, wie Daten aussehen sollen. ,Sie sind in einer spezifischen, standardisierten Form organisiert, um eine einfache Datenanalyse und -visualisierung zu ermöglichen. Die Tidy-Data-Prinzipien wurden von Hadley Wickham, dem Schöpfer von Tidyverse, definiert und beziehen sich auf eine bestimmte Strukturierung von Daten, die in der Regel aus drei Schlüsselelementen besteht:
+
+1. Jede Variable hat eine Spalte: Jede Variable, die in den Daten erfasst wird, sollte in einer separaten Spalte aufgeführt werden. Zum Beispiel sollten Alter, Geschlecht und Einkommen jeweils ihre eigene Spalte in den Daten haben.
+2. Jeder Beobachtung hat eine Zeile: Jede Beobachtung, die in den Daten erfasst wird, sollte in einer separaten Zeile aufgeführt werden. Zum Beispiel sollte jede Person oder jeder Kunde eine eigene Zeile in den Daten haben.
+3. Jeder Wert hat eine Zelle: Jeder Wert in den Daten sollte in einer einzelnen Zelle aufgeführt werden. Es sollten keine Zellen geben, die mehrere Werte enthalten oder Zellen, die leer sind.
+
+Die Strukturierung von Daten nach diesen Prinzipien erleichtert es den Benutzern, Daten effektiver zu manipulieren, zu transformieren, zu visualisieren und zu analysieren. Tidy data sind auch leichter zu verstehen und zu kommunizieren, da die Daten in einer klaren und standardisierten Form dargestellt werden. Die Verwendung von tidy data ist ein wichtiger Bestandteil von Tidyverse und wird von vielen Data-Science-Experten und -Praktikern empfohlen.
+
+---
+
+# Datawrangling mit dplyr
+In diesem Kapitel geht es um das Paket dplyr, was ein unerlässlicher Bestandteil vom tidyverse ist. Wir werden die wichtigsten Ideen anhand von Daten aus dem Paket nycflights13 veranschaulichen.
+
+Zum jetzigen Zeitpunkt ist das Kapitel in weiten Teilen eine Übersetzung des großartigen Buches [R for Data Science](https://r4ds.hadley.nz).
+
+## Voraussetzungen
+Somit müssen wir als erstes das tidyverse und den Datensatz laden.
+
+```{r, warning = TRUE}
+library(nycflights13)
+library(tidyverse)
+
+# wird normalerweis automatisch ausgegeben
+tidyverse_conflicts()
 ```
 
-# Gut aussehen mit ggplot2
+Achtet hierbei auf die automatisch erscheinende Konfliktmeldung, wenn tidyverse geladen wird. Diese zeigt an, dass dplyr einige Funktionen von Base R überschreibt. Wenn du nach dem Laden von dplyr die Basisversion dieser Funktionen verwenden möchtest, musst du ihre vollständigen Namen angeben: `stats::filter()` und `stats::lag()`. Bis jetzt haben wir meistens nicht beachtet, aus welchem Paket eine Funktion stammt, da es in der Regel keine Rolle spielt. Wenn du jedoch genau wissen musst, aus welchem Paket eine Funktion stammt, verwendest du die gleiche Syntax wie in R: `Paketname::Funktionsname()`.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+Um die grundlegenden dplyr-Verben zu erkunden, werden wir nycflights13::flights verwenden. Dieser Datensatz enthält alle 336.776 Flüge, die 2013 von New York City abgeflogen sind. Die Daten stammen vom US Bureau of Transportation Statistics und sind in `?flights` dokumentiert. Dieser Datensatz wir häufig für die Einführung in dplyr verwendet. Bei Problemen findet man somit fast immer eine Lösung.
+
+```{r}
+flights
+```
+Flights ist eine Tabelle, eine besondere Art von dataframe, die von Tidyverse verwendet wird, um einige häufige Probleme zu vermeiden. Der wichtigste Unterschied zwischen Tibbles und klassischen dataframes liegt darin, wie Tibbles ausgegeben werden. Sie sind für große Datensätze konzipiert, daher werden nur die ersten wenigen Zeilen und nur die Spalten angezeigt, die auf einem Bildschirm passen. Es gibt einige Optionen, um alles zu sehen. Wenn du RStudio verwendest, ist die bequemste wahrscheinlich `View(flights)`, die eine interaktive, scrollbare und filterbare Ansicht öffnet. Ansonsten kannst du `print(flights, width = Inf)` verwenden, um alle Spalten anzuzeigen, oder `glimpse()` verwenden:
+
+```{r}
+glimpse(flights)
+```
+In beiden Ansichten werden den Variablennamen Abkürzungen angehängt, die dir den Typ jeder Variablen mitteilen: <int> steht für Ganzzahl, <dbl> steht für Double (auch als reelle Zahlen bekannt). <int> ist eine Abkürzung für "integer" und bezeichnet ganze Zahlen ohne Nachkommastellen, wie zum Beispiel -1, 0 oder 42. <dbl> hingegen ist eine Abkürzung für "double" und bezeichnet Fließkommazahlen mit Nachkommastellen, wie zum Beispiel -1.23, 3.14159 oder 1000.0. Im Allgemeinen benötigen Berechnungen mit Fließkommazahlen (dbl) mehr Rechenleistung und Speicherplatz als Berechnungen mit ganzen Zahlen (int). Das <chr> steht für Zeichenfolge (auch als Strings bekannt) und <dttm> steht für Datum und Uhrzeit. Diese Informationen sind wichtig, da die Operationen, die du auf einer Spalte durchführen kannst, stark vom "Typ" abhängen.
+
+## Basics
+Du wirst gleich die wichtigsten dplyr Verben (Funktionen) lernen, mit denen du die meisten deiner Datenaufbereitungs-Herausforderungen bewältigen kannst. Bevor wir jedoch auf ihre individuellen Unterschiede eingehen, ist es wichtig zu erwähnen, was sie gemeinsam haben:
+
+1. Das erste Argument ist immer ein dataframe
+2. Die folgenden Argumente beschreiben in der Regel, auf welche Spalten die Operationen angewendet werden sollen, indem sie die Variablennamen (ohne Anführungszeichen) verwenden.
+3. Das Ergebnis ist immer ein neuer dataframe
+
+Da jedes Verb eine Sache gut macht, erfordert die Lösung komplexer Probleme normalerweise die Kombination mehrerer Verben, und wir werden dies mit dem Pipe-Operator %>% tun.
+Kurz gesagt: der Pipe-Operator nimmt das, was links von ihm steht, und leitet es an die Funktion rechts davon weiter, so dass x %>% f(y) äquivalent zu f(x, y) ist und x %>% f(y) %>% g(z) äquivalent zu g(f(x, y), z) ist. Der einfachste Weg, den Pipe-Operator auszusprechen, ist "dann". Dadurch ist es möglich, eine Vorstellung von dem folgenden Code zu bekommen, auch wenn du die Details noch nicht kennst:
+
+```{r, message=FALSE}
+flights %>% 
+  filter(dest == "IAH")  %>%  
+  group_by(year, month, day) %>% 
+  summarize(
+    arr_delay = mean(arr_delay, na.rm = TRUE)
+  )
+```
+Der Code filtert die Flüge, die nach "IAH" (Houston Intercontinental Airport) gehen, gruppiert **dann** die verbleibenden Flüge nach Jahr, Monat und Tag und berechnet **dann** den durchschnittlichen Ankunftsverspätung ("arr_delay") pro Gruppe. Daher gibt der Code eine Tabelle zurück, die die durchschnittlichen Ankunftsverspätungen für jeden Tag, Monat und Jahr enthält, an dem Flüge am Houston Intercontinental Airport (IAH) ankamen.
+
+## Zeilen
+Die wichtigsten Verben, die auf Zeilen eines Datensatzes wirken, sind `filter()`, das eine bestimmte Auswahl an Zeilen anzeigt, ohne ihre Reihenfolge zu ändern, und `arrange()`, das die Reihenfolge der Zeilen anzeigt, ohne die vorhandenen Zeilen zu ändern. Beide Funktionen wirken sich nur auf die Zeilen aus, während die Spalten unverändert bleiben. Wir werden auch `distinct()` besprechen, das Zeilen mit eindeutigen Werten findet, aber im Gegensatz zu `arrange()` und `filter()` kann es optional auch die Spalten ändern.
+
+
+### filter()
+`filter()` extrahiert nur die Zeilen aus einem Datensatz, die bestimmten Bedingungen entsprechen. Diese Bedingungen können logische Operationen oder Funktionen enthalten, die auf bestimmte Spalten angewendet werden. Es werden auch mehrere Bedingungen akzeptiert.
+
+Das erste Argument ist wie immer der dataframe. Das zweite und die folgenden Argumente sind die Bedingungen, die erfüllt sein müssen. Zum Beispiel könnten wir alle Flüge finden, die mit mehr als 240 Minuten (vier Stunden) Verspätung abgeflogen sind:
+```{r}
+flights %>% 
+  filter(dep_delay > 240)
+```
+
+Neben > (größer als) können Sie auch >= (größer als oder gleich), < (kleiner als), <= (kleiner als oder gleich), == (gleich) und != (nicht gleich) verwenden. Sie können Bedingungen auch mit & oder , kombinieren, um "und" (beide Bedingungen) oder mit | (eine der beiden Bedingungen) zu kennzeichnen. Allgemein kennt R verschiedene logische Operatoren, die in der Programmierung verwendet werden können, um Bedingungen zu verknüpfen Hier sind die wichtigsten logischen Operatoren in R:
+
+- `!` (Negation): Dieser Operator wird verwendet, um den logischen Wert einer Aussage umzukehren. Zum Beispiel gibt !TRUE den Wert FALSE zurück und umgekehrt.
+- `&` (UND): Dieser Operator gibt TRUE zurück, wenn beide Bedingungen, die links und rechts von ihm stehen, TRUE sind. Ansonsten gibt er FALSE zurück.
+- `|` (ODER): Dieser Operator gibt TRUE zurück, wenn mindestens eine der beiden Bedingungen, die links und rechts von ihm stehen, TRUE ist. Ansonsten gibt er FALSE zurück.
+
+Dann gibt es noch Kurzschluss-UND und -ODER. Diese funktionieren ähnlich wie UND und ODER, aber sie evaluieren Bedingungen auf eine etwas andere Art und Weise. Kurzschluss-UND und -ODER sind nützlich, wenn man Bedingungen hat, die zeitaufwendig sind, und man nicht beide Bedingungen auswerten muss, um die Entscheidung zu treffen.
+
+- `&&` (Kurzschluss-UND): Dieser Operator evaluiert die linke Bedingung zuerst und nur wenn diese TRUE ist, wird die rechte Bedingung ausgewertet. Wenn die linke Bedingung FALSE ist, wird die rechte Bedingung nicht ausgewertet.
+- `||` (Kurzschluss-ODER): Dieser Operator funktioniert analog und gibt nur dann TRUE zurück, wenn mindestens eine der beiden Bedingungen TRUE ist und die linke Bedingung nicht TRUE auswertet.
+
+Aber zurück zu unserem Datensatz. Wenn nach Tag **und** Monat gefiltert werden soll, müssen nur die beiden Bedingungen mit einem `,` oder `&` verknüpft werden. Gleiches gilt für den ODER-Operator.
+```{r}
+# Flüge am 1. Januar
+flights %>% 
+  filter(month == 1 & day == 1)
+```
+
+```{r}
+# Flüge im Januar oder Febraur
+flights %>% 
+  filter(month == 1 | month == 2)
+```
+
+Es gibt eine nützliche Abkürzung, wenn du `|` und` ==` kombinieren willst: `%in%`. Damit bleiben Zeilen erhalten, in denen die Variable einem der Werte auf der rechten Seite entspricht:
+```{r}
+# Ein kürzerer Weg zur Auswahl von Flügen, die im Januar oder Februar abfliegen
+flights %>% 
+  filter(month %in% c(1, 2))
+```
+
+Durch `filter()` wird der dataframe nicht überschrieben, sondern nur die Auswahl in der Konsole ausgegeben. Um das Ergebnis zu speichern, musst den Zuweisungsoperator `<-` verwenden. Das geht am Anfang oder am Ende, dann aber ander herum:
+```{r}
+jan1 <- flights %>% 
+  filter(month == 1 & day == 1)
+
+flights %>% 
+  filter(month == 1 & day == 1) -> jan1
+```
+
+### arrange()
+Mit `arrange()` können diue Daten in einem dataframe nach einer oder mehreren Spalten sortiert werden. Es benötigt einen dataframe und eine Reihe von Spaltennamen (oder kompliziertere Ausdrücke), nach denen geordnet werden soll. Wenn Sie mehr als einen Spaltennamen angeben, wird jede zusätzliche Spalte verwendet, um Übereinstimmungen in den Werten der vorangegangenen Spalten aufzudröseln. Der folgende Code sortiert zum Beispiel nach der Abflugzeit, die auf vier Spalten verteilt ist. Wir erhalten zuerst die frühesten Jahre, dann innerhalb eines Jahres die frühesten Monate, usw.
+```{r}
+flights %>% 
+  arrange(year, month, day, dep_time)
+```
+
+Du kannsz `desc()` für eine Spalte innerhalb von `arrange()` verwenden, um den dataframe auf der Grundlage dieser Spalte in absteigender Reihenfolge (von groß nach klein) neu zu ordnen. Zum Beispiel ordnet dieser Code die Flüge von der größten bis zur geringsten Verspätung:
+```{r}
+flights %>% 
+   arrange(desc(dep_delay))
+```
+
+Die Anzahl der Zeilen ändert sich dabei nicht, da nicht gefiltert wird.
+
+### distinct()
+`distinct()` findet alle eindeutigen Zeilen in einem Datensatz. Technisch gesehen werden also in erster Linie die Zeilen bearbeitet. In den meisten Fällen wirst du jedoch die eindeutige Kombination einiger Variablen benötigen, weshalb optional auch Spaltennamen angegeben werden können:
+
+```{r}
+# Doppelte Zeilen entfernen, falls vorhanden
+flights |> 
+  distinct()
+
+# Alle eindeutigen Herkunfts- und Zielpaare finden
+flights |> 
+  distinct(origin, dest)
+```
+
+Wenn du beim Filtern nach eindeutigen Zeilen auch andere Spalten beibehalten willst, kannst du alternativ die Option `.keep_all = TRUE` verwenden.
+
+```{r}
+flights |> 
+  distinct(origin, dest, .keep_all = TRUE)
+```
+
+Es ist kein Zufall, dass alle diese eindeutigen Flüge am 1. Januar stattfinden: `distinct()` findet das erste Vorkommen einer eindeutigen Zeile im Datensatz und verwirft den Rest.
+
+Wenn du stattdessen die Anzahl der Vorkommen ermitteln willst, ist es besser, `distinct()` gegen `count()` auszutauschen, und mit dem Argument `sort = TRUE` kannst du sie in absteigender Reihenfolge der Anzahl der Vorkommen anordnen.
+
+```{r}
+flights |>
+  count(origin, dest, sort = TRUE)
+```
+
+### Übungen 
+1. Finde in einer einzelnen Pipeline alle Flüge, die jede der folgenden Bedingungen erfüllen:
+
+    -   Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
+    - Fliegen nach Houston (IAH oder HOU)
+    - Wurden von United, American oder Delta durchgeführt
+    - Sind im Sommer abgeflogen (Juli, August und September)
+    - Sind mehr als zwei Stunden zu spät angekommen, sind aber nicht zu spät abgeflogen
+    - Waren um mindestens eine Stunde verspätet, haben aber während des Fluges mehr als 30 Minuten aufgeholt
+
+2. Sortiere die Flüge, um die Flüge mit den längsten Abflugverspätungen zu finden. Finde die Flüge, die am frühesten am Morgen abgeflogen sind.
+
+3. Sortiere die Flüge, um die schnellsten Flüge zu finden. (Tipp: Versuche eine mathematische Berechnung in deiner Funktion zu verwenden.)
+
+4. Welche Flüge sind die weiteste Strecke geflogen? Welche haben die kürzeste Strecke zurückgelegt?
+
+5. Spielt es eine Rolle, in welcher Reihenfolge du filter() und arrange() verwendest, wenn du beide verwendest? Warum / warum nicht? Denke über die Ergebnisse und die Arbeit nach, die die Funktionen leisten müssten.
+
+## Spalten
+Es gibt vier wichtige Verben, die sich auf die Spalten auswirken, ohne die Zeilen zu verändern: `mutate()` erzeugt neue Spalten, die von den vorhandenen Spalten abgeleitet sind, `select()` ändert, welche Spalten angezeigt werden, `rename()` ändert die Namen der Spalten und `relocate()` ändert die Positionen der Spalten.
+
+### mutate()
+Die Aufgabe von `mutate()` ist es, neue Spalten hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den Transformationskapiteln werden Sie eine große Anzahl von Funktionen kennenlernen, mit denen Sie verschiedene Arten von Variablen manipulieren können. Für den Moment bleiben wir bei der grundlegenden Algebra, die es uns ermöglicht, den Gewinn, die Zeit, die ein verspäteter Flug in der Luft verbracht hat, und die Geschwindigkeit in Meilen pro Stunde zu berechnen:
+
+```{r}
+flights %>%  
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60
+  )
+```
+
+Standardmäßig fügt `mutate()` neue Spalten auf der rechten Seite des Datensatzes hinzu, was es schwierig macht zu sehen, was hier passiert. Wir können das Argument .before verwenden, um die Variablen stattdessen auf der linken Seite hinzuzufügen
+```{r}
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .before = 1
+  )
+```
+
+Das . ist ein Zeichen dafür, dass .before ein Argument für die Funktion ist und nicht der Name einer dritten neuen Variablen, die wir erstellen. Du kannst auch .after verwenden, um nach einer Variablen hinzuzufügen, und sowohl in .before als auch in .after kannst du den Variablennamen anstelle einer Position verwenden. Zum Beispiel könnten wir die neuen Variablen nach dem Tag einfügen:
+```{r}
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .after = day
+  )
+```
+
+Alternativ kannst du mit dem Argument .keep steuern, welche Variablen beibehalten werden. Ein besonders nützliches Argument ist "used", das angibt, dass nur die Spalten beibehalten werden sollen, die am mutate()-Schritt beteiligt waren oder erstellt wurden. Die folgende Ausgabe enthält zum Beispiel nur die Variablen dep_delay, arr_delay, air_time, gain, hours und gain_per_hour.
+```{r}
+flights  %>%  
+  mutate(
+    gain = dep_delay - arr_delay,
+    hours = air_time / 60,
+    gain_per_hour = gain / hours,
+    .keep = "used"
+  )
+```
+
+Da wir das Ergebnis der obigen Berechnung nicht den Flügen zugewiesen haben, werden die neuen Variablen gain, hours und gain_per_hour nur gedruckt, aber nicht in einem Datenrahmen gespeichert. Und wenn wir wollen, dass sie in einem Datenrahmen für die künftige Verwendung zur Verfügung stehen, sollten wir uns genau überlegen, ob wir das Ergebnis wieder Flügen zuweisen und den ursprünglichen Datenrahmen mit vielen weiteren Variablen überschreiben oder einem neuen Objekt. Oft ist die richtige Antwort ein neues Objekt, das informativ benannt wird, um seinen Inhalt anzugeben, z. B. delay_gain, aber Sie könnten auch gute Gründe haben, flights zu überschreiben.
+
+### select()
+Es ist nicht ungewöhnlich, Datensätze mit Hunderten oder sogar Tausenden von Variablen zu erhalten. In dieser Situation besteht die erste Herausforderung oft darin, sich auf die interessanten Variablen zu konzentrieren. `select()` ermöglicht es, schnell auf eine nützliche Teilmenge zuzugreifen, indem Operationen verwendet werden, die auf den Namen der Variablen basieren:
+
+- Wähle Spalten nach Name aus:
+```{r}
+flights %>% 
+  select(year, month, day)
+```
+
+- Wähle alle Spalten zwischen year und day (einschließlich) aus:
+```{r}
+flights %>% 
+  select(year:day)
+```
+
+- Wählen Sie alle Spalten aus, außer denen von year bis day (einschließlich):
+```{r}
+flights  %>%  
+  select(!year:day)
+```
+
+Du kannst auch `-` anstelle von `!` verwenden; Hadley Wickham empfiehlt !, weil es als "nicht" gelesen wird und sich gut mit `&` und `|` kombinieren lässt.
+
+- Wähle alle Spalten aus, die Zeichenketten sind:
+```{r}
+flights %>% 
+  select(where(is.character))
+```
+
+Es gibt eine Reihe von Hilfsfunktionen, die du in `select()` verwenden kannst:
+- `starts_with("abc")`: passt Namen an, die mit "abc" beginnen.
+- `ends_with("xyz")`: passt Namen an, die mit "xyz" enden.
+- `contains("ijk")`: passt Namen an, die "ijk" enthalten.
+- `num_range("x", 1:3)`: passt zu x1, x2 und x3.
+
+Weitere Details stehen in in `?select`. Mit regular expressions, kann man auch matches() verwenden, um Variablen auszuwählen, die einem bestimmten Muster entsprechen.
+
+Sie können Variablen während der Auswahl `select()` umbenennen, indem du `=` verwendest. Der neue Name erscheint auf der linken Seite von `=`, und die alte Variable erscheint auf der rechten Seite:
+```{r}
+flights  %>%  
+  select(tail_num = tailnum)
+```
+
+### rename()
+Wenn Sie alle vorhandenen Variablen behalten möchten und nur einige umbenennen möchten, können Sie anstelle von select() rename() verwenden:
+
+Wenn du eine Reihe von inkonsistent benannten Spalten haben und es schmerzhaft wäre, sie alle manuell zu korrigieren, schauen Sie sich janitor::clean_names() an, das einige nützliche automatisierte Reinigungsfunktionen bietet.
+```{r}
+flights %>% 
+  rename(tail_num = tailnum)
+```
+
+### relocate()
+Verwende `relocate()`, um Variablen zu verschieben. Vielleicht möchtest du verwandte Variablen zusammenfassen oder wichtige Variablen nach vorne verschieben. Standardmäßig verschiebt `relocate()` Variablen nach vorne:
+
+```{r}
+flights %>% 
+  relocate(time_hour, air_time)
+```
+
+Du kannst auch angeben, wo sie eingefügt werden sollen, indem du die Argumente `.before` und `.after` verwendest, genau wie bei `mutate()`:
+
+```{r}
+flights %>% 
+  relocate(year:dep_time, .after = time_hour)
+flights %>% 
+  relocate(starts_with("arr"), .before = dep_time)
+```
+
+### Übungen
+1.  Vergleiche `dep_time`, `sched_dep_time`, und `dep_delay`. Welchen Zusammenhang erwartest du zwischen diesen drei Zahlen?
+
+2.  Überlege dir so viele Möglichkeiten wie möglich, um `dep_time`, `dep_delay`, `arr_time` und `arr_delay` aus `flights` auszuwählen.
+
+3.  Was passiert, wenn man den Namen der gleichen Variable mehrmals in einem `select()`-Aufruf angibt?
+
+4.  Was macht die Funktion `any_of()`?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
+
+```{r}
+  variables <- c("year", "month", "day", "dep_delay", "arr_delay")
+```
+
+5.  Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
+
+```{r}
+  flights %>% select(contains("TIME"))
+```
+
+6.  Benenne `air_time` in `air_time_min` um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
+
+7.  Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
+
+```{r}
+#| error: true
+flights %>%  
+  select(tailnum) %>% 
+  arrange(arr_delay)
+```
+
+---
