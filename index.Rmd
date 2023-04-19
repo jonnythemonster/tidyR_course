@@ -4,21 +4,21 @@ output:
   html_document:
     css: style.css
     toc: true
-    toc_float: true
-    collapsed: true
-    number_sections: false
     toc_depth: 3
+    toc_float: true
+    collapsed: false
+    number_sections: false
     #code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message=TRUE,warning=TRUE, cache=TRUE)
+knitr::opts_chunk$set(cache=TRUE)
 ```
 
 Sommersemester 2023 | Stand: `r Sys.Date()`
 
 # Einführung
-In diesem Kurs geht es um die Programmiersprache R. Doch was ist das eigebntlich?
+In diesem Kurs geht es um die Programmiersprache R. Doch was ist das eigentlich?
 
 ## Was ist R
 R ist eine Programmiersprache und eine Umgebung für statistische Berechnungen und Grafiken. Es wurde von Statistik-begeisterten Menschen entwickelt und ist heute eine der am häufigsten verwendeten Sprachen in der Datenanalyse und im Machine Learning. R bietet eine Vielzahl von Paketen und Bibliotheken, die es Benutzern ermöglichen, verschiedene statistische Analysen durchzuführen, Daten zu visualisieren und Modelle zu entwickeln. Die Syntax von R ähnelt der von MATLAB und Python, aber R wurde speziell für die statistische Analyse entwickelt.
@@ -51,7 +51,7 @@ Die Strukturierung von Daten nach diesen Prinzipien erleichtert es den Benutzern
 
 ---
 
-# Datawrangling mit dplyr
+# Grundlagen: Datawrangling mit dplyr
 In diesem Kapitel geht es um das Paket dplyr, was ein unerlässlicher Bestandteil vom tidyverse ist. Wir werden die wichtigsten Ideen anhand von Daten aus dem Paket nycflights13 veranschaulichen.
 
 Zum jetzigen Zeitpunkt ist das Kapitel in weiten Teilen eine Übersetzung des großartigen Buches [R for Data Science](https://r4ds.hadley.nz).
@@ -59,12 +59,12 @@ Zum jetzigen Zeitpunkt ist das Kapitel in weiten Teilen eine Übersetzung des gr
 ## Voraussetzungen
 Somit müssen wir als erstes das tidyverse und den Datensatz laden.
 
-```{r, warning = TRUE}
+```{r}
 library(nycflights13)
 library(tidyverse)
 
 # wird normalerweis automatisch ausgegeben
-tidyverse_conflicts()
+# tidyverse_conflicts()
 ```
 
 Achtet hierbei auf die automatisch erscheinende Konfliktmeldung, wenn tidyverse geladen wird. Diese zeigt an, dass dplyr einige Funktionen von Base R überschreibt. Wenn du nach dem Laden von dplyr die Basisversion dieser Funktionen verwenden möchtest, musst du ihre vollständigen Namen angeben: `stats::filter()` und `stats::lag()`. Bis jetzt haben wir meistens nicht beachtet, aus welchem Paket eine Funktion stammt, da es in der Regel keine Rolle spielt. Wenn du jedoch genau wissen musst, aus welchem Paket eine Funktion stammt, verwendest du die gleiche Syntax wie in R: `Paketname::Funktionsname()`.
@@ -130,6 +130,11 @@ Aber zurück zu unserem Datensatz. Wenn nach Tag **und** Monat gefiltert werden 
 # Flüge am 1. Januar
 flights %>% 
   filter(month == 1 & day == 1)
+
+# oder
+# Flüge am 1. Januar
+flights %>% 
+  filter(month == 1, day == 1)
 ```
 
 ```{r}
@@ -174,18 +179,18 @@ Die Anzahl der Zeilen ändert sich dabei nicht, da nicht gefiltert wird.
 
 ```{r}
 # Doppelte Zeilen entfernen, falls vorhanden
-flights |> 
+flights  %>%  
   distinct()
 
 # Alle eindeutigen Herkunfts- und Zielpaare finden
-flights |> 
+flights  %>% 
   distinct(origin, dest)
 ```
 
 Wenn du beim Filtern nach eindeutigen Zeilen auch andere Spalten beibehalten willst, kannst du alternativ die Option `.keep_all = TRUE` verwenden.
 
 ```{r}
-flights |> 
+flights  %>% 
   distinct(origin, dest, .keep_all = TRUE)
 ```
 
@@ -194,11 +199,11 @@ Es ist kein Zufall, dass alle diese eindeutigen Flüge am 1. Januar stattfinden:
 Wenn du stattdessen die Anzahl der Vorkommen ermitteln willst, ist es besser, `distinct()` gegen `count()` auszutauschen, und mit dem Argument `sort = TRUE` kannst du sie in absteigender Reihenfolge der Anzahl der Vorkommen anordnen.
 
 ```{r}
-flights |>
+flights  %>%
   count(origin, dest, sort = TRUE)
 ```
 
-### Übungen 
+### Übung 1
 1. Finde in einer einzelnen Pipeline alle Flüge, die jede der folgenden Bedingungen erfüllen:
 
     -   Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
@@ -272,6 +277,12 @@ flights %>%
   select(year, month, day)
 ```
 
+- Wähle alle Spalten außer den angegebenen:
+```{r}
+flights %>% 
+  select(-c(year, month, day))
+```
+
 - Wähle alle Spalten zwischen year und day (einschließlich) aus:
 ```{r}
 flights %>% 
@@ -296,11 +307,32 @@ Es gibt eine Reihe von Hilfsfunktionen, die du in `select()` verwenden kannst:
 - `starts_with("abc")`: passt Namen an, die mit "abc" beginnen.
 - `ends_with("xyz")`: passt Namen an, die mit "xyz" enden.
 - `contains("ijk")`: passt Namen an, die "ijk" enthalten.
+- `matches()`: Entspricht einer regular expression.
 - `num_range("x", 1:3)`: passt zu x1, x2 und x3.
 
-Weitere Details stehen in in `?select`. Mit regular expressions, kann man auch matches() verwenden, um Variablen auszuwählen, die einem bestimmten Muster entsprechen.
+```{r}
+storms %>% 
+  select(starts_with("dep"))
 
-Sie können Variablen während der Auswahl `select()` umbenennen, indem du `=` verwendest. Der neue Name erscheint auf der linken Seite von `=`, und die alte Variable erscheint auf der rechten Seite:
+storms %>% 
+  select(ends_with("time"))
+
+storms %>% 
+  select(contains("_"))
+
+# genau vier beliebige Zeichen
+storms %>% 
+  select(matches("^.{4}$"))
+
+# für dieses Beispiel braucht es einen anderen Datensatz
+billboard
+
+billboard %>% 
+  select(num_range("wk", 10:15))
+```
+
+
+Du kannst Variablen während der Auswahl `select()` umbenennen, indem du `=` verwendest. Der neue Name erscheint auf der linken Seite von `=`, und die alte Variable erscheint auf der rechten Seite:
 ```{r}
 flights  %>%  
   select(tail_num = tailnum)
@@ -332,28 +364,28 @@ flights %>%
   relocate(starts_with("arr"), .before = dep_time)
 ```
 
-### Übungen
-1.  Vergleiche `dep_time`, `sched_dep_time`, und `dep_delay`. Welchen Zusammenhang erwartest du zwischen diesen drei Zahlen?
+### Übung 2
+1. Vergleiche `dep_time`, `sched_dep_time`, und `dep_delay`. Welchen Zusammenhang erwartest du zwischen diesen drei Zahlen?
 
-2.  Überlege dir so viele Möglichkeiten wie möglich, um `dep_time`, `dep_delay`, `arr_time` und `arr_delay` aus `flights` auszuwählen.
+2. Überlege dir so viele Möglichkeiten wie möglich, um `dep_time`, `dep_delay`, `arr_time` und `arr_delay` aus `flights` auszuwählen.
 
-3.  Was passiert, wenn man den Namen der gleichen Variable mehrmals in einem `select()`-Aufruf angibt?
+3. Was passiert, wenn man den Namen der gleichen Variable mehrmals in einem `select()`-Aufruf angibt?
 
-4.  Was macht die Funktion `any_of()`?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
+4. Was macht die Funktion `any_of()`?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
 
 ```{r}
   variables <- c("year", "month", "day", "dep_delay", "arr_delay")
 ```
 
-5.  Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
+5. Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
 
 ```{r}
   flights %>% select(contains("TIME"))
 ```
 
-6.  Benenne `air_time` in `air_time_min` um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
+6. Benenne `air_time` in `air_time_min` um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
 
-7.  Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
+7. Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
 
 ```{r}
 #| error: true
@@ -361,5 +393,24 @@ flights %>%
   select(tailnum) %>% 
   arrange(arr_delay)
 ```
+
+<!-- # Data Transformation -->
+<!-- ## Logische Vektoren -->
+
+<!-- ## Zahlen -->
+<!-- ### count() -->
+
+<!-- ## Strings -->
+
+<!-- ## Faktoren -->
+
+<!-- ## Daten und Zeiten -->
+
+<!-- ## Fehlende Werte -->
+
+<!-- ## Verknüpfungen (Joins) -->
+
+<!-- # Gut aussehen mit ggplot -->
+<!-- ## Grammatik -->
 
 ---

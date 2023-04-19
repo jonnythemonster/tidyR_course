@@ -1,0 +1,222 @@
+---
+title: "Lösungen"
+author: "Jonas Trautner"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    css: style.css
+    toc: true
+    toc_float: true
+    collapsed: true
+    number_sections: false
+    toc_depth: 3
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+Sommersemester 2023 | Stand: `r Sys.Date()`
+
+```{r packages}
+# Verwendete Pakete
+library(nycflights13)
+library(tidyverse)
+```
+
+
+# Übung 1
+
+## 1. Aufgabe
+
+1. Finde in einer einzelnen Pipeline alle Flüge, die jede der folgenden Bedingungen erfüllen:
+
+    -   Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
+    - Fliegen nach Houston (IAH oder HOU)
+    - Wurden von United, American oder Delta durchgeführt
+    - Sind im Sommer abgeflogen (Juli, August und September)
+    - Sind mehr als zwei Stunden zu spät angekommen, sind aber nicht zu spät abgeflogen
+    - Waren um mindestens eine Stunde verspätet, haben aber während des Fluges mehr als 30 Minuten aufgeholt
+
+```{r}
+flights %>%
+  filter(arr_delay >= 120)
+```
+```{r}
+flights %>%
+  filter(dest %in% c("IAH", "HOU"))
+```
+
+```{r}
+flights %>%
+  filter(carrier %in% c("UA", "AA", "DL"))
+```
+
+```{r}
+flights %>%
+  filter(month %in% c(7, 8, 9))
+```
+
+```{r}
+flights %>%
+  filter(arr_delay > dep_delay & dep_delay <= 0)
+```
+
+```{r}
+flights %>%
+  filter(dep_delay >= 60 & (dep_delay - arr_delay) > 30)
+```
+
+## 2. Aufgabe
+Sortiere die Flüge, um die Flüge mit den längsten Abflugverspätungen zu finden. Finde die Flüge, die am frühesten am Morgen abgeflogen sind.
+```{r}
+flights %>%
+  arrange(desc(dep_delay))
+```
+
+```{r}
+flights %>%
+  arrange(dep_time)
+```
+
+## 3. Aufgabe
+Sortiere die Flüge, um die schnellsten Flüge zu finden. (Tipp: Versuche eine mathematische Berechnung in deiner Funktion zu verwenden.)
+```{r}
+flights %>%
+  arrange(desc(distance / air_time * 60))
+```
+
+## 4. Aufgabe:
+Welche Flüge sind die weiteste Strecke geflogen? Welche haben die kürzeste Strecke zurückgelegt?
+```{r}
+flights %>% 
+  arrange(desc(distance))
+```
+
+```{r}
+flights %>% 
+  arrange(distance)
+```
+
+## 5. Aufgabe
+Spielt es eine Rolle, in welcher Reihenfolge du filter() und arrange() verwendest, wenn du beide verwendest? Warum / warum nicht? Denke über die Ergebnisse und die Arbeit nach, die die Funktionen leisten müssten.
+
+**Lösung**
+Ja, die Reihenfolge der Verwendung von filter() und arrange() in R spielt eine Rolle und kann zu unterschiedlichen Ergebnissen führen.
+
+Wenn Sie filter() vor arrange() verwenden, wird die Datensatz zuerst nach den Filterbedingungen reduziert und dann werden die übrig gebliebenen Zeilen sortiert. Dies bedeutet, dass alle Filterbedingungen in den sortierten Zeilen beibehalten werden.
+
+Wenn Sie jedoch arrange() vor filter() verwenden, werden zuerst die Zeilen sortiert und dann die Filterbedingungen angewendet. In diesem Fall werden die Filterbedingungen nur auf den sortierten Zeilen angewendet. Dies kann dazu führen, dass einige der ursprünglichen Filterbedingungen verletzt werden und nicht mehr erfüllt werden.
+
+Zum Beispiel, wenn Sie einen Datensatz mit Personen haben und filtern wollen, um nur die Personen zu behalten, die in einem bestimmten Alter sind, und dann nach dem Namen sortieren möchten, wäre die korrekte Reihenfolge filter() und dann arrange(). Wenn Sie jedoch zuerst nach Namen sortieren und dann nach Alter filtern, können Personen in der resultierenden Datensatz enthalten sein, die nicht dem ursprünglichen Filterkriterium entsprechen.
+
+Insgesamt hängt die richtige Reihenfolge von der Analyse ab, die Sie durchführen möchten, und von den Anforderungen Ihrer Daten. Wenn Sie unsicher sind, welche Reihenfolge für Ihre spezifische Analyse am besten geeignet ist, können Sie beide Methoden ausprobieren und die Ergebnisse vergleichen, um die beste Option für Ihre Bedürfnisse auszuwählen.
+
+# Übung 2
+## 1. Aufgabe
+Vergleiche dep_time, sched_dep_time, und dep_delay. Welchen Zusammenhang erwartest du zwischen diesen drei Zahlen?
+```{r}
+flights %>% 
+  select(dep_time, sched_dep_time, dep_delay)
+```
+
+dep_time bezieht sich auf die tatsächliche Abflugzeit eines Fluges, während sched_dep_time die geplante Abflugzeit angibt. Der dep_delay gibt die Verspätung bei der Abflugzeit an, die als Differenz zwischen dep_time und sched_dep_time berechnet wird.
+
+In Bezug auf den Zusammenhang zwischen diesen drei Variablen können wir erwarten, dass, wenn ein Flugzeug gemäß dem geplanten Zeitplan abfliegt, dep_delay gleich Null sein wird, da die Differenz zwischen dep_time und sched_dep_time Null sein wird. Wenn jedoch ein Flugzeug später als geplant abfliegt, wird dep_delay positiv sein, was bedeutet, dass der Abflug verzögert war.
+
+Insgesamt können wir also sagen, dass dep_time und sched_dep_time direkt mit dep_delay verbunden sind. Wenn ein Flug später als geplant abfliegt, wird die Abflugzeit (dep_time) später als die geplante Abflugzeit (sched_dep_time) sein, was zu einer positiven dep_delay führt.
+
+## 2. Aufgabe
+Überlege dir so viele Möglichkeiten wie möglich, um dep_time, dep_delay, arr_time und arr_delay aus flights auszuwählen.
+
+```{r}
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+```
+
+```{r}
+select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")
+```
+
+```{r}
+select(flights, 4, 6, 7, 9)
+```
+
+```{r}
+select(flights, all_of(c("dep_time", "dep_delay", "arr_time", "arr_delay")))
+```
+
+```{r}
+select(flights, any_of(c("dep_time", "dep_delay", "arr_time", "arr_delay")))
+```
+
+```{r}
+variables <- c("dep_time", "dep_delay", "arr_time", "arr_delay")
+select(flights, all_of(variables))
+```
+
+## 3. Aufgabe
+Was passiert, wenn man den Namen der gleichen Variable mehrmals in einem select()-Aufruf angibt?
+nichts
+```{r}
+flights %>% 
+  select(-c(year, year))
+```
+
+## 4. Aufgabe
+Was macht die Funktion any_of()?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
+
+**Lösung** 
+Die Funktion any_of() ist eine Funktion aus dem Paket dplyr, die verwendet wird, um eine Zeichenfolge (z. B. den Namen einer Variablen) mit einem Vektor von Spaltennamen zu vergleichen. Die Funktion gibt TRUE zurück, wenn die Zeichenfolge mit mindestens einem der Elemente des Vektors übereinstimmt, andernfalls gibt sie FALSE zurück.
+
+In Verbindung mit dem gegebenen Vektor variables <- c("year", "month", "day", "dep_delay", "arr_delay") kann die Funktion any_of() verwendet werden, um zu überprüfen, ob eine bestimmte Spalte in einem Datensatz enthalten ist. Zum Beispiel, wenn wir einen Datensatz haben, der diese Spalten enthält, können wir mit der any_of()-Funktion überprüfen, ob eine bestimmte Spalte enthalten ist, ohne jeden Spaltennamen einzeln zu überprüfen.
+
+Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden könnte, um zu überprüfen, ob ein Datensatz Spalten mit den Namen aus dem Vektor variables enthält:
+
+```{r}
+# Vektor von Spaltennamen
+variables <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
+selected_columns <- flights %>% 
+  select(any_of(variables))
+
+# Ergebnis
+selected_columns
+```
+
+## 5. Aufgabe
+Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
+```{r}
+flights %>% select(contains("TIME"))
+```
+Die contains()-Funktion wählt alle Spalten aus, die einen bestimmten String in ihrem Namen enthalten. Die contains()-Funktion ist standardmäßig nicht casesensitive, d.h. sie unterscheidet nicht zwischen Groß- und Kleinschreibung. Das bedeutet, dass alle Spalten ausgewählt werden, die den String "TIME", "time" oder "Time" im Namen enthalten.
+
+Wenn Sie jedoch eine Funktion verwenden möchten, die casesensitive ist, können Sie die matches()-Funktion anstelle von contains() verwenden und einen regulären Ausdruck (Regex) als Argument übergeben, um die Groß- und Kleinschreibung zu steuern.
+
+## 6. Aufgabe
+Benenne air_time in air_time_min um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
+```{r}
+# air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben
+flights %>% 
+  rename(air_time_min = air_time) %>% 
+  relocate(air_time_min)
+```
+
+## 7. Aufgabe
+Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
+
+**Lösung**
+Der Code führt zu einem Fehler, weil Sie arrange() auf eine Spalte anwenden, die in der aktuellen Pipeline nicht vorhanden ist.
+
+In Ihrer Pipeline haben Sie nur die Spalte tailnum ausgewählt und arrange() wurde auf dieser reduzierten Datenmenge angewendet. Da arr_delay nicht in den ausgewählten Spalten enthalten ist, gibt es eine Fehlermeldung, wenn arrange() versucht, den Datensatz basierend auf dieser Spalte zu ordnen.
+
+Um den Fehler zu beheben, müssen Sie sicherstellen, dass arr_delay in der aktuellen Pipeline verfügbar ist. Sie können beispielsweise die Spalte arr_delay mit select() auswählen, bevor Sie arrange() anwenden:
+
+```{r}
+flights %>%
+  select(tailnum, arr_delay) %>%  # arr_delay auswählen
+  arrange(arr_delay)
+```
+
+
