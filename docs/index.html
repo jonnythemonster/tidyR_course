@@ -339,7 +339,7 @@ div.tocify {
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-04-19</p>
+<p>Sommersemester 2023 | Stand: 2023-04-25</p>
 <div id="einführung" class="section level1">
 <h1>Einführung</h1>
 <p>In diesem Kurs geht es um die Programmiersprache R. Doch was ist das
@@ -596,7 +596,7 @@ das Zeilen mit eindeutigen Werten findet, aber im Gegensatz zu
 <code>arrange()</code> und <code>filter()</code> kann es optional auch
 die Spalten ändern.</p>
 <div id="filter" class="section level3">
-<h3>filter()</h3>
+<h3><code>filter()</code></h3>
 <p><code>filter()</code> extrahiert nur die Zeilen aus einem Datensatz,
 die bestimmten Bedingungen entsprechen. Diese Bedingungen können
 logische Operationen oder Funktionen enthalten, die auf bestimmte
@@ -758,7 +758,7 @@ flights %&gt;%
   filter(month == 1 &amp; day == 1) -&gt; jan1</code></pre>
 </div>
 <div id="arrange" class="section level3">
-<h3>arrange()</h3>
+<h3><code>arrange()</code></h3>
 <p>Mit <code>arrange()</code> können diue Daten in einem dataframe nach
 einer oder mehreren Spalten sortiert werden. Es benötigt einen dataframe
 und eine Reihe von Spaltennamen (oder kompliziertere Ausdrücke), nach
@@ -815,7 +815,7 @@ zur geringsten Verspätung:</p>
 wird.</p>
 </div>
 <div id="distinct" class="section level3">
-<h3>distinct()</h3>
+<h3><code>distinct()</code></h3>
 <p><code>distinct()</code> findet alle eindeutigen Zeilen in einem
 Datensatz. Technisch gesehen werden also in erster Linie die Zeilen
 bearbeitet. In den meisten Fällen wirst du jedoch die eindeutige
@@ -943,7 +943,7 @@ Spalten, die von den vorhandenen Spalten abgeleitet sind,
 <code>rename()</code> ändert die Namen der Spalten und
 <code>relocate()</code> ändert die Positionen der Spalten.</p>
 <div id="mutate" class="section level3">
-<h3>mutate()</h3>
+<h3><code>mutate()</code></h3>
 <p>Die Aufgabe von <code>mutate()</code> ist es, neue Spalten
 hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den
 Transformationskapiteln werden Sie eine große Anzahl von Funktionen
@@ -1069,7 +1069,7 @@ seinen Inhalt anzugeben, z. B. delay_gain, aber Sie könnten auch gute
 Gründe haben, flights zu überschreiben.</p>
 </div>
 <div id="select" class="section level3">
-<h3>select()</h3>
+<h3><code>select()</code></h3>
 <p>Es ist nicht ungewöhnlich, Datensätze mit Hunderten oder sogar
 Tausenden von Variablen zu erhalten. In dieser Situation besteht die
 erste Herausforderung oft darin, sich auf die interessanten Variablen zu
@@ -1285,7 +1285,7 @@ auf der rechten Seite:</p>
 ## # ℹ 336,766 more rows</code></pre>
 </div>
 <div id="rename" class="section level3">
-<h3>rename()</h3>
+<h3><code>rename()</code></h3>
 <p>Wenn Sie alle vorhandenen Variablen behalten möchten und nur einige
 umbenennen möchten, können Sie anstelle von select() rename()
 verwenden:</p>
@@ -1314,7 +1314,7 @@ Reinigungsfunktionen bietet.</p>
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 <div id="relocate" class="section level3">
-<h3>relocate()</h3>
+<h3><code>relocate()</code></h3>
 <p>Verwende <code>relocate()</code>, um Variablen zu verschieben.
 Vielleicht möchtest du verwandte Variablen zusammenfassen oder wichtige
 Variablen nach vorne verschieben. Standardmäßig verschiebt
@@ -1392,14 +1392,11 @@ diesen drei Zahlen?</p></li>
 <li><p>Was passiert, wenn man den Namen der gleichen Variable mehrmals
 in einem <code>select()</code>-Aufruf angibt?</p></li>
 <li><p>Was macht die Funktion <code>any_of()</code>?Warum könnte sie in
-Verbindung mit diesem Vektor hilfreich sein?</p></li>
-</ol>
-<pre class="r"><code>  variables &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die
+Verbindung mit diesem Vektor hilfreich sein?</p>
+<pre class="r"><code>  variables &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)</code></pre></li>
+<li><p>Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die
 Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie
-kannst du diese Voreinstellung ändern?</li>
-</ol>
+kannst du diese Voreinstellung ändern?</p>
 <pre class="r"><code>  flights %&gt;% select(contains(&quot;TIME&quot;))</code></pre>
 <pre><code>## # A tibble: 336,776 × 6
 ##    dep_time sched_dep_time arr_time sched_arr_time air_time time_hour          
@@ -1414,21 +1411,402 @@ kannst du diese Voreinstellung ändern?</li>
 ##  8      557            600      709            723       53 2013-01-01 06:00:00
 ##  9      557            600      838            846      140 2013-01-01 06:00:00
 ## 10      558            600      753            745      138 2013-01-01 06:00:00
-## # ℹ 336,766 more rows</code></pre>
-<ol start="6" style="list-style-type: decimal">
+## # ℹ 336,766 more rows</code></pre></li>
 <li><p>Benenne <code>air_time</code> in <code>air_time_min</code> um, um
 die Maßeinheiten anzugeben und verschiebe es an den Anfang des
 Datensatzes.</p></li>
 <li><p>Warum funktioniert das Folgende nicht, und was bedeutet der
-Fehler?</p></li>
-</ol>
+Fehler?</p>
 <pre class="r"><code>flights %&gt;%  
   select(tailnum) %&gt;% 
   arrange(arr_delay)</code></pre>
 <pre><code>## Error in `arrange()`:
 ## ℹ In argument: `..1 = arr_delay`.
 ## Caused by error:
-## ! object &#39;arr_delay&#39; not found</code></pre>
+## ! object &#39;arr_delay&#39; not found</code></pre></li>
+</ol>
+</div>
+</div>
+<div id="gruppen" class="section level2">
+<h2>Gruppen</h2>
+<p>Bisher hast du Funktionen kennengelernt, die mit Zeilen und Spalten
+arbeiten. dplyr wird noch mächtiger, wenn du die Möglichkeit hast, mit
+Gruppen zu arbeiten. In diesem Abschnitt konzentrieren wir uns auf die
+wichtigsten Funktionen: <code>group_by()</code>,
+<code>summarize(</code>) und die Slice-Funktionen.</p>
+<div id="group_by" class="section level3">
+<h3><code>group_by()</code></h3>
+<p>Verwende <code>group_by()</code>, um deinen Datensatz in sinnvolle
+Gruppen für deine Analyse aufzuteilen:</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(month)</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+## # Groups:   month [12]
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p><code>group_by()</code> verändert die Daten nicht, aber wenn du dir
+das Ergebnis genau ansiehst, wirst du bemerken, dass das Ergebnis
+anzeigt, dass es “nach Monat gruppiert” ist
+(<code>Groups: month [12]</code>). Dies bedeutet, dass nachfolgende
+Operationen nun “nach Monat” arbeiten werden. <code>group_by()</code>
+fügt dem Datensatz dieses gruppierte Merkmal (auch als Klasse
+bezeichnet) hinzu, was das Verhalten der nachfolgenden Verben, die auf
+die Daten angewendet werden, ändert.</p>
+</div>
+<div id="summarize" class="section level3">
+<h3><code>summarize()</code></h3>
+<p>Die wichtigste gruppierte Operation ist eine Zusammenfassung, die,
+wenn sie verwendet wird, um eine einzige Zusammenfassungsstatistik zu
+berechnen, den Datensatz auf eine einzige Zeile für jede Gruppe
+reduziert. In dplyr wird diese Operation von <code>summarize()</code>
+durchgeführt, wie im folgenden Beispiel gezeigt wird, das die
+durchschnittliche Abflugsverzögerung pro Monat berechnet:</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(month) %&gt;% 
+  summarize(
+    avg_delay = mean(dep_delay)
+  )</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    month avg_delay
+##    &lt;int&gt;     &lt;dbl&gt;
+##  1     1        NA
+##  2     2        NA
+##  3     3        NA
+##  4     4        NA
+##  5     5        NA
+##  6     6        NA
+##  7     7        NA
+##  8     8        NA
+##  9     9        NA
+## 10    10        NA
+## 11    11        NA
+## 12    12        NA</code></pre>
+<p>Oh nein! Etwas ist schief gelaufen und alle unsere Ergebnisse sind
+NAs, das Symbol von R für fehlende Werte. Dies ist passiert, weil bei
+einigen der beobachteten Flüge Daten in der Verzögerungsspalte fehlten
+und wir deshalb bei der Berechnung des Mittelwerts einschließlich dieser
+Werte ein NA-Ergebnis erhalten haben. Wir werden später ausführlich auf
+fehlende Werte eingehen, aber jetzt sagen wir der Funktion
+<code>mean()</code>, dass sie alle fehlenden Werte ignorieren soll,
+indem wir das Argument na.rm auf TRUE setzen:</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(month) %&gt;% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    month delay
+##    &lt;int&gt; &lt;dbl&gt;
+##  1     1 10.0 
+##  2     2 10.8 
+##  3     3 13.2 
+##  4     4 13.9 
+##  5     5 13.0 
+##  6     6 20.8 
+##  7     7 21.7 
+##  8     8 12.6 
+##  9     9  6.72
+## 10    10  6.24
+## 11    11  5.44
+## 12    12 16.6</code></pre>
+<p>Du kannst in einem einzigen Aufruf von <code>summarize()</code>
+beliebig viele Zusammenfassungen erstellen. Du wirst in den kommenden
+Kapiteln verschiedene nützliche Zusammenfassungen lernen, aber eine sehr
+nützliche Zusammenfassung ist <code>n()</code>, die die Anzahl der
+Zeilen in jeder Gruppe zurückgibt:</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(month) %&gt;% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n()
+  )</code></pre>
+<pre><code>## # A tibble: 12 × 3
+##    month delay     n
+##    &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+##  1     1 10.0  27004
+##  2     2 10.8  24951
+##  3     3 13.2  28834
+##  4     4 13.9  28330
+##  5     5 13.0  28796
+##  6     6 20.8  28243
+##  7     7 21.7  29425
+##  8     8 12.6  29327
+##  9     9  6.72 27574
+## 10    10  6.24 28889
+## 11    11  5.44 27268
+## 12    12 16.6  28135</code></pre>
+<p>Mittelwerte und Zählungen können dich überraschend weit in im Bereich
+Data Science bringen!</p>
+</div>
+<div id="slice_funktionen" class="section level3">
+<h3><code>slice_</code>Funktionen</h3>
+<p>Es gibt fünf praktische Funktionen, mit denen du spezifische Zeilen
+innerhalb jeder Gruppe extrahieren kannst: -
+<code>df %&gt;% slice_head(n = 1)</code> nimmt die erste Zeile aus jeder
+Gruppe. - <code>df %&gt;% slice_tail(n = 1)</code> nimmt die letzte
+Zeile aus jeder Gruppe. - <code>df %&gt;% slice_min(x, n = 1)</code>
+nimmt die Zeile mit dem kleinsten Wert der Spalte <code>x</code>. -
+<code>df %&gt;% slice_max(x, n = 1)</code> nimmt die Zeile mit dem
+größten Wert der Spalte <code>x</code>. -
+<code>df %&gt;% slice_sample(n = 1)</code> nimmt eine zufällige
+Zeile.</p>
+<p>Du kannst <code>n</code> variieren, um mehr als eine Zeile
+auszuwählen. Anstelle von <code>n =</code> kannst du auch
+<code>prop = 0.</code>1 verwenden, um (z.B.) 10% der Zeilen in jeder
+Gruppe auszuwählen. Das folgende Beispiel findet die Flüge, die bei der
+Ankunft an jedem Zielort am meisten verspätet sind:</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(dest) %&gt;% 
+  slice_max(arr_delay, n = 1) %&gt;%
+  relocate(dest)</code></pre>
+<pre><code>## # A tibble: 108 × 19
+## # Groups:   dest [105]
+##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 ABQ    2013     7    22     2145           2007        98      132
+##  2 ACK    2013     7    23     1139            800       219     1250
+##  3 ALB    2013     1    25      123           2000       323      229
+##  4 ANC    2013     8    17     1740           1625        75     2042
+##  5 ATL    2013     7    22     2257            759       898      121
+##  6 AUS    2013     7    10     2056           1505       351     2347
+##  7 AVL    2013     8    13     1156            832       204     1417
+##  8 BDL    2013     2    21     1728           1316       252     1839
+##  9 BGR    2013    12     1     1504           1056       248     1628
+## 10 BHM    2013     4    10       25           1900       325      136
+## # ℹ 98 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Beachte, dass es hier 108 Zeilen gibt, obwohl es nur 105 Zielorte
+gibt. Was ist los? <code>slice_min()</code> und <code>slice_max()</code>
+behalten gebundene Werte bei, sodass <code>n = 1</code> bedeutet, dass
+uns alle Zeilen mit dem höchsten Wert gegeben werden. Wenn du genau eine
+Zeile pro Gruppe haben möchtest, kannst du
+<code>with_ties = FALSE</code> setzen.</p>
+<p>Dies ist ähnlich wie das Berechnen der maximalen Verspätung mit
+<code>summarize()</code>, aber du bekommst die ganze zugehörige Zeile
+(oder Zeilen, wenn es eine Bindung gibt), anstatt der einzelnen
+Zusammenfassungsstatistik.</p>
+</div>
+<div id="mehrfaches-gruppieren" class="section level3">
+<h3>mehrfaches Gruppieren</h3>
+<p>Du kannst Gruppen mit mehr als einer Variable erstellen. Zum Beispiel
+könnten wir eine Gruppe für jedes Datum erstellen.</p>
+<pre class="r"><code>daily &lt;- flights %&gt;%  
+  group_by(year, month, day)
+daily</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+## # Groups:   year, month, day [365]
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Wenn du eine tibble zusammenfasst, die nach mehr als einer Variable
+gruppiert ist, entfernt jede Zusammenfassung die letzte Gruppe. Laut den
+Entwickelnden war dies keine gute Methode, um diese Funktion zu
+implementieren. Hier ist es jedoch schwierig, sie zu ändern, ohne
+vorhandenen Code zu zerstören. Um zu verdeutlichen, was passiert, zeigt
+dplyr eine Nachricht an, die dir sagt, wie du dieses Verhalten ändern
+kannst:</p>
+<pre class="r"><code>daily_flights &lt;- daily %&gt;% 
+  summarize(n = n())</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;year&#39;, &#39;month&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p>Wenn du mit diesem Verhalten zufrieden bist, kannst du es explizit
+anfordern, um die Nachricht zu unterdrücken:</p>
+<pre class="r"><code>daily_flights &lt;- daily %&gt;% 
+  summarize(
+    n = n(), 
+    .groups = &quot;drop_last&quot;
+  )</code></pre>
+<p>Ändere alternativ das Standardverhalten, indem du einen anderen Wert
+festlegst, z.B. <code>"drop"</code>, um alle Gruppierungen zu entfernen,
+oder <code>"keep"</code>, um dieselben Gruppen beizubehalten.</p>
+</div>
+<div id="ungroup" class="section level3">
+<h3><code>ungroup()</code></h3>
+<p>Du möchtest möglicherweise auch die Gruppierung in einem Datensatz
+entfernen, ohne s<code>ummarize()</code> zu verwenden. Das kannst du mit
+<code>ungroup()</code> tun.</p>
+<pre class="r"><code>daily %&gt;% 
+  ungroup()</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Lass uns nun sehen, was passiert, wenn du einen nicht gruppierten
+Datensatz zusammenfasst.</p>
+<pre class="r"><code>daily %&gt;% 
+  ungroup() %&gt;%
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE), 
+    flights = n()
+  )</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   avg_delay flights
+##       &lt;dbl&gt;   &lt;int&gt;
+## 1      12.6  336776</code></pre>
+<p>Du erhältst eine einzelne Zeile zurück, weil dplyr alle Zeilen in
+einem nicht gruppierten Datensatz als zu einer Gruppe gehörig
+behandelt.</p>
+</div>
+<div id="by" class="section level3">
+<h3><code>.by</code></h3>
+<p>dplyr 1.1.0 enthält eine neue, experimentelle Syntax für die
+Gruppierung pro Operation, das .by-Argument. group_by() und ungroup()
+werden nicht verschwinden, aber du kannst jetzt auch das .by-Argument
+verwenden, um innerhalb einer einzelnen Operation zu gruppieren:</p>
+<pre class="r"><code>flights %&gt;% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = month
+  )</code></pre>
+<pre><code>## # A tibble: 12 × 3
+##    month delay     n
+##    &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+##  1     1 10.0  27004
+##  2    10  6.24 28889
+##  3    11  5.44 27268
+##  4    12 16.6  28135
+##  5     2 10.8  24951
+##  6     3 13.2  28834
+##  7     4 13.9  28330
+##  8     5 13.0  28796
+##  9     6 20.8  28243
+## 10     7 21.7  29425
+## 11     8 12.6  29327
+## 12     9  6.72 27574</code></pre>
+<p>Oder wenn du nach mehreren Variablen gruppieren willst:</p>
+<pre class="r"><code>flights  %&gt;%  
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = c(origin, dest)
+  )</code></pre>
+<pre><code>## # A tibble: 224 × 4
+##    origin dest  delay     n
+##    &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 EWR    IAH   11.8   3973
+##  2 LGA    IAH    9.06  2951
+##  3 JFK    MIA    9.34  3314
+##  4 JFK    BQN    6.67   599
+##  5 LGA    ATL   11.4  10263
+##  6 EWR    ORD   14.6   6100
+##  7 EWR    FLL   13.5   3793
+##  8 LGA    IAD   16.7   1803
+##  9 JFK    MCO   10.6   5464
+## 10 LGA    ORD   10.7   8857
+## # ℹ 214 more rows</code></pre>
+<p>.by funktioniert mit allen Verben und hat den Vorteil, dass du nicht
+das Argument .groups verwenden musst, um die Gruppierungsmeldung zu
+unterdrücken oder die Gruppierung aufzuheben, wenn du fertig bist. Du
+kannst mehr darüber in dem <a
+href="https://www.tidyverse.org/blog/2023/02/dplyr-1-1-0-per-operation-grouping/">dplyr
+1.1.0 Blog Post</a> erfahren.</p>
+</div>
+<div id="übung-3" class="section level3">
+<h3>Übung 3</h3>
+<ol style="list-style-type: decimal">
+<li><p>Welcher Anbieter hat die schlechtesten durchschnittlichen
+Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten
+Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum
+nicht? (Tipp: denke darüber nach:
+<code>flights %&gt;% group_by(carrier, dest) %&gt;% summarize(n())</code>).</p></li>
+<li><p>Finde die Flüge, die bei der Abreise von jedem Zielort am meisten
+verspätet sind.</p></li>
+<li><p>Wie variieren Verspätungen im Laufe des Tages? Veranschauliche
+deine Antwort mit einem Diagramm.</p></li>
+<li><p>Was passiert, wenn du slice_min() und Friends eine negative
+<code>n</code> lieferst?</p></li>
+<li><p>Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du
+gerade gelernt hast. Was macht das sort-Argument von count()?</p></li>
+<li><p>Angenommen, wir haben den folgenden winzigen Datensatz:</p>
+<pre class="r"><code>df &lt;- tibble(
+  x = 1:5,
+  y = c(&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;),
+  z = c(&quot;K&quot;, &quot;K&quot;, &quot;L&quot;, &quot;L&quot;, &quot;K&quot;)
+)</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe
+zuletzt mit eigenen Worten, was <code>group_by()</code> tut.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y)</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was <code>arrange()</code> tut. Kommentiere auch,
+inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a)
+unterscheidet.</p>
+<pre class="r"><code>df %&gt;%
+  arrange(y)</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y) %&gt;%
+  summarize(mean_x = mean(x))</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der
+Konsole?</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y, z) %&gt;%
+  summarize(mean_x = mean(x))</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output
+von Frage 6d.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y, z) %&gt;%
+  summarize(mean_x = mean(x), .groups = &quot;drop&quot;)</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden
+pipelines?</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y, z) %&gt;%
+  summarize(mean_x = mean(x))
+
+df %&gt;%
+  group_by(y, z) %&gt;%
+  mutate(mean_x = mean(x))</code></pre></li>
+</ol></li>
+</ol>
+<!-- --- -->
 <!-- # Data Transformation -->
 <!-- ## Logische Vektoren -->
 <!-- ## Zahlen -->

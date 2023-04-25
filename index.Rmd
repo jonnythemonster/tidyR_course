@@ -105,7 +105,7 @@ Der Code filtert die Flüge, die nach "IAH" (Houston Intercontinental Airport) g
 Die wichtigsten Verben, die auf Zeilen eines Datensatzes wirken, sind `filter()`, das eine bestimmte Auswahl an Zeilen anzeigt, ohne ihre Reihenfolge zu ändern, und `arrange()`, das die Reihenfolge der Zeilen anzeigt, ohne die vorhandenen Zeilen zu ändern. Beide Funktionen wirken sich nur auf die Zeilen aus, während die Spalten unverändert bleiben. Wir werden auch `distinct()` besprechen, das Zeilen mit eindeutigen Werten findet, aber im Gegensatz zu `arrange()` und `filter()` kann es optional auch die Spalten ändern.
 
 
-### filter()
+### `filter()`
 `filter()` extrahiert nur die Zeilen aus einem Datensatz, die bestimmten Bedingungen entsprechen. Diese Bedingungen können logische Operationen oder Funktionen enthalten, die auf bestimmte Spalten angewendet werden. Es werden auch mehrere Bedingungen akzeptiert.
 
 Das erste Argument ist wie immer der dataframe. Das zweite und die folgenden Argumente sind die Bedingungen, die erfüllt sein müssen. Zum Beispiel könnten wir alle Flüge finden, die mit mehr als 240 Minuten (vier Stunden) Verspätung abgeflogen sind:
@@ -159,7 +159,7 @@ flights %>%
   filter(month == 1 & day == 1) -> jan1
 ```
 
-### arrange()
+### `arrange()`
 Mit `arrange()` können diue Daten in einem dataframe nach einer oder mehreren Spalten sortiert werden. Es benötigt einen dataframe und eine Reihe von Spaltennamen (oder kompliziertere Ausdrücke), nach denen geordnet werden soll. Wenn Sie mehr als einen Spaltennamen angeben, wird jede zusätzliche Spalte verwendet, um Übereinstimmungen in den Werten der vorangegangenen Spalten aufzudröseln. Der folgende Code sortiert zum Beispiel nach der Abflugzeit, die auf vier Spalten verteilt ist. Wir erhalten zuerst die frühesten Jahre, dann innerhalb eines Jahres die frühesten Monate, usw.
 ```{r}
 flights %>% 
@@ -174,7 +174,7 @@ flights %>%
 
 Die Anzahl der Zeilen ändert sich dabei nicht, da nicht gefiltert wird.
 
-### distinct()
+### `distinct()`
 `distinct()` findet alle eindeutigen Zeilen in einem Datensatz. Technisch gesehen werden also in erster Linie die Zeilen bearbeitet. In den meisten Fällen wirst du jedoch die eindeutige Kombination einiger Variablen benötigen, weshalb optional auch Spaltennamen angegeben werden können:
 
 ```{r}
@@ -206,7 +206,7 @@ flights  %>%
 ### Übung 1
 1. Finde in einer einzelnen Pipeline alle Flüge, die jede der folgenden Bedingungen erfüllen:
 
-    -   Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
+    - Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
     - Fliegen nach Houston (IAH oder HOU)
     - Wurden von United, American oder Delta durchgeführt
     - Sind im Sommer abgeflogen (Juli, August und September)
@@ -224,7 +224,7 @@ flights  %>%
 ## Spalten
 Es gibt vier wichtige Verben, die sich auf die Spalten auswirken, ohne die Zeilen zu verändern: `mutate()` erzeugt neue Spalten, die von den vorhandenen Spalten abgeleitet sind, `select()` ändert, welche Spalten angezeigt werden, `rename()` ändert die Namen der Spalten und `relocate()` ändert die Positionen der Spalten.
 
-### mutate()
+### `mutate()`
 Die Aufgabe von `mutate()` ist es, neue Spalten hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den Transformationskapiteln werden Sie eine große Anzahl von Funktionen kennenlernen, mit denen Sie verschiedene Arten von Variablen manipulieren können. Für den Moment bleiben wir bei der grundlegenden Algebra, die es uns ermöglicht, den Gewinn, die Zeit, die ein verspäteter Flug in der Luft verbracht hat, und die Geschwindigkeit in Meilen pro Stunde zu berechnen:
 
 ```{r}
@@ -268,7 +268,7 @@ flights  %>%
 
 Da wir das Ergebnis der obigen Berechnung nicht den Flügen zugewiesen haben, werden die neuen Variablen gain, hours und gain_per_hour nur gedruckt, aber nicht in einem Datenrahmen gespeichert. Und wenn wir wollen, dass sie in einem Datenrahmen für die künftige Verwendung zur Verfügung stehen, sollten wir uns genau überlegen, ob wir das Ergebnis wieder Flügen zuweisen und den ursprünglichen Datenrahmen mit vielen weiteren Variablen überschreiben oder einem neuen Objekt. Oft ist die richtige Antwort ein neues Objekt, das informativ benannt wird, um seinen Inhalt anzugeben, z. B. delay_gain, aber Sie könnten auch gute Gründe haben, flights zu überschreiben.
 
-### select()
+### `select()`
 Es ist nicht ungewöhnlich, Datensätze mit Hunderten oder sogar Tausenden von Variablen zu erhalten. In dieser Situation besteht die erste Herausforderung oft darin, sich auf die interessanten Variablen zu konzentrieren. `select()` ermöglicht es, schnell auf eine nützliche Teilmenge zuzugreifen, indem Operationen verwendet werden, die auf den Namen der Variablen basieren:
 
 - Wähle Spalten nach Name aus:
@@ -338,7 +338,7 @@ flights  %>%
   select(tail_num = tailnum)
 ```
 
-### rename()
+### `rename()`
 Wenn Sie alle vorhandenen Variablen behalten möchten und nur einige umbenennen möchten, können Sie anstelle von select() rename() verwenden:
 
 Wenn du eine Reihe von inkonsistent benannten Spalten haben und es schmerzhaft wäre, sie alle manuell zu korrigieren, schauen Sie sich janitor::clean_names() an, das einige nützliche automatisierte Reinigungsfunktionen bietet.
@@ -347,7 +347,7 @@ flights %>%
   rename(tail_num = tailnum)
 ```
 
-### relocate()
+### `relocate()`
 Verwende `relocate()`, um Variablen zu verschieben. Vielleicht möchtest du verwandte Variablen zusammenfassen oder wichtige Variablen nach vorne verschieben. Standardmäßig verschiebt `relocate()` Variablen nach vorne:
 
 ```{r}
@@ -373,26 +373,240 @@ flights %>%
 
 4. Was macht die Funktion `any_of()`?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
 
-```{r}
-  variables <- c("year", "month", "day", "dep_delay", "arr_delay")
-```
+    ```{r}
+      variables <- c("year", "month", "day", "dep_delay", "arr_delay")
+    ```
 
 5. Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
 
-```{r}
-  flights %>% select(contains("TIME"))
-```
+    ```{r}
+      flights %>% select(contains("TIME"))
+    ```
 
 6. Benenne `air_time` in `air_time_min` um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
 
 7. Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
+    
+    ```{r}
+    #| error: true
+    flights %>%  
+      select(tailnum) %>% 
+      arrange(arr_delay)
+    ```
 
+## Gruppen
+Bisher hast du Funktionen kennengelernt, die mit Zeilen und Spalten arbeiten. dplyr wird noch mächtiger, wenn du die Möglichkeit hast, mit Gruppen zu arbeiten. In diesem Abschnitt konzentrieren wir uns auf die wichtigsten Funktionen: `group_by()`, `summarize(`) und die Slice-Funktionen.
+
+### `group_by()`
+Verwende `group_by()`, um deinen Datensatz in sinnvolle Gruppen für deine Analyse aufzuteilen:
 ```{r}
-#| error: true
-flights %>%  
-  select(tailnum) %>% 
-  arrange(arr_delay)
+flights %>% 
+  group_by(month)
 ```
+`group_by()` verändert die Daten nicht, aber wenn du dir das Ergebnis genau ansiehst, wirst du bemerken, dass das Ergebnis anzeigt, dass es "nach Monat gruppiert" ist (`Groups: month [12]`). Dies bedeutet, dass nachfolgende Operationen nun "nach Monat" arbeiten werden. `group_by()` fügt dem Datensatz dieses gruppierte Merkmal (auch als Klasse bezeichnet) hinzu, was das Verhalten der nachfolgenden Verben, die auf die Daten angewendet werden, ändert.
+
+### `summarize()`
+Die wichtigste gruppierte Operation ist eine Zusammenfassung, die, wenn sie verwendet wird, um eine einzige Zusammenfassungsstatistik zu berechnen, den Datensatz auf eine einzige Zeile für jede Gruppe reduziert. In dplyr wird diese Operation von `summarize()` durchgeführt, wie im folgenden Beispiel gezeigt wird, das die durchschnittliche Abflugsverzögerung pro Monat berechnet:
+```{r}
+flights %>% 
+  group_by(month) %>% 
+  summarize(
+    avg_delay = mean(dep_delay)
+  )
+```
+
+Oh nein! Etwas ist schief gelaufen und alle unsere Ergebnisse sind NAs, das Symbol von R für fehlende Werte. Dies ist passiert, weil bei einigen der beobachteten Flüge Daten in der Verzögerungsspalte fehlten und wir deshalb bei der Berechnung des Mittelwerts einschließlich dieser Werte ein NA-Ergebnis erhalten haben. Wir werden später ausführlich auf fehlende Werte eingehen, aber jetzt sagen wir der Funktion `mean()`, dass sie alle fehlenden Werte ignorieren soll, indem wir das Argument na.rm auf TRUE setzen:
+```{r}
+flights %>% 
+  group_by(month) %>% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE)
+  )
+```
+
+Du kannst in einem einzigen Aufruf von `summarize()` beliebig viele Zusammenfassungen erstellen. Du wirst in den kommenden Kapiteln verschiedene nützliche Zusammenfassungen lernen, aber eine sehr nützliche Zusammenfassung ist `n()`, die die Anzahl der Zeilen in jeder Gruppe zurückgibt:
+```{r}
+flights %>% 
+  group_by(month) %>% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n()
+  )
+```
+
+Mittelwerte und Zählungen können dich überraschend weit in im Bereich Data Science bringen!
+
+### `slice_`Funktionen
+Es gibt fünf praktische Funktionen, mit denen du spezifische Zeilen innerhalb jeder Gruppe extrahieren kannst:
+-   `df %>% slice_head(n = 1)` nimmt die erste Zeile aus jeder Gruppe.
+-   `df %>% slice_tail(n = 1)` nimmt die letzte Zeile aus jeder Gruppe.
+-   `df %>% slice_min(x, n = 1)` nimmt die Zeile mit dem kleinsten Wert der Spalte `x`.
+-   `df %>% slice_max(x, n = 1)` nimmt die Zeile mit dem größten Wert der Spalte `x`.
+-   `df %>% slice_sample(n = 1)` nimmt eine zufällige Zeile.
+
+Du kannst `n` variieren, um mehr als eine Zeile auszuwählen. Anstelle von `n =` kannst du auch `prop = 0.`1 verwenden, um (z.B.) 10% der Zeilen in jeder Gruppe auszuwählen. Das folgende Beispiel findet die Flüge, die bei der Ankunft an jedem Zielort am meisten verspätet sind:
+```{r}
+flights %>% 
+  group_by(dest) %>% 
+  slice_max(arr_delay, n = 1) %>%
+  relocate(dest)
+```
+
+Beachte, dass es hier 108 Zeilen gibt, obwohl es nur 105 Zielorte gibt. Was ist los? `slice_min()` und `slice_max()` behalten gebundene Werte bei, sodass `n = 1` bedeutet, dass uns alle Zeilen mit dem höchsten Wert gegeben werden. Wenn du genau eine Zeile pro Gruppe haben möchtest, kannst du `with_ties = FALSE` setzen.
+
+Dies ist ähnlich wie das Berechnen der maximalen Verspätung mit `summarize()`, aber du bekommst die ganze zugehörige Zeile (oder Zeilen, wenn es eine Bindung gibt), anstatt der einzelnen Zusammenfassungsstatistik.
+
+### mehrfaches Gruppieren
+Du kannst Gruppen mit mehr als einer Variable erstellen. Zum Beispiel könnten wir eine Gruppe für jedes Datum erstellen.
+```{r}
+daily <- flights %>%  
+  group_by(year, month, day)
+daily
+```
+
+Wenn du eine tibble zusammenfasst, die nach mehr als einer Variable gruppiert ist, entfernt jede Zusammenfassung die letzte Gruppe. Laut den Entwickelnden war dies keine gute Methode, um diese Funktion zu implementieren. Hier ist es jedoch schwierig, sie zu ändern, ohne vorhandenen Code zu zerstören. Um zu verdeutlichen, was passiert, zeigt dplyr eine Nachricht an, die dir sagt, wie du dieses Verhalten ändern kannst:
+```{r}
+daily_flights <- daily %>% 
+  summarize(n = n())
+```
+
+Wenn du mit diesem Verhalten zufrieden bist, kannst du es explizit anfordern, um die Nachricht zu unterdrücken:
+```{r}
+daily_flights <- daily %>% 
+  summarize(
+    n = n(), 
+    .groups = "drop_last"
+  )
+```
+
+Ändere alternativ das Standardverhalten, indem du einen anderen Wert festlegst, z.B. `"drop"`, um alle Gruppierungen zu entfernen, oder `"keep"`, um dieselben Gruppen beizubehalten.
+
+### `ungroup()`
+Du möchtest möglicherweise auch die Gruppierung in einem Datensatz entfernen, ohne s`ummarize()` zu verwenden. Das kannst du mit `ungroup()` tun.
+```{r}
+daily %>% 
+  ungroup()
+```
+
+Lass uns nun sehen, was passiert, wenn du einen nicht gruppierten Datensatz zusammenfasst.
+```{r}
+daily %>% 
+  ungroup() %>%
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE), 
+    flights = n()
+  )
+```
+
+Du erhältst eine einzelne Zeile zurück, weil dplyr alle Zeilen in einem nicht gruppierten Datensatz als zu einer Gruppe gehörig behandelt.
+
+### `.by`
+dplyr 1.1.0 enthält eine neue, experimentelle Syntax für die Gruppierung pro Operation, das .by-Argument. group_by() und ungroup() werden nicht verschwinden, aber du kannst jetzt auch das .by-Argument verwenden, um innerhalb einer einzelnen Operation zu gruppieren:
+```{r}
+flights %>% 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = month
+  )
+```
+
+Oder wenn du nach mehreren Variablen gruppieren willst:
+```{r}
+flights  %>%  
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = c(origin, dest)
+  )
+```
+
+.by funktioniert mit allen Verben und hat den Vorteil, dass du nicht das Argument .groups verwenden musst, um die Gruppierungsmeldung zu unterdrücken oder die Gruppierung aufzuheben, wenn du fertig bist. Du kannst mehr darüber in dem [dplyr 1.1.0 Blog Post](https://www.tidyverse.org/blog/2023/02/dplyr-1-1-0-per-operation-grouping/) erfahren.
+
+
+### Übung 3
+1. Welcher Anbieter hat die schlechtesten durchschnittlichen Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum nicht? (Tipp: denke darüber nach: `flights %>% group_by(carrier, dest) %>% summarize(n())`).
+
+2. Finde die Flüge, die bei der Abreise von jedem Zielort am meisten verspätet sind.
+
+3. Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine Antwort mit einem Diagramm.
+
+4. Was passiert, wenn du slice_min() und Friends eine negative `n` lieferst?
+
+5. Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du gerade gelernt hast. Was macht das sort-Argument von count()?
+
+6. Angenommen, wir haben den folgenden winzigen Datensatz:
+    ```{r}
+    df <- tibble(
+      x = 1:5,
+      y = c("a", "b", "a", "a", "b"),
+      z = c("K", "K", "L", "L", "K")
+    )
+    ```
+
+    a.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt mit eigenen Worten, was `group_by()` tut.
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          group_by(y)
+        ```
+
+    b.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was `arrange()` tut. Kommentiere auch, inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a) unterscheidet.
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          arrange(y)
+        ```
+
+    c.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut.
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          group_by(y) %>%
+          summarize(mean_x = mean(x))
+        ```
+
+    d.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der Konsole?
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          group_by(y, z) %>%
+          summarize(mean_x = mean(x))
+        ```
+
+    e.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output von Frage 6d.
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          group_by(y, z) %>%
+          summarize(mean_x = mean(x), .groups = "drop")
+        ```
+
+    f.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden pipelines?
+
+        ```{r}
+        #| eval: false
+            
+        df %>%
+          group_by(y, z) %>%
+          summarize(mean_x = mean(x))
+            
+        df %>%
+          group_by(y, z) %>%
+          mutate(mean_x = mean(x))
+        ```
+  
+<!-- --- -->
 
 <!-- # Data Transformation -->
 <!-- ## Logische Vektoren -->

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jonas Trautner" />
 
-<meta name="date" content="2023-04-19" />
+<meta name="date" content="2023-04-25" />
 
 <title>Lösungen</title>
 
@@ -338,12 +338,12 @@ div.tocify {
 
 <h1 class="title toc-ignore">Lösungen</h1>
 <h4 class="author">Jonas Trautner</h4>
-<h4 class="date">2023-04-19</h4>
+<h4 class="date">2023-04-25</h4>
 
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-04-19</p>
+<p>Sommersemester 2023 | Stand: 2023-04-25</p>
 <pre class="r"><code># Verwendete Pakete
 library(nycflights13)
 library(tidyverse)</code></pre>
@@ -916,6 +916,283 @@ anwenden:</p>
 ##  9 N805JB        -71
 ## 10 N855VA        -70
 ## # ℹ 336,766 more rows</code></pre>
+</div>
+</div>
+<div id="übung-3" class="section level1">
+<h1>Übung 3</h1>
+<div id="aufgabe-12" class="section level2">
+<h2>1.Aufgabe</h2>
+<p>Welcher Anbieter hat die schlechtesten durchschnittlichen
+Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten
+Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum
+nicht? (Tipp: denke darüber nach:
+<code>flights %&gt;% group_by(carrier, dest) %&gt;% summarize(n())</code>).</p>
+<p>Um den Anbieter mit den schlechtesten durchschnittlichen Verspätungen
+zu finden, können wir den flights-Datensatz gruppieren und die
+durchschnittlichen Verspätungen für jeden Anbieter berechnen. Hier ist
+ein Beispielcode, der dies tut:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(avg_delay = mean(arr_delay, na.rm = TRUE)) %&gt;%
+  arrange(desc(avg_delay))</code></pre>
+<pre><code>## # A tibble: 16 × 2
+##    carrier avg_delay
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 F9         21.9  
+##  2 FL         20.1  
+##  3 EV         15.8  
+##  4 YV         15.6  
+##  5 OO         11.9  
+##  6 MQ         10.8  
+##  7 WN          9.65 
+##  8 B6          9.46 
+##  9 9E          7.38 
+## 10 UA          3.56 
+## 11 US          2.13 
+## 12 VX          1.76 
+## 13 DL          1.64 
+## 14 AA          0.364
+## 15 HA         -6.92 
+## 16 AS         -9.93</code></pre>
+<pre class="r"><code>filter(airlines, carrier == &quot;F9&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   carrier name                  
+##   &lt;chr&gt;   &lt;chr&gt;                 
+## 1 F9      Frontier Airlines Inc.</code></pre>
+<p>Dieser Code gruppiert den flights-Datensatz nach dem Anbieter und
+berechnet den durchschnittlichen Verspätungswert für jeden Anbieter. Das
+na.rm = TRUE -Argument sorgt dafür, dass alle fehlenden Werte in der
+arr_delay Spalte ignoriert werden. Wir ordnen die Ergebnisse dann nach
+dem avg_delay Wert, um den Anbieter mit den schlechtesten
+durchschnittlichen Verspätungen zu finden.</p>
+<p>Um die Auswirkungen von schlechten Flughäfen und schlechten Anbietern
+auseinanderzuhalten, müssen wir Airline, Abflugort und Ankunftsort
+berücksichtigen.</p>
+<pre class="r"><code>flights %&gt;%
+  summarise(carrier_n = n_distinct(carrier),
+            origin_n = n_distinct(origin),
+            dest_n = n_distinct(dest))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   carrier_n origin_n dest_n
+##       &lt;int&gt;    &lt;int&gt;  &lt;int&gt;
+## 1        16        3    105</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  # Total delay by carrier within each origin, dest
+  group_by(origin, dest, carrier) %&gt;%
+  summarise(
+    arr_delay_odc_sum = sum(arr_delay),
+    flights_odc = n()) %&gt;%
+  # Total delay within each origin dest
+  mutate(
+    arr_delay_od_sum = sum(arr_delay_odc_sum),
+    flights_od = sum(flights_odc)) %&gt;%
+  # average delay of each carrier - average delay of other carriers
+  ungroup() %&gt;%
+  mutate(
+    arr_delay_others = (arr_delay_od_sum - arr_delay_odc_sum) / (flights_od - flights_odc),
+    arr_delay_mean = arr_delay_odc_sum / flights_odc,
+    arr_delay_diff = arr_delay_mean - arr_delay_others) %&gt;%
+  # remove NaN values (when there is only one carrier)
+  filter(is.finite(arr_delay_diff)) %&gt;%
+  # average over all airports it flies to
+  group_by(carrier) %&gt;%
+  summarise(arr_delay_diff = mean(arr_delay_diff)) %&gt;%
+  ggplot(aes(x=carrier, y=arr_delay_diff)) + 
+    geom_bar(stat = &quot;identity&quot;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;origin&#39;, &#39;dest&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<p><img src="Loesungen_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-13" class="section level2">
+<h2>2.Aufgabe</h2>
+<p>Finde die Flüge, die bei der Abreise von jedem Zielort am meisten
+verspätet sind.</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(dest) %&gt;% 
+  slice_max(dep_delay, n = 1) %&gt;% 
+  relocate(dest)</code></pre>
+<pre><code>## # A tibble: 105 × 19
+## # Groups:   dest [105]
+##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 ABQ    2013    12    14     2223           2001       142      133
+##  2 ACK    2013     7    23     1139            800       219     1250
+##  3 ALB    2013     1    25      123           2000       323      229
+##  4 ANC    2013     8    17     1740           1625        75     2042
+##  5 ATL    2013     7    22     2257            759       898      121
+##  6 AUS    2013     7    10     2056           1505       351     2347
+##  7 AVL    2013     6    14     1158            816       222     1335
+##  8 BDL    2013     2    21     1728           1316       252     1839
+##  9 BGR    2013    12     1     1504           1056       248     1628
+## 10 BHM    2013     4    10       25           1900       325      136
+## # ℹ 95 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-14" class="section level2">
+<h2>3.Aufgabe</h2>
+<p>Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine
+Antwort mit einem Diagramm.</p>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  group_by(hour) %&gt;%
+  summarise(avg_arr_delay = mean(arr_delay)) %&gt;%
+  ggplot(aes(x = hour, y = avg_arr_delay)) +
+  geom_line() +
+  labs(x = &quot;Stunde des Tages&quot;, y = &quot;Durchschnittliche Ankunftsverspätung (Minuten)&quot;)</code></pre>
+<p><img src="Loesungen_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-15" class="section level2">
+<h2>4.Aufgabe</h2>
+<p>Was passiert, wenn du slice_min() und verwandten Funktionen eine
+negative <code>n</code> lieferst?</p>
+<pre class="r"><code>flights %&gt;% 
+  slice_min(dep_delay, n = -1, with_ties = F)</code></pre>
+<pre><code>## # A tibble: 336,775 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013    12     7     2040           2123       -43       40           2352
+##  2  2013     2     3     2022           2055       -33     2240           2338
+##  3  2013    11    10     1408           1440       -32     1549           1559
+##  4  2013     1    11     1900           1930       -30     2233           2243
+##  5  2013     1    29     1703           1730       -27     1947           1957
+##  6  2013     8     9      729            755       -26     1002            955
+##  7  2013    10    23     1907           1932       -25     2143           2143
+##  8  2013     3    30     2030           2055       -25     2213           2250
+##  9  2013     3     2     1431           1455       -24     1601           1631
+## 10  2013     5     5      934            958       -24     1225           1309
+## # ℹ 336,765 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Es werden <code>n</code> Zeilen entfernt.</p>
+</div>
+<div id="aufgabe-16" class="section level2">
+<h2>5.Aufgabe</h2>
+<p>Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du
+gerade gelernt hast. Was macht das sort-Argument von count()?</p>
+<p>count() ist ein dplyr-Verb, das verwendet wird, um die Anzahl der
+Vorkommen von eindeutigen Werten in einer oder mehreren Spalten zu
+zählen und eine Zusammenfassung des Ergebnisses zurückzugeben. count()
+kann auch in Verbindung mit anderen dplyr-Verben wie group_by(),
+summarize() und slice() verwendet werden, um die Ergebnisse weiter zu
+manipulieren.</p>
+</div>
+<div id="aufgabe-17" class="section level2">
+<h2>6.Aufgabe</h2>
+<p>Angenommen, wir haben den folgenden winzigen Datensatz:</p>
+<pre><code>```r
+df &lt;- tibble(
+  x = 1:5,
+  y = c(&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;),
+  z = c(&quot;K&quot;, &quot;K&quot;, &quot;L&quot;, &quot;L&quot;, &quot;K&quot;)
+)
+```</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt
+mit eigenen Worten, was <code>group_by()</code> tut.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+## # Groups:   y [2]
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     2 b     K    
+## 3     3 a     L    
+## 4     4 a     L    
+## 5     5 b     K</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was <code>arrange()</code> tut. Kommentiere auch,
+inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a)
+unterscheidet.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+arrange(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     3 a     L    
+## 3     4 a     L    
+## 4     2 b     K    
+## 5     5 b     K</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   y     mean_x
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a       2.67
+## 2 b       3.5</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der
+Konsole?</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output
+von Frage 6d.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x), .groups = &quot;drop&quot;)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<ol start="6" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden
+pipelines?</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+mutate(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 5 × 4
+## # Groups:   y, z [3]
+##       x y     z     mean_x
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1     1 a     K        1  
+## 2     2 b     K        3.5
+## 3     3 a     L        3.5
+## 4     4 a     L        3.5
+## 5     5 b     K        3.5</code></pre>
 </div>
 </div>
 
