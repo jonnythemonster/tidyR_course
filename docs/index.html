@@ -433,6 +433,12 @@ verstehen und zu kommunizieren, da die Daten in einer klaren und
 standardisierten Form dargestellt werden. Die Verwendung von tidy data
 ist ein wichtiger Bestandteil von Tidyverse und wird von vielen
 Data-Science-Experten und -Praktikern empfohlen.</p>
+<div class="figure">
+<img
+src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/tidydata_1.jpg"
+style="width:80.0%" alt="" />
+<p class="caption">Artwork by Allison Horst on tidy data</p>
+</div>
 <hr />
 </div>
 </div>
@@ -602,6 +608,12 @@ die bestimmten Bedingungen entsprechen. Diese Bedingungen können
 logische Operationen oder Funktionen enthalten, die auf bestimmte
 Spalten angewendet werden. Es werden auch mehrere Bedingungen
 akzeptiert.</p>
+<div class="figure">
+<img
+src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_filter.jpg"
+style="width:80.0%" alt="" />
+<p class="caption">Artwork by Allison Horst on filter() function</p>
+</div>
 <p>Das erste Argument ist wie immer der dataframe. Das zweite und die
 folgenden Argumente sind die Bedingungen, die erfüllt sein müssen. Zum
 Beispiel könnten wir alle Flüge finden, die mit mehr als 240 Minuten
@@ -948,10 +960,17 @@ Spalten, die von den vorhandenen Spalten abgeleitet sind,
 hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den
 Transformationskapiteln werden Sie eine große Anzahl von Funktionen
 kennenlernen, mit denen Sie verschiedene Arten von Variablen
-manipulieren können. Für den Moment bleiben wir bei der grundlegenden
-Algebra, die es uns ermöglicht, den Gewinn, die Zeit, die ein
-verspäteter Flug in der Luft verbracht hat, und die Geschwindigkeit in
-Meilen pro Stunde zu berechnen:</p>
+manipulieren können.</p>
+<div class="figure">
+<img
+src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_mutate.png"
+style="width:80.0%" alt="" />
+<p class="caption">Artwork by Allison Horst on mutate() function</p>
+</div>
+<p>Für den Moment bleiben wir bei der grundlegenden Algebra, die es uns
+ermöglicht, den Gewinn, die Zeit, die ein verspäteter Flug in der Luft
+verbracht hat, und die Geschwindigkeit in Meilen pro Stunde zu
+berechnen:</p>
 <pre class="r"><code>flights %&gt;%  
   mutate(
     gain = dep_delay - arr_delay,

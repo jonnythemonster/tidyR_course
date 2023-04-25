@@ -49,6 +49,8 @@ Unter diesem Begriff verbirgt sich die Idee, wie Daten aussehen sollen. ,Sie sin
 
 Die Strukturierung von Daten nach diesen Prinzipien erleichtert es den Benutzern, Daten effektiver zu manipulieren, zu transformieren, zu visualisieren und zu analysieren. Tidy data sind auch leichter zu verstehen und zu kommunizieren, da die Daten in einer klaren und standardisierten Form dargestellt werden. Die Verwendung von tidy data ist ein wichtiger Bestandteil von Tidyverse und wird von vielen Data-Science-Experten und -Praktikern empfohlen.
 
+![Artwork by Allison Horst on tidy data](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/tidydata_1.jpg){width="80%"}
+
 ---
 
 # Grundlagen: Datawrangling mit dplyr
@@ -107,6 +109,8 @@ Die wichtigsten Verben, die auf Zeilen eines Datensatzes wirken, sind `filter()`
 
 ### `filter()`
 `filter()` extrahiert nur die Zeilen aus einem Datensatz, die bestimmten Bedingungen entsprechen. Diese Bedingungen können logische Operationen oder Funktionen enthalten, die auf bestimmte Spalten angewendet werden. Es werden auch mehrere Bedingungen akzeptiert.
+
+![Artwork by Allison Horst on filter() function](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_filter.jpg){width="80%"}
 
 Das erste Argument ist wie immer der dataframe. Das zweite und die folgenden Argumente sind die Bedingungen, die erfüllt sein müssen. Zum Beispiel könnten wir alle Flüge finden, die mit mehr als 240 Minuten (vier Stunden) Verspätung abgeflogen sind:
 ```{r}
@@ -225,7 +229,11 @@ flights  %>%
 Es gibt vier wichtige Verben, die sich auf die Spalten auswirken, ohne die Zeilen zu verändern: `mutate()` erzeugt neue Spalten, die von den vorhandenen Spalten abgeleitet sind, `select()` ändert, welche Spalten angezeigt werden, `rename()` ändert die Namen der Spalten und `relocate()` ändert die Positionen der Spalten.
 
 ### `mutate()`
-Die Aufgabe von `mutate()` ist es, neue Spalten hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den Transformationskapiteln werden Sie eine große Anzahl von Funktionen kennenlernen, mit denen Sie verschiedene Arten von Variablen manipulieren können. Für den Moment bleiben wir bei der grundlegenden Algebra, die es uns ermöglicht, den Gewinn, die Zeit, die ein verspäteter Flug in der Luft verbracht hat, und die Geschwindigkeit in Meilen pro Stunde zu berechnen:
+Die Aufgabe von `mutate()` ist es, neue Spalten hinzuzufügen, die aus den vorhandenen Spalten berechnet werden. In den Transformationskapiteln werden Sie eine große Anzahl von Funktionen kennenlernen, mit denen Sie verschiedene Arten von Variablen manipulieren können. 
+
+![Artwork by Allison Horst on mutate() function](https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_mutate.png){width="80%"}
+
+Für den Moment bleiben wir bei der grundlegenden Algebra, die es uns ermöglicht, den Gewinn, die Zeit, die ein verspäteter Flug in der Luft verbracht hat, und die Geschwindigkeit in Meilen pro Stunde zu berechnen:
 
 ```{r}
 flights %>%  
