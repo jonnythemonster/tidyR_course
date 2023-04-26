@@ -4,6 +4,8 @@ navbar:
   left:
     - text: "Skript"
       href: index.html
+    - text: "Lösungen"
+      href: Loesungen_Script.html
 #    - text: "Links"
 #      href: Links.html
 output_dir: "docs"

@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jonas Trautner" />
+
+<meta name="date" content="2023-04-26" />
+
+<title>Lösungen</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Effizientes Programmieren mit R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Skript</a>
+</li>
+<li>
+  <a href="Loesungen_Script.html">Lösungen</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lösungen</h1>
+<h4 class="author">Jonas Trautner</h4>
+<h4 class="date">2023-04-26</h4>
+
+</div>
+
+
+<p>Sommersemester 2023 | Stand: 2023-04-26</p>
+<pre class="r"><code># Verwendete Pakete
+library(nycflights13)
+library(tidyverse)</code></pre>
+<div id="übung-1" class="section level1">
+<h1>Übung 1</h1>
+<div id="aufgabe" class="section level2">
+<h2>1. Aufgabe</h2>
+<ol style="list-style-type: decimal">
+<li><p>Finde in einer einzelnen Pipeline alle Flüge, die jede der
+folgenden Bedingungen erfüllen:</p>
+<ul>
+<li>Hatten eine Ankunftsverspätung von zwei oder mehr Stunden</li>
+<li>Fliegen nach Houston (IAH oder HOU)</li>
+<li>Wurden von United, American oder Delta durchgeführt</li>
+<li>Sind im Sommer abgeflogen (Juli, August und September)</li>
+<li>Sind mehr als zwei Stunden zu spät angekommen, sind aber nicht zu
+spät abgeflogen</li>
+<li>Waren um mindestens eine Stunde verspätet, haben aber während des
+Fluges mehr als 30 Minuten aufgeholt</li>
+</ul></li>
+</ol>
+<pre class="r"><code>flights %&gt;%
+  filter(arr_delay &gt;= 120)</code></pre>
+<pre><code>## # A tibble: 10,200 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      811            630       101     1047            830
+##  2  2013     1     1      848           1835       853     1001           1950
+##  3  2013     1     1      957            733       144     1056            853
+##  4  2013     1     1     1114            900       134     1447           1222
+##  5  2013     1     1     1505           1310       115     1638           1431
+##  6  2013     1     1     1525           1340       105     1831           1626
+##  7  2013     1     1     1549           1445        64     1912           1656
+##  8  2013     1     1     1558           1359       119     1718           1515
+##  9  2013     1     1     1732           1630        62     2028           1825
+## 10  2013     1     1     1803           1620       103     2008           1750
+## # ℹ 10,190 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(dest %in% c(&quot;IAH&quot;, &quot;HOU&quot;))</code></pre>
+<pre><code>## # A tibble: 9,313 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      623            627        -4      933            932
+##  4  2013     1     1      728            732        -4     1041           1038
+##  5  2013     1     1      739            739         0     1104           1038
+##  6  2013     1     1      908            908         0     1228           1219
+##  7  2013     1     1     1028           1026         2     1350           1339
+##  8  2013     1     1     1044           1045        -1     1352           1351
+##  9  2013     1     1     1114            900       134     1447           1222
+## 10  2013     1     1     1205           1200         5     1503           1505
+## # ℹ 9,303 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(carrier %in% c(&quot;UA&quot;, &quot;AA&quot;, &quot;DL&quot;))</code></pre>
+<pre><code>## # A tibble: 139,504 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      554            600        -6      812            837
+##  5  2013     1     1      554            558        -4      740            728
+##  6  2013     1     1      558            600        -2      753            745
+##  7  2013     1     1      558            600        -2      924            917
+##  8  2013     1     1      558            600        -2      923            937
+##  9  2013     1     1      559            600        -1      941            910
+## 10  2013     1     1      559            600        -1      854            902
+## # ℹ 139,494 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(month %in% c(7, 8, 9))</code></pre>
+<pre><code>## # A tibble: 86,326 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     7     1        1           2029       212      236           2359
+##  2  2013     7     1        2           2359         3      344            344
+##  3  2013     7     1       29           2245       104      151              1
+##  4  2013     7     1       43           2130       193      322             14
+##  5  2013     7     1       44           2150       174      300            100
+##  6  2013     7     1       46           2051       235      304           2358
+##  7  2013     7     1       48           2001       287      308           2305
+##  8  2013     7     1       58           2155       183      335             43
+##  9  2013     7     1      100           2146       194      327             30
+## 10  2013     7     1      100           2245       135      337            135
+## # ℹ 86,316 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(arr_delay &gt; dep_delay &amp; dep_delay &lt;= 0)</code></pre>
+<pre><code>## # A tibble: 57,278 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      554            558        -4      740            728
+##  2  2013     1     1      555            600        -5      913            854
+##  3  2013     1     1      558            600        -2      753            745
+##  4  2013     1     1      558            600        -2      924            917
+##  5  2013     1     1      559            600        -1      941            910
+##  6  2013     1     1      600            600         0      837            825
+##  7  2013     1     1      602            605        -3      821            805
+##  8  2013     1     1      622            630        -8     1017           1014
+##  9  2013     1     1      623            627        -4      933            932
+## 10  2013     1     1      624            630        -6      909            840
+## # ℹ 57,268 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(dep_delay &gt;= 60 &amp; (dep_delay - arr_delay) &gt; 30)</code></pre>
+<pre><code>## # A tibble: 1,844 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1     2205           1720       285       46           2040
+##  2  2013     1     1     2326           2130       116      131             18
+##  3  2013     1     3     1503           1221       162     1803           1555
+##  4  2013     1     3     1839           1700        99     2056           1950
+##  5  2013     1     3     1850           1745        65     2148           2120
+##  6  2013     1     3     1941           1759       102     2246           2139
+##  7  2013     1     3     1950           1845        65     2228           2227
+##  8  2013     1     3     2015           1915        60     2135           2111
+##  9  2013     1     3     2257           2000       177       45           2224
+## 10  2013     1     4     1917           1700       137     2135           1950
+## # ℹ 1,834 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-1" class="section level2">
+<h2>2. Aufgabe</h2>
+<p>Sortiere die Flüge, um die Flüge mit den längsten Abflugverspätungen
+zu finden. Finde die Flüge, die am frühesten am Morgen abgeflogen
+sind.</p>
+<pre class="r"><code>flights %&gt;%
+  arrange(desc(dep_delay))</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     9      641            900      1301     1242           1530
+##  2  2013     6    15     1432           1935      1137     1607           2120
+##  3  2013     1    10     1121           1635      1126     1239           1810
+##  4  2013     9    20     1139           1845      1014     1457           2210
+##  5  2013     7    22      845           1600      1005     1044           1815
+##  6  2013     4    10     1100           1900       960     1342           2211
+##  7  2013     3    17     2321            810       911      135           1020
+##  8  2013     6    27      959           1900       899     1236           2226
+##  9  2013     7    22     2257            759       898      121           1026
+## 10  2013    12     5      756           1700       896     1058           2020
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;%
+  arrange(dep_time)</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1    13        1           2249        72      108           2357
+##  2  2013     1    31        1           2100       181      124           2225
+##  3  2013    11    13        1           2359         2      442            440
+##  4  2013    12    16        1           2359         2      447            437
+##  5  2013    12    20        1           2359         2      430            440
+##  6  2013    12    26        1           2359         2      437            440
+##  7  2013    12    30        1           2359         2      441            437
+##  8  2013     2    11        1           2100       181      111           2225
+##  9  2013     2    24        1           2245        76      121           2354
+## 10  2013     3     8        1           2355         6      431            440
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-2" class="section level2">
+<h2>3. Aufgabe</h2>
+<p>Sortiere die Flüge, um die schnellsten Flüge zu finden. (Tipp:
+Versuche eine mathematische Berechnung in deiner Funktion zu
+verwenden.)</p>
+<pre class="r"><code>flights %&gt;%
+  arrange(desc(distance / air_time * 60))</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     5    25     1709           1700         9     1923           1937
+##  2  2013     7     2     1558           1513        45     1745           1719
+##  3  2013     5    13     2040           2025        15     2225           2226
+##  4  2013     3    23     1914           1910         4     2045           2043
+##  5  2013     1    12     1559           1600        -1     1849           1917
+##  6  2013    11    17      650            655        -5     1059           1150
+##  7  2013     2    21     2355           2358        -3      412            438
+##  8  2013    11    17      759            800        -1     1212           1255
+##  9  2013    11    16     2003           1925        38       17             36
+## 10  2013    11    16     2349           2359       -10      402            440
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-3" class="section level2">
+<h2>4. Aufgabe:</h2>
+<p>Welche Flüge sind die weiteste Strecke geflogen? Welche haben die
+kürzeste Strecke zurückgelegt?</p>
+<pre class="r"><code>flights %&gt;% 
+  arrange(desc(distance))</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      857            900        -3     1516           1530
+##  2  2013     1     2      909            900         9     1525           1530
+##  3  2013     1     3      914            900        14     1504           1530
+##  4  2013     1     4      900            900         0     1516           1530
+##  5  2013     1     5      858            900        -2     1519           1530
+##  6  2013     1     6     1019            900        79     1558           1530
+##  7  2013     1     7     1042            900       102     1620           1530
+##  8  2013     1     8      901            900         1     1504           1530
+##  9  2013     1     9      641            900      1301     1242           1530
+## 10  2013     1    10      859            900        -1     1449           1530
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<pre class="r"><code>flights %&gt;% 
+  arrange(distance)</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     7    27       NA            106        NA       NA            245
+##  2  2013     1     3     2127           2129        -2     2222           2224
+##  3  2013     1     4     1240           1200        40     1333           1306
+##  4  2013     1     4     1829           1615       134     1937           1721
+##  5  2013     1     4     2128           2129        -1     2218           2224
+##  6  2013     1     5     1155           1200        -5     1241           1306
+##  7  2013     1     6     2125           2129        -4     2224           2224
+##  8  2013     1     7     2124           2129        -5     2212           2224
+##  9  2013     1     8     2127           2130        -3     2304           2225
+## 10  2013     1     9     2126           2129        -3     2217           2224
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-4" class="section level2">
+<h2>5. Aufgabe</h2>
+<p>Spielt es eine Rolle, in welcher Reihenfolge du filter() und
+arrange() verwendest, wenn du beide verwendest? Warum / warum nicht?
+Denke über die Ergebnisse und die Arbeit nach, die die Funktionen
+leisten müssten.</p>
+<p><strong>Lösung</strong> Ja, die Reihenfolge der Verwendung von
+filter() und arrange() in R spielt eine Rolle und kann zu
+unterschiedlichen Ergebnissen führen.</p>
+<p>Wenn Sie filter() vor arrange() verwenden, wird die Datensatz zuerst
+nach den Filterbedingungen reduziert und dann werden die übrig
+gebliebenen Zeilen sortiert. Dies bedeutet, dass alle Filterbedingungen
+in den sortierten Zeilen beibehalten werden.</p>
+<p>Wenn Sie jedoch arrange() vor filter() verwenden, werden zuerst die
+Zeilen sortiert und dann die Filterbedingungen angewendet. In diesem
+Fall werden die Filterbedingungen nur auf den sortierten Zeilen
+angewendet. Dies kann dazu führen, dass einige der ursprünglichen
+Filterbedingungen verletzt werden und nicht mehr erfüllt werden.</p>
+<p>Zum Beispiel, wenn Sie einen Datensatz mit Personen haben und filtern
+wollen, um nur die Personen zu behalten, die in einem bestimmten Alter
+sind, und dann nach dem Namen sortieren möchten, wäre die korrekte
+Reihenfolge filter() und dann arrange(). Wenn Sie jedoch zuerst nach
+Namen sortieren und dann nach Alter filtern, können Personen in der
+resultierenden Datensatz enthalten sein, die nicht dem ursprünglichen
+Filterkriterium entsprechen.</p>
+<p>Insgesamt hängt die richtige Reihenfolge von der Analyse ab, die Sie
+durchführen möchten, und von den Anforderungen Ihrer Daten. Wenn Sie
+unsicher sind, welche Reihenfolge für Ihre spezifische Analyse am besten
+geeignet ist, können Sie beide Methoden ausprobieren und die Ergebnisse
+vergleichen, um die beste Option für Ihre Bedürfnisse auszuwählen.</p>
+</div>
+</div>
+<div id="übung-2" class="section level1">
+<h1>Übung 2</h1>
+<div id="aufgabe-5" class="section level2">
+<h2>1. Aufgabe</h2>
+<p>Vergleiche dep_time, sched_dep_time, und dep_delay. Welchen
+Zusammenhang erwartest du zwischen diesen drei Zahlen?</p>
+<pre class="r"><code>flights %&gt;% 
+  select(dep_time, sched_dep_time, dep_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 3
+##    dep_time sched_dep_time dep_delay
+##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;
+##  1      517            515         2
+##  2      533            529         4
+##  3      542            540         2
+##  4      544            545        -1
+##  5      554            600        -6
+##  6      554            558        -4
+##  7      555            600        -5
+##  8      557            600        -3
+##  9      557            600        -3
+## 10      558            600        -2
+## # ℹ 336,766 more rows</code></pre>
+<p>dep_time bezieht sich auf die tatsächliche Abflugzeit eines Fluges,
+während sched_dep_time die geplante Abflugzeit angibt. Der dep_delay
+gibt die Verspätung bei der Abflugzeit an, die als Differenz zwischen
+dep_time und sched_dep_time berechnet wird.</p>
+<p>In Bezug auf den Zusammenhang zwischen diesen drei Variablen können
+wir erwarten, dass, wenn ein Flugzeug gemäß dem geplanten Zeitplan
+abfliegt, dep_delay gleich Null sein wird, da die Differenz zwischen
+dep_time und sched_dep_time Null sein wird. Wenn jedoch ein Flugzeug
+später als geplant abfliegt, wird dep_delay positiv sein, was bedeutet,
+dass der Abflug verzögert war.</p>
+<p>Insgesamt können wir also sagen, dass dep_time und sched_dep_time
+direkt mit dep_delay verbunden sind. Wenn ein Flug später als geplant
+abfliegt, wird die Abflugzeit (dep_time) später als die geplante
+Abflugzeit (sched_dep_time) sein, was zu einer positiven dep_delay
+führt.</p>
+</div>
+<div id="aufgabe-6" class="section level2">
+<h2>2. Aufgabe</h2>
+<p>Überlege dir so viele Möglichkeiten wie möglich, um dep_time,
+dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
+<pre class="r"><code>select(flights, dep_time, dep_delay, arr_time, arr_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, &quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, 4, 6, 7, 9)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, all_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, any_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>variables &lt;- c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)
+select(flights, all_of(variables))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+</div>
+<div id="aufgabe-7" class="section level2">
+<h2>3. Aufgabe</h2>
+<p>Was passiert, wenn man den Namen der gleichen Variable mehrmals in
+einem select()-Aufruf angibt? nichts</p>
+<pre class="r"><code>flights %&gt;% 
+  select(-c(year, year))</code></pre>
+<pre><code>## # A tibble: 336,776 × 18
+##    month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1     1     1      517            515         2      830            819
+##  2     1     1      533            529         4      850            830
+##  3     1     1      542            540         2      923            850
+##  4     1     1      544            545        -1     1004           1022
+##  5     1     1      554            600        -6      812            837
+##  6     1     1      554            558        -4      740            728
+##  7     1     1      555            600        -5      913            854
+##  8     1     1      557            600        -3      709            723
+##  9     1     1      557            600        -3      838            846
+## 10     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-8" class="section level2">
+<h2>4. Aufgabe</h2>
+<p>Was macht die Funktion any_of()?Warum könnte sie in Verbindung mit
+diesem Vektor hilfreich sein?</p>
+<p><strong>Lösung</strong> Die Funktion any_of() ist eine Funktion aus
+dem Paket dplyr, die verwendet wird, um eine Zeichenfolge (z. B. den
+Namen einer Variablen) mit einem Vektor von Spaltennamen zu vergleichen.
+Die Funktion gibt TRUE zurück, wenn die Zeichenfolge mit mindestens
+einem der Elemente des Vektors übereinstimmt, andernfalls gibt sie FALSE
+zurück.</p>
+<p>In Verbindung mit dem gegebenen Vektor variables &lt;- c(“year”,
+“month”, “day”, “dep_delay”, “arr_delay”) kann die Funktion any_of()
+verwendet werden, um zu überprüfen, ob eine bestimmte Spalte in einem
+Datensatz enthalten ist. Zum Beispiel, wenn wir einen Datensatz haben,
+der diese Spalten enthält, können wir mit der any_of()-Funktion
+überprüfen, ob eine bestimmte Spalte enthalten ist, ohne jeden
+Spaltennamen einzeln zu überprüfen.</p>
+<p>Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden
+könnte, um zu überprüfen, ob ein Datensatz Spalten mit den Namen aus dem
+Vektor variables enthält:</p>
+<pre class="r"><code># Vektor von Spaltennamen
+variables &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)
+
+# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
+selected_columns &lt;- flights %&gt;% 
+  select(any_of(variables))
+
+# Ergebnis
+selected_columns</code></pre>
+<pre><code>## # A tibble: 336,776 × 5
+##     year month   day dep_delay arr_delay
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1  2013     1     1         2        11
+##  2  2013     1     1         4        20
+##  3  2013     1     1         2        33
+##  4  2013     1     1        -1       -18
+##  5  2013     1     1        -6       -25
+##  6  2013     1     1        -4        12
+##  7  2013     1     1        -5        19
+##  8  2013     1     1        -3       -14
+##  9  2013     1     1        -3        -8
+## 10  2013     1     1        -2         8
+## # ℹ 336,766 more rows</code></pre>
+</div>
+<div id="aufgabe-9" class="section level2">
+<h2>5. Aufgabe</h2>
+<p>Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die
+Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie
+kannst du diese Voreinstellung ändern?</p>
+<pre class="r"><code>flights %&gt;% select(contains(&quot;TIME&quot;))</code></pre>
+<pre><code>## # A tibble: 336,776 × 6
+##    dep_time sched_dep_time arr_time sched_arr_time air_time time_hour          
+##       &lt;int&gt;          &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;dbl&gt; &lt;dttm&gt;             
+##  1      517            515      830            819      227 2013-01-01 05:00:00
+##  2      533            529      850            830      227 2013-01-01 05:00:00
+##  3      542            540      923            850      160 2013-01-01 05:00:00
+##  4      544            545     1004           1022      183 2013-01-01 05:00:00
+##  5      554            600      812            837      116 2013-01-01 06:00:00
+##  6      554            558      740            728      150 2013-01-01 05:00:00
+##  7      555            600      913            854      158 2013-01-01 06:00:00
+##  8      557            600      709            723       53 2013-01-01 06:00:00
+##  9      557            600      838            846      140 2013-01-01 06:00:00
+## 10      558            600      753            745      138 2013-01-01 06:00:00
+## # ℹ 336,766 more rows</code></pre>
+<p>Die contains()-Funktion wählt alle Spalten aus, die einen bestimmten
+String in ihrem Namen enthalten. Die contains()-Funktion ist
+standardmäßig nicht casesensitive, d.h. sie unterscheidet nicht zwischen
+Groß- und Kleinschreibung. Das bedeutet, dass alle Spalten ausgewählt
+werden, die den String “TIME”, “time” oder “Time” im Namen
+enthalten.</p>
+<p>Wenn Sie jedoch eine Funktion verwenden möchten, die casesensitive
+ist, können Sie die matches()-Funktion anstelle von contains() verwenden
+und einen regulären Ausdruck (Regex) als Argument übergeben, um die
+Groß- und Kleinschreibung zu steuern.</p>
+</div>
+<div id="aufgabe-10" class="section level2">
+<h2>6. Aufgabe</h2>
+<p>Benenne air_time in air_time_min um, um die Maßeinheiten anzugeben
+und verschiebe es an den Anfang des Datensatzes.</p>
+<pre class="r"><code># air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben
+flights %&gt;% 
+  rename(air_time_min = air_time) %&gt;% 
+  relocate(air_time_min)</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##    air_time_min  year month   day dep_time sched_dep_time dep_delay arr_time
+##           &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1          227  2013     1     1      517            515         2      830
+##  2          227  2013     1     1      533            529         4      850
+##  3          160  2013     1     1      542            540         2      923
+##  4          183  2013     1     1      544            545        -1     1004
+##  5          116  2013     1     1      554            600        -6      812
+##  6          150  2013     1     1      554            558        -4      740
+##  7          158  2013     1     1      555            600        -5      913
+##  8           53  2013     1     1      557            600        -3      709
+##  9          140  2013     1     1      557            600        -3      838
+## 10          138  2013     1     1      558            600        -2      753
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-11" class="section level2">
+<h2>7. Aufgabe</h2>
+<p>Warum funktioniert das Folgende nicht, und was bedeutet der
+Fehler?</p>
+<p><strong>Lösung</strong> Der Code führt zu einem Fehler, weil Sie
+arrange() auf eine Spalte anwenden, die in der aktuellen Pipeline nicht
+vorhanden ist.</p>
+<p>In Ihrer Pipeline haben Sie nur die Spalte tailnum ausgewählt und
+arrange() wurde auf dieser reduzierten Datenmenge angewendet. Da
+arr_delay nicht in den ausgewählten Spalten enthalten ist, gibt es eine
+Fehlermeldung, wenn arrange() versucht, den Datensatz basierend auf
+dieser Spalte zu ordnen.</p>
+<p>Um den Fehler zu beheben, müssen Sie sicherstellen, dass arr_delay in
+der aktuellen Pipeline verfügbar ist. Sie können beispielsweise die
+Spalte arr_delay mit select() auswählen, bevor Sie arrange()
+anwenden:</p>
+<pre class="r"><code>flights %&gt;%
+  select(tailnum, arr_delay) %&gt;%  # arr_delay auswählen
+  arrange(arr_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 2
+##    tailnum arr_delay
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 N843VA        -86
+##  2 N840VA        -79
+##  3 N851UA        -75
+##  4 N3KCAA        -75
+##  5 N551AS        -74
+##  6 N24212        -73
+##  7 N3760C        -71
+##  8 N806UA        -71
+##  9 N805JB        -71
+## 10 N855VA        -70
+## # ℹ 336,766 more rows</code></pre>
+</div>
+</div>
+<div id="übung-3" class="section level1">
+<h1>Übung 3</h1>
+<div id="aufgabe-12" class="section level2">
+<h2>1.Aufgabe</h2>
+<p>Welcher Anbieter hat die schlechtesten durchschnittlichen
+Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten
+Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum
+nicht? (Tipp: denke darüber nach:
+<code>flights %&gt;% group_by(carrier, dest) %&gt;% summarize(n())</code>).</p>
+<p>Um den Anbieter mit den schlechtesten durchschnittlichen Verspätungen
+zu finden, können wir den flights-Datensatz gruppieren und die
+durchschnittlichen Verspätungen für jeden Anbieter berechnen. Hier ist
+ein Beispielcode, der dies tut:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(avg_delay = mean(arr_delay, na.rm = TRUE)) %&gt;%
+  arrange(desc(avg_delay))</code></pre>
+<pre><code>## # A tibble: 16 × 2
+##    carrier avg_delay
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 F9         21.9  
+##  2 FL         20.1  
+##  3 EV         15.8  
+##  4 YV         15.6  
+##  5 OO         11.9  
+##  6 MQ         10.8  
+##  7 WN          9.65 
+##  8 B6          9.46 
+##  9 9E          7.38 
+## 10 UA          3.56 
+## 11 US          2.13 
+## 12 VX          1.76 
+## 13 DL          1.64 
+## 14 AA          0.364
+## 15 HA         -6.92 
+## 16 AS         -9.93</code></pre>
+<pre class="r"><code>filter(airlines, carrier == &quot;F9&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   carrier name                  
+##   &lt;chr&gt;   &lt;chr&gt;                 
+## 1 F9      Frontier Airlines Inc.</code></pre>
+<p>Dieser Code gruppiert den flights-Datensatz nach dem Anbieter und
+berechnet den durchschnittlichen Verspätungswert für jeden Anbieter. Das
+na.rm = TRUE -Argument sorgt dafür, dass alle fehlenden Werte in der
+arr_delay Spalte ignoriert werden. Wir ordnen die Ergebnisse dann nach
+dem avg_delay Wert, um den Anbieter mit den schlechtesten
+durchschnittlichen Verspätungen zu finden.</p>
+<p>Um die Auswirkungen von schlechten Flughäfen und schlechten Anbietern
+auseinanderzuhalten, müssen wir Airline, Abflugort und Ankunftsort
+berücksichtigen.</p>
+<pre class="r"><code>flights %&gt;%
+  summarise(carrier_n = n_distinct(carrier),
+            origin_n = n_distinct(origin),
+            dest_n = n_distinct(dest))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   carrier_n origin_n dest_n
+##       &lt;int&gt;    &lt;int&gt;  &lt;int&gt;
+## 1        16        3    105</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  # Total delay by carrier within each origin, dest
+  group_by(origin, dest, carrier) %&gt;%
+  summarise(
+    arr_delay_odc_sum = sum(arr_delay),
+    flights_odc = n()) %&gt;%
+  # Total delay within each origin dest
+  mutate(
+    arr_delay_od_sum = sum(arr_delay_odc_sum),
+    flights_od = sum(flights_odc)) %&gt;%
+  # average delay of each carrier - average delay of other carriers
+  ungroup() %&gt;%
+  mutate(
+    arr_delay_others = (arr_delay_od_sum - arr_delay_odc_sum) / (flights_od - flights_odc),
+    arr_delay_mean = arr_delay_odc_sum / flights_odc,
+    arr_delay_diff = arr_delay_mean - arr_delay_others) %&gt;%
+  # remove NaN values (when there is only one carrier)
+  filter(is.finite(arr_delay_diff)) %&gt;%
+  # average over all airports it flies to
+  group_by(carrier) %&gt;%
+  summarise(arr_delay_diff = mean(arr_delay_diff)) %&gt;%
+  ggplot(aes(x=carrier, y=arr_delay_diff)) + 
+    geom_bar(stat = &quot;identity&quot;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;origin&#39;, &#39;dest&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<p><img src="Loesungen_Vorlage_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-13" class="section level2">
+<h2>2.Aufgabe</h2>
+<p>Finde die Flüge, die bei der Abreise von jedem Zielort am meisten
+verspätet sind.</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(dest) %&gt;% 
+  slice_max(dep_delay, n = 1) %&gt;% 
+  relocate(dest)</code></pre>
+<pre><code>## # A tibble: 105 × 19
+## # Groups:   dest [105]
+##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 ABQ    2013    12    14     2223           2001       142      133
+##  2 ACK    2013     7    23     1139            800       219     1250
+##  3 ALB    2013     1    25      123           2000       323      229
+##  4 ANC    2013     8    17     1740           1625        75     2042
+##  5 ATL    2013     7    22     2257            759       898      121
+##  6 AUS    2013     7    10     2056           1505       351     2347
+##  7 AVL    2013     6    14     1158            816       222     1335
+##  8 BDL    2013     2    21     1728           1316       252     1839
+##  9 BGR    2013    12     1     1504           1056       248     1628
+## 10 BHM    2013     4    10       25           1900       325      136
+## # ℹ 95 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-14" class="section level2">
+<h2>3.Aufgabe</h2>
+<p>Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine
+Antwort mit einem Diagramm.</p>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  group_by(hour) %&gt;%
+  summarise(avg_arr_delay = mean(arr_delay)) %&gt;%
+  ggplot(aes(x = hour, y = avg_arr_delay)) +
+  geom_line() +
+  labs(x = &quot;Stunde des Tages&quot;, y = &quot;Durchschnittliche Ankunftsverspätung (Minuten)&quot;)</code></pre>
+<p><img src="Loesungen_Vorlage_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-15" class="section level2">
+<h2>4.Aufgabe</h2>
+<p>Was passiert, wenn du slice_min() und verwandten Funktionen eine
+negative <code>n</code> lieferst?</p>
+<pre class="r"><code>flights %&gt;% 
+  slice_min(dep_delay, n = -1, with_ties = F)</code></pre>
+<pre><code>## # A tibble: 336,775 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013    12     7     2040           2123       -43       40           2352
+##  2  2013     2     3     2022           2055       -33     2240           2338
+##  3  2013    11    10     1408           1440       -32     1549           1559
+##  4  2013     1    11     1900           1930       -30     2233           2243
+##  5  2013     1    29     1703           1730       -27     1947           1957
+##  6  2013     8     9      729            755       -26     1002            955
+##  7  2013    10    23     1907           1932       -25     2143           2143
+##  8  2013     3    30     2030           2055       -25     2213           2250
+##  9  2013     3     2     1431           1455       -24     1601           1631
+## 10  2013     5     5      934            958       -24     1225           1309
+## # ℹ 336,765 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Es werden <code>n</code> Zeilen entfernt.</p>
+</div>
+<div id="aufgabe-16" class="section level2">
+<h2>5.Aufgabe</h2>
+<p>Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du
+gerade gelernt hast. Was macht das sort-Argument von count()?</p>
+<p>count() ist ein dplyr-Verb, das verwendet wird, um die Anzahl der
+Vorkommen von eindeutigen Werten in einer oder mehreren Spalten zu
+zählen und eine Zusammenfassung des Ergebnisses zurückzugeben. count()
+kann auch in Verbindung mit anderen dplyr-Verben wie group_by(),
+summarize() und slice() verwendet werden, um die Ergebnisse weiter zu
+manipulieren.</p>
+</div>
+<div id="aufgabe-17" class="section level2">
+<h2>6.Aufgabe</h2>
+<p>Angenommen, wir haben den folgenden winzigen Datensatz:</p>
+<pre><code>```r
+df &lt;- tibble(
+  x = 1:5,
+  y = c(&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;),
+  z = c(&quot;K&quot;, &quot;K&quot;, &quot;L&quot;, &quot;L&quot;, &quot;K&quot;)
+)
+```</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt
+mit eigenen Worten, was <code>group_by()</code> tut.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+## # Groups:   y [2]
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     2 b     K    
+## 3     3 a     L    
+## 4     4 a     L    
+## 5     5 b     K</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was <code>arrange()</code> tut. Kommentiere auch,
+inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a)
+unterscheidet.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+arrange(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     3 a     L    
+## 3     4 a     L    
+## 4     2 b     K    
+## 5     5 b     K</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   y     mean_x
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a       2.67
+## 2 b       3.5</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der
+Konsole?</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output
+von Frage 6d.</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x), .groups = &quot;drop&quot;)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<ol start="6" style="list-style-type: lower-alpha">
+<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden
+pipelines?</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+mutate(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 5 × 4
+## # Groups:   y, z [3]
+##       x y     z     mean_x
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1     1 a     K        1  
+## 2     2 b     K        3.5
+## 3     3 a     L        3.5
+## 4     4 a     L        3.5
+## 5     5 b     K        3.5</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

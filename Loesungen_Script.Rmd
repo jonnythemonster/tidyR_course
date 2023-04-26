@@ -1,0 +1,113 @@
+---
+title: "Lösungen"
+output:
+  html_document:
+    css: style.css
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    #code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+# Voraussetzungen
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+# Übung 1
+
+## 1. Aufgabe
+Finde in einer einzelnen Pipeline alle Flüge, die jeweils die eine genannte Bedingungen erfüllen:
+
+  a. Hatten eine Ankunftsverspätung von zwei oder mehr Stunden
+      ```{r}
+      flights %>%
+        filter(arr_delay >= 120)
+      ```
+
+  b. Fliegen nach Houston (IAH oder HOU)
+      ```{r}
+      flights %>%
+        filter(dest %in% c("IAH", "HOU"))
+      ```
+
+  c. Wurden von United, American oder Delta durchgeführt
+      ```{r}
+      flights %>%
+        filter(carrier %in% c("UA", "AA", "DL"))
+      ```
+
+  d. Sind im Sommer abgeflogen (Juli, August und September)
+      ```{r}
+      flights %>%
+        filter(month %in% c(7, 8, 9))
+      ```
+
+  e. Sind mehr als zwei Stunden zu spät angekommen, sind aber nicht zu spät abgeflogen
+      ```{r}
+      flights %>%
+        filter(arr_delay > 120 & dep_delay <= 0)
+      ```
+
+  f. Waren um mindestens eine Stunde verspätet, haben aber während des Fluges mehr als 30 Minuten aufgeholt
+      ```{r}
+      flights %>%
+        filter(dep_delay >= 60 & (dep_delay - arr_delay) > 30)
+      ```
+
+## 2. Aufgabe
+Sortiere die Flüge, um die Flüge mit den längsten Abflugverspätungen zu finden. Finde die Flüge, die am frühesten am Morgen abgeflogen sind.
+```{r}
+flights %>%
+  arrange(desc(dep_delay))
+```
+
+```{r}
+flights %>%
+  arrange(dep_time)
+```
+
+## 3. Aufgabe
+Sortiere die Flüge, um die schnellsten Flüge zu finden. (Tipp: Versuche eine mathematische Berechnung in deiner Funktion zu verwenden.)
+```{r}
+flights %>%
+  arrange(desc(distance / air_time * 60))
+```
+
+Wenn man die Geschwindigkeit noch sehen möchte:
+```{r}
+flights %>% 
+  mutate(speed = (distance * 1.609 / air_time * 60)) %>% 
+  arrange(speed) %>% 
+  relocate(speed)
+```
+
+
+## 4. Aufgabe
+Welche Flüge sind die weiteste Strecke geflogen? Welche haben die kürzeste Strecke zurückgelegt?
+```{r}
+flights %>% 
+  arrange(desc(distance))
+```
+
+```{r}
+flights %>% 
+  arrange(distance)
+```
+
+## 5. Aufgabe
+Spielt es eine Rolle, in welcher Reihenfolge du `filter()` und `arrange()` verwendest, wenn du beide verwendest? Warum / warum nicht? Denke über die Ergebnisse und die Arbeit nach, die die Funktionen leisten müssten.
+
+**Lösung**
+Ja, die Reihenfolge der Verwendung von `filter()` und `arrange()` in R spielt eine Rolle und kann zu unterschiedlichen Ergebnissen führen. Wenn du `filter()` vor `arrange()` verwendest, wird dein Datensatz zuerst nach den Filterbedingungen reduziert und dann sortiert. Das bedeutet, dass alle Filterbedingungen in den sortierten Zeilen beibehalten werden. Wenn du jedoch `arrange()` vor `filter()` verwendest, werden zuerst die Zeilen sortiert und dann die Filterbedingungen angewendet. In diesem Fall können einige der ursprünglichen Filterbedingungen verletzt werden und nicht mehr erfüllt werden.
+
+Ein Beispiel: Du hast einen Datensatz mit Personen und möchtest nur diejenigen behalten, die in einem bestimmten Alter sind und dann nach Namen sortieren. Die richtige Reihenfolge wäre `filter()` und dann `arrange()`. Wenn du jedoch zuerst nach Namen sortierst und dann nach Alter filterst, können Personen im Ergebnis enthalten sein, die nicht dem ursprünglichen Filterkriterium entsprechen.
+
+Letztendlich hängt die richtige Reihenfolge von der Analyse ab, die du durchführen möchtest, und von den Anforderungen deiner Daten. Wenn du unsicher bist, welche Reihenfolge für deine spezifische Analyse am besten geeignet ist, probiere beide Methoden aus und vergleiche die Ergebnisse, um die beste Option für deine Bedürfnisse zu wählen.
