@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jonas Trautner" />
 
-<meta name="date" content="2023-04-26" />
+<meta name="date" content="2023-05-16" />
 
 <title>Lösungen</title>
 
@@ -35,8 +35,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -47,18 +45,110 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -341,15 +431,15 @@ div.tocify {
 
 <h1 class="title toc-ignore">Lösungen</h1>
 <h4 class="author">Jonas Trautner</h4>
-<h4 class="date">2023-04-26</h4>
+<h4 class="date">2023-05-16</h4>
 
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-04-26</p>
-<pre class="r"><code># Verwendete Pakete
-library(nycflights13)
-library(tidyverse)</code></pre>
+<p>Sommersemester 2023 | Stand: 2023-05-16</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verwendete Pakete</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <div id="übung-1" class="section level1">
 <h1>Übung 1</h1>
 <div id="aufgabe" class="section level2">
@@ -368,8 +458,8 @@ spät abgeflogen</li>
 Fluges mehr als 30 Minuten aufgeholt</li>
 </ul></li>
 </ol>
-<pre class="r"><code>flights %&gt;%
-  filter(arr_delay &gt;= 120)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(arr_delay <span class="sc">&gt;=</span> <span class="dv">120</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10,200 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -387,8 +477,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(dest %in% c(&quot;IAH&quot;, &quot;HOU&quot;))</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;IAH&quot;</span>, <span class="st">&quot;HOU&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 9,313 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -406,8 +496,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(carrier %in% c(&quot;UA&quot;, &quot;AA&quot;, &quot;DL&quot;))</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(carrier <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;UA&quot;</span>, <span class="st">&quot;AA&quot;</span>, <span class="st">&quot;DL&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 139,504 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -425,8 +515,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(month %in% c(7, 8, 9))</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 86,326 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -444,8 +534,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(arr_delay &gt; dep_delay &amp; dep_delay &lt;= 0)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(arr_delay <span class="sc">&gt;</span> dep_delay <span class="sc">&amp;</span> dep_delay <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 57,278 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -463,8 +553,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(dep_delay &gt;= 60 &amp; (dep_delay - arr_delay) &gt; 30)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep_delay <span class="sc">&gt;=</span> <span class="dv">60</span> <span class="sc">&amp;</span> (dep_delay <span class="sc">-</span> arr_delay) <span class="sc">&gt;</span> <span class="dv">30</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1,844 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -488,8 +578,8 @@ Fluges mehr als 30 Minuten aufgeholt</li>
 <p>Sortiere die Flüge, um die Flüge mit den längsten Abflugverspätungen
 zu finden. Finde die Flüge, die am frühesten am Morgen abgeflogen
 sind.</p>
-<pre class="r"><code>flights %&gt;%
-  arrange(desc(dep_delay))</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(dep_delay))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -507,8 +597,8 @@ sind.</p>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;%
-  arrange(dep_time)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(dep_time)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -532,8 +622,8 @@ sind.</p>
 <p>Sortiere die Flüge, um die schnellsten Flüge zu finden. (Tipp:
 Versuche eine mathematische Berechnung in deiner Funktion zu
 verwenden.)</p>
-<pre class="r"><code>flights %&gt;%
-  arrange(desc(distance / air_time * 60))</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -556,8 +646,8 @@ verwenden.)</p>
 <h2>4. Aufgabe:</h2>
 <p>Welche Flüge sind die weiteste Strecke geflogen? Welche haben die
 kürzeste Strecke zurückgelegt?</p>
-<pre class="r"><code>flights %&gt;% 
-  arrange(desc(distance))</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(distance))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -575,8 +665,8 @@ kürzeste Strecke zurückgelegt?</p>
 ## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
 ## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;% 
-  arrange(distance)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(distance)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -633,8 +723,8 @@ vergleichen, um die beste Option für Ihre Bedürfnisse auszuwählen.</p>
 <h2>1. Aufgabe</h2>
 <p>Vergleiche dep_time, sched_dep_time, und dep_delay. Welchen
 Zusammenhang erwartest du zwischen diesen drei Zahlen?</p>
-<pre class="r"><code>flights %&gt;% 
-  select(dep_time, sched_dep_time, dep_delay)</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(dep_time, sched_dep_time, dep_delay)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 3
 ##    dep_time sched_dep_time dep_delay
 ##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;
@@ -669,7 +759,7 @@ führt.</p>
 <h2>2. Aufgabe</h2>
 <p>Überlege dir so viele Möglichkeiten wie möglich, um dep_time,
 dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
-<pre class="r"><code>select(flights, dep_time, dep_delay, arr_time, arr_delay)</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, dep_time, dep_delay, arr_time, arr_delay)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -684,7 +774,7 @@ dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
 ##  9      557        -3      838        -8
 ## 10      558        -2      753         8
 ## # ℹ 336,766 more rows</code></pre>
-<pre class="r"><code>select(flights, &quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, <span class="st">&quot;dep_time&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_time&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -699,7 +789,7 @@ dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
 ##  9      557        -3      838        -8
 ## 10      558        -2      753         8
 ## # ℹ 336,766 more rows</code></pre>
-<pre class="r"><code>select(flights, 4, 6, 7, 9)</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -714,7 +804,7 @@ dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
 ##  9      557        -3      838        -8
 ## 10      558        -2      753         8
 ## # ℹ 336,766 more rows</code></pre>
-<pre class="r"><code>select(flights, all_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, <span class="fu">all_of</span>(<span class="fu">c</span>(<span class="st">&quot;dep_time&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_time&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -729,7 +819,7 @@ dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
 ##  9      557        -3      838        -8
 ## 10      558        -2      753         8
 ## # ℹ 336,766 more rows</code></pre>
-<pre class="r"><code>select(flights, any_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, <span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">&quot;dep_time&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_time&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -744,8 +834,8 @@ dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
 ##  9      557        -3      838        -8
 ## 10      558        -2      753         8
 ## # ℹ 336,766 more rows</code></pre>
-<pre class="r"><code>variables &lt;- c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)
-select(flights, all_of(variables))</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;dep_time&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_time&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, <span class="fu">all_of</span>(variables))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 4
 ##    dep_time dep_delay arr_time arr_delay
 ##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -765,8 +855,8 @@ select(flights, all_of(variables))</code></pre>
 <h2>3. Aufgabe</h2>
 <p>Was passiert, wenn man den Namen der gleichen Variable mehrmals in
 einem select()-Aufruf angibt? nichts</p>
-<pre class="r"><code>flights %&gt;% 
-  select(-c(year, year))</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(year, year))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 18
 ##    month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -805,15 +895,15 @@ Spaltennamen einzeln zu überprüfen.</p>
 <p>Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden
 könnte, um zu überprüfen, ob ein Datensatz Spalten mit den Namen aus dem
 Vektor variables enthält:</p>
-<pre class="r"><code># Vektor von Spaltennamen
-variables &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)
-
-# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
-selected_columns &lt;- flights %&gt;% 
-  select(any_of(variables))
-
-# Ergebnis
-selected_columns</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vektor von Spaltennamen</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(variables))</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ergebnis</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>selected_columns</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 5
 ##     year month   day dep_delay arr_delay
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -834,7 +924,7 @@ selected_columns</code></pre>
 <p>Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die
 Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie
 kannst du diese Voreinstellung ändern?</p>
-<pre class="r"><code>flights %&gt;% select(contains(&quot;TIME&quot;))</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;TIME&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 6
 ##    dep_time sched_dep_time arr_time sched_arr_time air_time time_hour          
 ##       &lt;int&gt;          &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;dbl&gt; &lt;dttm&gt;             
@@ -864,10 +954,10 @@ Groß- und Kleinschreibung zu steuern.</p>
 <h2>6. Aufgabe</h2>
 <p>Benenne air_time in air_time_min um, um die Maßeinheiten anzugeben
 und verschiebe es an den Anfang des Datensatzes.</p>
-<pre class="r"><code># air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben
-flights %&gt;% 
-  rename(air_time_min = air_time) %&gt;% 
-  relocate(air_time_min)</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">air_time_min =</span> air_time) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(air_time_min)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ##    air_time_min  year month   day dep_time sched_dep_time dep_delay arr_time
 ##           &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
@@ -902,9 +992,9 @@ dieser Spalte zu ordnen.</p>
 der aktuellen Pipeline verfügbar ist. Sie können beispielsweise die
 Spalte arr_delay mit select() auswählen, bevor Sie arrange()
 anwenden:</p>
-<pre class="r"><code>flights %&gt;%
-  select(tailnum, arr_delay) %&gt;%  # arr_delay auswählen
-  arrange(arr_delay)</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tailnum, arr_delay) <span class="sc">%&gt;%</span>  <span class="co"># arr_delay auswählen</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(arr_delay)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 2
 ##    tailnum arr_delay
 ##    &lt;chr&gt;       &lt;dbl&gt;
@@ -934,10 +1024,10 @@ nicht? (Tipp: denke darüber nach:
 zu finden, können wir den flights-Datensatz gruppieren und die
 durchschnittlichen Verspätungen für jeden Anbieter berechnen. Hier ist
 ein Beispielcode, der dies tut:</p>
-<pre class="r"><code>flights %&gt;%
-  group_by(carrier) %&gt;%
-  summarize(avg_delay = mean(arr_delay, na.rm = TRUE)) %&gt;%
-  arrange(desc(avg_delay))</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(carrier) <span class="sc">%&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_delay =</span> <span class="fu">mean</span>(arr_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_delay))</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 2
 ##    carrier avg_delay
 ##    &lt;chr&gt;       &lt;dbl&gt;
@@ -957,7 +1047,7 @@ ein Beispielcode, der dies tut:</p>
 ## 14 AA          0.364
 ## 15 HA         -6.92 
 ## 16 AS         -9.93</code></pre>
-<pre class="r"><code>filter(airlines, carrier == &quot;F9&quot;)</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(airlines, carrier <span class="sc">==</span> <span class="st">&quot;F9&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 2
 ##   carrier name                  
 ##   &lt;chr&gt;   &lt;chr&gt;                 
@@ -971,38 +1061,38 @@ durchschnittlichen Verspätungen zu finden.</p>
 <p>Um die Auswirkungen von schlechten Flughäfen und schlechten Anbietern
 auseinanderzuhalten, müssen wir Airline, Abflugort und Ankunftsort
 berücksichtigen.</p>
-<pre class="r"><code>flights %&gt;%
-  summarise(carrier_n = n_distinct(carrier),
-            origin_n = n_distinct(origin),
-            dest_n = n_distinct(dest))</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">carrier_n =</span> <span class="fu">n_distinct</span>(carrier),</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">origin_n =</span> <span class="fu">n_distinct</span>(origin),</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">dest_n =</span> <span class="fu">n_distinct</span>(dest))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   carrier_n origin_n dest_n
 ##       &lt;int&gt;    &lt;int&gt;  &lt;int&gt;
 ## 1        16        3    105</code></pre>
-<pre class="r"><code>flights %&gt;%
-  filter(!is.na(arr_delay)) %&gt;%
-  # Total delay by carrier within each origin, dest
-  group_by(origin, dest, carrier) %&gt;%
-  summarise(
-    arr_delay_odc_sum = sum(arr_delay),
-    flights_odc = n()) %&gt;%
-  # Total delay within each origin dest
-  mutate(
-    arr_delay_od_sum = sum(arr_delay_odc_sum),
-    flights_od = sum(flights_odc)) %&gt;%
-  # average delay of each carrier - average delay of other carriers
-  ungroup() %&gt;%
-  mutate(
-    arr_delay_others = (arr_delay_od_sum - arr_delay_odc_sum) / (flights_od - flights_odc),
-    arr_delay_mean = arr_delay_odc_sum / flights_odc,
-    arr_delay_diff = arr_delay_mean - arr_delay_others) %&gt;%
-  # remove NaN values (when there is only one carrier)
-  filter(is.finite(arr_delay_diff)) %&gt;%
-  # average over all airports it flies to
-  group_by(carrier) %&gt;%
-  summarise(arr_delay_diff = mean(arr_delay_diff)) %&gt;%
-  ggplot(aes(x=carrier, y=arr_delay_diff)) + 
-    geom_bar(stat = &quot;identity&quot;)</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(arr_delay)) <span class="sc">%&gt;%</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Total delay by carrier within each origin, dest</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin, dest, carrier) <span class="sc">%&gt;%</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay_odc_sum =</span> <span class="fu">sum</span>(arr_delay),</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">flights_odc =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Total delay within each origin dest</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay_od_sum =</span> <span class="fu">sum</span>(arr_delay_odc_sum),</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">flights_od =</span> <span class="fu">sum</span>(flights_odc)) <span class="sc">%&gt;%</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># average delay of each carrier - average delay of other carriers</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay_others =</span> (arr_delay_od_sum <span class="sc">-</span> arr_delay_odc_sum) <span class="sc">/</span> (flights_od <span class="sc">-</span> flights_odc),</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay_mean =</span> arr_delay_odc_sum <span class="sc">/</span> flights_odc,</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay_diff =</span> arr_delay_mean <span class="sc">-</span> arr_delay_others) <span class="sc">%&gt;%</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove NaN values (when there is only one carrier)</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.finite</span>(arr_delay_diff)) <span class="sc">%&gt;%</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># average over all airports it flies to</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(carrier) <span class="sc">%&gt;%</span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">arr_delay_diff =</span> <span class="fu">mean</span>(arr_delay_diff)) <span class="sc">%&gt;%</span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>carrier, <span class="at">y=</span>arr_delay_diff)) <span class="sc">+</span> </span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;origin&#39;, &#39;dest&#39;. You can override using the `.groups`
 ## argument.</code></pre>
 <p><img src="Loesungen_Vorlage_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
@@ -1011,10 +1101,10 @@ berücksichtigen.</p>
 <h2>2.Aufgabe</h2>
 <p>Finde die Flüge, die bei der Abreise von jedem Zielort am meisten
 verspätet sind.</p>
-<pre class="r"><code>flights %&gt;% 
-  group_by(dest) %&gt;% 
-  slice_max(dep_delay, n = 1) %&gt;% 
-  relocate(dest)</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(dep_delay, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dest)</span></code></pre></div>
 <pre><code>## # A tibble: 105 × 19
 ## # Groups:   dest [105]
 ##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
@@ -1038,21 +1128,21 @@ verspätet sind.</p>
 <h2>3.Aufgabe</h2>
 <p>Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine
 Antwort mit einem Diagramm.</p>
-<pre class="r"><code>flights %&gt;%
-  filter(!is.na(arr_delay)) %&gt;%
-  group_by(hour) %&gt;%
-  summarise(avg_arr_delay = mean(arr_delay)) %&gt;%
-  ggplot(aes(x = hour, y = avg_arr_delay)) +
-  geom_line() +
-  labs(x = &quot;Stunde des Tages&quot;, y = &quot;Durchschnittliche Ankunftsverspätung (Minuten)&quot;)</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(arr_delay)) <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hour) <span class="sc">%&gt;%</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_arr_delay =</span> <span class="fu">mean</span>(arr_delay)) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> hour, <span class="at">y =</span> avg_arr_delay)) <span class="sc">+</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Stunde des Tages&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Durchschnittliche Ankunftsverspätung (Minuten)&quot;</span>)</span></code></pre></div>
 <p><img src="Loesungen_Vorlage_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 <div id="aufgabe-15" class="section level2">
 <h2>4.Aufgabe</h2>
 <p>Was passiert, wenn du slice_min() und verwandten Funktionen eine
 negative <code>n</code> lieferst?</p>
-<pre class="r"><code>flights %&gt;% 
-  slice_min(dep_delay, n = -1, with_ties = F)</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(dep_delay, <span class="at">n =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">with_ties =</span> F)</span></code></pre></div>
 <pre><code>## # A tibble: 336,775 × 19
 ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
@@ -1094,11 +1184,14 @@ df &lt;- tibble(
 )
 ```</code></pre>
 <ol style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt
-mit eigenen Worten, was <code>group_by()</code> tut.</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-group_by(y)</code></pre>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe
+zuletzt mit eigenen Worten, was <code>group_by()</code> tut.</p>
+<p>Die Ausgabe wird die gruppierten Daten nach der Spalte “y” zeigen.
+Die <code>group_by()</code>-Funktion teilt den Datensatz in separate
+Gruppen basierend auf den eindeutigen Werten in der angegebenen
+Spalte.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 3
 ## # Groups:   y [2]
 ##       x y     z    
@@ -1107,15 +1200,18 @@ group_by(y)</code></pre>
 ## 2     2 b     K    
 ## 3     3 a     L    
 ## 4     4 a     L    
-## 5     5 b     K</code></pre>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+## 5     5 b     K</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
 eigenen Worten, was <code>arrange()</code> tut. Kommentiere auch,
 inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a)
-unterscheidet.</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-arrange(y)</code></pre>
+unterscheidet.</p>
+<p>Die Ausgabe wird den Datensatz nach der Spalte “y” sortiert zeigen.
+Die <code>arrange()</code>-Funktion sortiert den Datensatz nach den
+angegebenen Spalten in aufsteigender Reihenfolge. Im Vergleich zu
+<code>group_by()</code> werden die Daten nicht gruppiert, sondern nur
+sortiert.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(y)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 3
 ##       x y     z    
 ##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -1123,27 +1219,34 @@ arrange(y)</code></pre>
 ## 2     3 a     L    
 ## 3     4 a     L    
 ## 4     2 b     K    
-## 5     5 b     K</code></pre>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
-eigenen Worten, was die pipeline tut.</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-group_by(y) %&gt;%
-summarize(mean_x = mean(x))</code></pre>
+## 5     5 b     K</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut.</p>
+<p>Die Ausgabe wird die aggregierten Daten nach der Spalte “y” mit der
+durchschnittlichen “x”-Wert für jede Gruppe zeigen. Die Pipeline führt
+eine Gruppierung nach “y” durch und berechnet dann den Durchschnitt von
+“x” für jede Gruppe mit der <code>summarize()</code>-Funktion.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ##   y     mean_x
 ##   &lt;chr&gt;  &lt;dbl&gt;
 ## 1 a       2.67
-## 2 b       3.5</code></pre>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+## 2 b       3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
 eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der
-Konsole?</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-group_by(y, z) %&gt;%
-summarize(mean_x = mean(x))</code></pre>
+Konsole?</p>
+<p>Die Ausgabe wird die aggregierten Daten nach den Spalten “y” und “z”
+zeigen, wobei der Durchschnitt von “x” für jede Kombination der beiden
+Gruppen berechnet wird. Die Nachricht in der Konsole lautet “Adding
+missing grouping variables: <code>z</code>”. Dies bedeutet, dass die
+Spalte “z” zur Gruppierung hinzugefügt wurde, da sie in der
+<code>summarize()</code>-Funktion verwendet wurde, aber nicht in der
+<code>group_by()</code>-Funktion angegeben war.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">%&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
 ## argument.</code></pre>
 <pre><code>## # A tibble: 3 × 3
@@ -1152,29 +1255,39 @@ summarize(mean_x = mean(x))</code></pre>
 ##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1 a     K        1  
 ## 2 a     L        3.5
-## 3 b     K        3.5</code></pre>
-<ol start="5" style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+## 3 b     K        3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
 eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output
-von Frage 6d.</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-group_by(y, z) %&gt;%
-summarize(mean_x = mean(x), .groups = &quot;drop&quot;)</code></pre>
+von Frage 6d.</p>
+<p>Die Ausgabe wird die aggregierten Daten nach den Spalten “y” und “z”
+zeigen, wobei der Durchschnitt von “x” für jede Kombination der beiden
+Gruppen berechnet wird. Der Unterschied zu Frage 6d besteht darin, dass
+der Parameter <code>.groups = "drop"</code> hinzugefügt wurde, um die
+Gruppierungsattribute aus der Ausgabe zu entfernen.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">%&gt;%</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   y     z     mean_x
 ##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
 ## 1 a     K        1  
 ## 2 a     L        3.5
-## 3 b     K        3.5</code></pre>
-<ol start="6" style="list-style-type: lower-alpha">
-<li>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
-eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden
-pipelines?</li>
-</ol>
-<pre class="r"><code>df %&gt;%
-group_by(y, z) %&gt;%
-summarize(mean_x = mean(x))</code></pre>
+## 3 b     K        3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheiden sich die beiden
+pipelines?</p>
+<p>Die erste Pipeline wird die aggregierten Daten nach den Spalten “y”
+und “z” zeigen, wobei der Durchschnitt von “x” für jede Kombination der
+beiden Gruppen berechnet wird. Die zweite Pipeline wird eine neue Spalte
+“mean_x” hinzufügen, die den Durchschnitt von “x” für jede Zeile in der
+jeweiligen Gruppe enthält. Der Unterschied besteht darin, dass
+<code>summarize()</code> die Datensatzgröße reduziert und eine Zeile pro
+Gruppe zurückgibt, während <code>mutate()</code> die gleiche Anzahl von
+Zeilen beib ehält und eine neue Spalte für jede Zeile im Datensatz
+hinzufügt.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(y, z) <span class="sc">%&gt;%</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
 ## argument.</code></pre>
 <pre><code>## # A tibble: 3 × 3
@@ -1184,9 +1297,9 @@ summarize(mean_x = mean(x))</code></pre>
 ## 1 a     K        1  
 ## 2 a     L        3.5
 ## 3 b     K        3.5</code></pre>
-<pre class="r"><code>df %&gt;%
-group_by(y, z) %&gt;%
-mutate(mean_x = mean(x))</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(y, z) <span class="sc">%&gt;%</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 4
 ## # Groups:   y, z [3]
 ##       x y     z     mean_x
@@ -1195,7 +1308,467 @@ mutate(mean_x = mean(x))</code></pre>
 ## 2     2 b     K        3.5
 ## 3     3 a     L        3.5
 ## 4     4 a     L        3.5
-## 5     5 b     K        3.5</code></pre>
+## 5     5 b     K        3.5</code></pre></li>
+</ol>
+</div>
+</div>
+<div id="übung-4" class="section level1">
+<h1>Übung 4</h1>
+<p>Lösungen für <code>pivot_longer()</code>:</p>
+<div id="aufgabe-1-1" class="section level2">
+<h2>Aufgabe 1</h2>
+<p>Verwandle breite Daten in lange Daten:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Januar, <span class="sc">~</span>Februar, <span class="sc">~</span>März,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">90</span>,</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="dv">150</span>, <span class="dv">180</span>, <span class="dv">200</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Januar<span class="sc">:</span>März, <span class="at">names_to =</span> <span class="st">&quot;Monat&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Besucher&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   Land        Monat   Besucher
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;
+## 1 Deutschland Januar       100
+## 2 Deutschland Februar      120
+## 3 Deutschland März          90
+## 4 USA         Januar       150
+## 5 USA         Februar      180
+## 6 USA         März         200</code></pre>
+</div>
+<div id="aufgabe-2-1" class="section level2">
+<h2>Aufgabe 2</h2>
+<p>Aggregiere mehrere Spalten zu einer einzigen Spalte:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie_A, <span class="sc">~</span>Kategorie_B, <span class="sc">~</span>Kategorie_C,</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A1&quot;</span>, <span class="st">&quot;B1&quot;</span>, <span class="st">&quot;C1&quot;</span>,</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;B2&quot;</span>, <span class="st">&quot;C2&quot;</span>,</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="st">&quot;A3&quot;</span>, <span class="st">&quot;B3&quot;</span>, <span class="st">&quot;C3&quot;</span></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Kategorie_A<span class="sc">:</span>Kategorie_C, <span class="at">names_to =</span> <span class="st">&quot;Kategorie&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Wert&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 9 × 3
+##      ID Kategorie   Wert 
+##   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;
+## 1     1 Kategorie_A A1   
+## 2     1 Kategorie_B B1   
+## 3     1 Kategorie_C C1   
+## 4     2 Kategorie_A A2   
+## 5     2 Kategorie_B B2   
+## 6     2 Kategorie_C C2   
+## 7     3 Kategorie_A A3   
+## 8     3 Kategorie_B B3   
+## 9     3 Kategorie_C C3</code></pre>
+</div>
+<div id="aufgabe-3-1" class="section level2">
+<h2>Aufgabe 3</h2>
+<p>Arbeite mit Spaltennamen als Werten:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Produkt_A, <span class="sc">~</span>Produkt_B, <span class="sc">~</span>Produkt_C,</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">5</span>,</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">10</span>,</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">20</span>, <span class="dv">18</span>, <span class="dv">15</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Produkt_A<span class="sc">:</span>Produkt_C, <span class="at">names_to =</span> <span class="st">&quot;Produkt&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Verkaufspreis&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 9 × 2
+##   Produkt   Verkaufspreis
+##   &lt;chr&gt;             &lt;dbl&gt;
+## 1 Produkt_A            10
+## 2 Produkt_B             8
+## 3 Produkt_C             5
+## 4 Produkt_A            15
+## 5 Produkt_B            12
+## 6 Produkt_C            10
+## 7 Produkt_A            20
+## 8 Produkt_B            18
+## 9 Produkt_C            15</code></pre>
+<p>Lösungen für <code>pivot_wider()</code>:</p>
+</div>
+<div id="aufgabe-4-1" class="section level2">
+<h2>Aufgabe 4</h2>
+<p>Transformiere lange Daten in breite Daten:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Monat, <span class="sc">~</span>Besucher,</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">100</span>,</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Monat, <span class="at">values_from =</span> Besucher)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   Land        Januar Februar
+##   &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Deutschland    100     120
+## 2 USA            150     180</code></pre>
+</div>
+<div id="aufgabe-5-1" class="section level2">
+<h2>Aufgabe 5</h2>
+<p>Erstelle neue Spalten aus einer einzelnen Spalte:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie, <span class="sc">~</span>Wert,</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">10</span>,</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">20</span>,</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">15</span>,</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">25</span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Kategorie, <span class="at">values_from =</span> Wert)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##      ID     A     B
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    10    20
+## 2     2    15    25</code></pre>
+</div>
+<div id="aufgabe-6-1" class="section level2">
+<h2>Aufgabe 6</h2>
+<p>Summiere Werte aus mehreren Zeilen:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Beispiel-Datensatz</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Kategorie, <span class="sc">~</span>Monat, <span class="sc">~</span>Wert,</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Januar</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>, <span class="dv">100</span>,</span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivotieren der Daten</span></span>
+<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>daten <span class="sc">%&gt;%</span></span>
+<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Kategorie, <span class="at">values_from =</span> Wert)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##   Monat            A     B
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+## 1 &quot;Januar\n\n&quot;   100    NA
+## 2 &quot;Februar&quot;      120   180
+## 3 &quot;Januar&quot;        NA   150</code></pre>
+</div>
+</div>
+<div id="übung-5" class="section level1">
+<h1>Übung 5</h1>
+<div id="aufgabe-1-2" class="section level2">
+<h2>Aufgabe 1</h2>
+<p>Die Beziehung zwischen <code>weather</code> und <code>airports</code>
+ist in der Visulaiserung der Relationen nicht dargestellt. Was ist die
+Beziehung und wie sollte sie im Diagramm dargestellt werden?</p>
+<p>Die beiden Tabellen können mit den Variablen <code>origin</code> in
+Wetter und <code>faa</code> in Flughäfen abgeglichen werden.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(weather)</span></code></pre></div>
+<pre><code>##  [1] &quot;origin&quot;     &quot;year&quot;       &quot;month&quot;      &quot;day&quot;        &quot;hour&quot;      
+##  [6] &quot;temp&quot;       &quot;dewp&quot;       &quot;humid&quot;      &quot;wind_dir&quot;   &quot;wind_speed&quot;
+## [11] &quot;wind_gust&quot;  &quot;precip&quot;     &quot;pressure&quot;   &quot;visib&quot;      &quot;time_hour&quot;</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(airports)</span></code></pre></div>
+<pre><code>## [1] &quot;faa&quot;   &quot;name&quot;  &quot;lat&quot;   &quot;lon&quot;   &quot;alt&quot;   &quot;tz&quot;    &quot;dst&quot;   &quot;tzone&quot;</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span> </span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(origin) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code></pre></div>
+<pre><code>## origin
+##  EWR  JFK  LGA 
+## 8703 8706 8706</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span> </span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(faa <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;EWR&quot;</span>, <span class="st">&quot;JFK&quot;</span>, <span class="st">&quot;LGA&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 8
+##   faa   name                  lat   lon   alt    tz dst   tzone           
+##   &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;           
+## 1 EWR   Newark Liberty Intl  40.7 -74.2    18    -5 A     America/New_York
+## 2 JFK   John F Kennedy Intl  40.6 -73.8    13    -5 A     America/New_York
+## 3 LGA   La Guardia           40.8 -73.9    22    -5 A     America/New_York</code></pre>
+</div>
+<div id="aufgabe-2-2" class="section level2">
+<h2>Aufgabe 2</h2>
+<p><code>weather</code> enthält nur Informationen für die drei
+Ursprungsflughäfen in New York City. Wenn es Wetteraufzeichnungen für
+alle Flughäfen in den USA enthalten würde, welche zusätzliche Verbindung
+würde es zu <code>flights</code> herstellen?</p>
+<p>Wenn das Wetter für alle Flughäfen in den USA enthalten wäre, würde
+es das Wetter für den Zielort jedes Fluges liefern. Die Spalten des
+Wetterdatenrahmens (Jahr, Monat, Tag, Stunde, Herkunft) sind ein
+Fremdschlüssel für die Spalten des Flugdatenrahmens (Jahr, Monat, Tag,
+Stunde, Ziel). Dies würde Informationen über das Wetter am Zielflughafen
+zum Zeitpunkt des Abflugs liefern, es sei denn, die Ankunftszeit wurde
+berechnet.</p>
+</div>
+<div id="aufgabe-3-2" class="section level2">
+<h2>Aufgabe 3</h2>
+<p>Wir wissen, dass einige Tage im Jahr besonders sind und weniger
+Menschen als üblich fliegen (z.B. Heiligabend und Weihnachtstag). Wie
+könntest du diese Daten als Datenrahmen darstellen? Was wäre der
+Primärschlüssel? Wie würde er sich mit den vorhandenen Datenrahmen
+verbinden?</p>
+<p>Man könnte einen separaten Datensatz mit den Feiertagen in den USA
+nach Tag und Monat erstellen. Mit diesen Informationen lassen sich die
+einzelnen Flüge im Datensatz “flights” abgleichen.</p>
+</div>
+<div id="aufgabe-4-2" class="section level2">
+<h2>Aufgabe 4</h2>
+<p>Zeichne ein Diagramm, das die Verbindungen zwischen den Datensätzen
+<code>Batting</code>, <code>People</code> und <code>Salaries</code> im
+Lahman-Paket veranschaulicht.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(Lahman)</span></code></pre></div>
+<pre><code>## Loading required package: Lahman</code></pre>
+<div class="sourceCode" id="cb100"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Batting)</span></code></pre></div>
+<pre><code>## Rows: 112,184
+## Columns: 22
+## $ playerID &lt;chr&gt; &quot;abercda01&quot;, &quot;addybo01&quot;, &quot;allisar01&quot;, &quot;allisdo01&quot;, &quot;ansonca01…
+## $ yearID   &lt;int&gt; 1871, 1871, 1871, 1871, 1871, 1871, 1871, 1871, 1871, 1871, 1…
+## $ stint    &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ teamID   &lt;fct&gt; TRO, RC1, CL1, WS3, RC1, FW1, RC1, BS1, FW1, BS1, CL1, CL1, W…
+## $ lgID     &lt;fct&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ G        &lt;int&gt; 1, 25, 29, 27, 25, 12, 1, 31, 1, 18, 22, 1, 10, 3, 20, 29, 1,…
+## $ AB       &lt;int&gt; 4, 118, 137, 133, 120, 49, 4, 157, 5, 86, 89, 3, 36, 15, 94, …
+## $ R        &lt;int&gt; 0, 30, 28, 28, 29, 9, 0, 66, 1, 13, 18, 0, 6, 7, 24, 26, 0, 0…
+## $ H        &lt;int&gt; 0, 32, 40, 44, 39, 11, 1, 63, 1, 13, 27, 0, 7, 6, 33, 32, 0, …
+## $ X2B      &lt;int&gt; 0, 6, 4, 10, 11, 2, 0, 10, 1, 2, 1, 0, 0, 0, 9, 3, 0, 0, 1, 0…
+## $ X3B      &lt;int&gt; 0, 0, 5, 2, 3, 1, 0, 9, 0, 1, 10, 0, 0, 0, 1, 3, 0, 0, 1, 0, …
+## $ HR       &lt;int&gt; 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0…
+## $ RBI      &lt;int&gt; 0, 13, 19, 27, 16, 5, 2, 34, 1, 11, 18, 0, 1, 5, 21, 23, 0, 0…
+## $ SB       &lt;int&gt; 0, 8, 3, 1, 6, 0, 0, 11, 0, 1, 0, 0, 2, 2, 4, 4, 0, 0, 3, 0, …
+## $ CS       &lt;int&gt; 0, 1, 1, 1, 2, 1, 0, 6, 0, 0, 1, 0, 0, 0, 0, 4, 0, 0, 1, 0, 0…
+## $ BB       &lt;int&gt; 0, 4, 2, 0, 2, 0, 1, 13, 0, 0, 3, 1, 2, 0, 2, 9, 0, 0, 4, 1, …
+## $ SO       &lt;int&gt; 0, 0, 5, 2, 1, 1, 0, 1, 0, 0, 4, 0, 0, 0, 2, 2, 3, 0, 2, 0, 2…
+## $ IBB      &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ HBP      &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ SH       &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ SF       &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+## $ GIDP     &lt;int&gt; 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 1, 2, 0, 0, 0, 0, 3…</code></pre>
+<div class="sourceCode" id="cb102"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(People)</span></code></pre></div>
+<pre><code>## Rows: 20,676
+## Columns: 26
+## $ playerID     &lt;chr&gt; &quot;aardsda01&quot;, &quot;aaronha01&quot;, &quot;aaronto01&quot;, &quot;aasedo01&quot;, &quot;abada…
+## $ birthYear    &lt;int&gt; 1981, 1934, 1939, 1954, 1972, 1985, 1850, 1877, 1869, 186…
+## $ birthMonth   &lt;int&gt; 12, 2, 8, 9, 8, 12, 11, 4, 11, 10, 9, 3, 10, 2, 8, 9, 6, …
+## $ birthDay     &lt;int&gt; 27, 5, 5, 8, 25, 17, 4, 15, 11, 14, 20, 16, 22, 16, 17, 1…
+## $ birthCountry &lt;chr&gt; &quot;USA&quot;, &quot;USA&quot;, &quot;USA&quot;, &quot;USA&quot;, &quot;USA&quot;, &quot;D.R.&quot;, &quot;USA&quot;, &quot;USA&quot;, …
+## $ birthState   &lt;chr&gt; &quot;CO&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;CA&quot;, &quot;FL&quot;, &quot;La Romana&quot;, &quot;PA&quot;, &quot;PA&quot;, &quot;V…
+## $ birthCity    &lt;chr&gt; &quot;Denver&quot;, &quot;Mobile&quot;, &quot;Mobile&quot;, &quot;Orange&quot;, &quot;Palm Beach&quot;, &quot;La…
+## $ deathYear    &lt;int&gt; NA, 2021, 1984, NA, NA, NA, 1905, 1957, 1962, 1926, NA, 1…
+## $ deathMonth   &lt;int&gt; NA, 1, 8, NA, NA, NA, 5, 1, 6, 4, NA, 2, 6, NA, NA, NA, N…
+## $ deathDay     &lt;int&gt; NA, 22, 16, NA, NA, NA, 17, 6, 11, 27, NA, 13, 11, NA, NA…
+## $ deathCountry &lt;chr&gt; NA, &quot;USA&quot;, &quot;USA&quot;, NA, NA, NA, &quot;USA&quot;, &quot;USA&quot;, &quot;USA&quot;, &quot;USA&quot;,…
+## $ deathState   &lt;chr&gt; NA, &quot;GA&quot;, &quot;GA&quot;, NA, NA, NA, &quot;NJ&quot;, &quot;FL&quot;, &quot;VT&quot;, &quot;CA&quot;, NA, &quot;…
+## $ deathCity    &lt;chr&gt; NA, &quot;Atlanta&quot;, &quot;Atlanta&quot;, NA, NA, NA, &quot;Pemberton&quot;, &quot;Fort …
+## $ nameFirst    &lt;chr&gt; &quot;David&quot;, &quot;Hank&quot;, &quot;Tommie&quot;, &quot;Don&quot;, &quot;Andy&quot;, &quot;Fernando&quot;, &quot;Jo…
+## $ nameLast     &lt;chr&gt; &quot;Aardsma&quot;, &quot;Aaron&quot;, &quot;Aaron&quot;, &quot;Aase&quot;, &quot;Abad&quot;, &quot;Abad&quot;, &quot;Aba…
+## $ nameGiven    &lt;chr&gt; &quot;David Allan&quot;, &quot;Henry Louis&quot;, &quot;Tommie Lee&quot;, &quot;Donald Willi…
+## $ weight       &lt;int&gt; 215, 180, 190, 190, 184, 235, 192, 170, 175, 169, 220, 19…
+## $ height       &lt;int&gt; 75, 72, 75, 75, 73, 74, 72, 71, 71, 68, 74, 71, 70, 78, 7…
+## $ bats         &lt;fct&gt; R, R, R, R, L, L, R, R, R, L, R, R, R, R, R, L, R, L, L, …
+## $ throws       &lt;fct&gt; R, R, R, R, L, L, R, R, R, L, R, R, R, R, L, L, R, L, R, …
+## $ debut        &lt;chr&gt; &quot;2004-04-06&quot;, &quot;1954-04-13&quot;, &quot;1962-04-10&quot;, &quot;1977-07-26&quot;, &quot;…
+## $ finalGame    &lt;chr&gt; &quot;2015-08-23&quot;, &quot;1976-10-03&quot;, &quot;1971-09-26&quot;, &quot;1990-10-03&quot;, &quot;…
+## $ retroID      &lt;chr&gt; &quot;aardd001&quot;, &quot;aaroh101&quot;, &quot;aarot101&quot;, &quot;aased001&quot;, &quot;abada001…
+## $ bbrefID      &lt;chr&gt; &quot;aardsda01&quot;, &quot;aaronha01&quot;, &quot;aaronto01&quot;, &quot;aasedo01&quot;, &quot;abada…
+## $ deathDate    &lt;date&gt; NA, 2021-01-22, 1984-08-16, NA, NA, NA, 1905-05-17, 1957…
+## $ birthDate    &lt;date&gt; 1981-12-27, 1934-02-05, 1939-08-05, 1954-09-08, 1972-08-…</code></pre>
+<div class="sourceCode" id="cb104"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Salaries)</span></code></pre></div>
+<pre><code>## Rows: 26,428
+## Columns: 5
+## $ yearID   &lt;int&gt; 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1985, 1…
+## $ teamID   &lt;fct&gt; ATL, ATL, ATL, ATL, ATL, ATL, ATL, ATL, ATL, ATL, ATL, ATL, A…
+## $ lgID     &lt;fct&gt; NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, NL, N…
+## $ playerID &lt;chr&gt; &quot;barkele01&quot;, &quot;bedrost01&quot;, &quot;benedbr01&quot;, &quot;campri01&quot;, &quot;ceronri01…
+## $ salary   &lt;int&gt; 870000, 550000, 545000, 633333, 625000, 800000, 150000, 48333…</code></pre>
+<p>Für die Tabellen <code>Batting</code>, <code>People</code> und
+<code>Salaries</code> gelten folgende Informationen:</p>
+<ul>
+<li><code>People</code>
+<ul>
+<li>Primärschlüssel: <code>playerID</code></li>
+</ul></li>
+<li><code>Batting</code>
+<ul>
+<li>Primärschlüssel: <code>playerID</code>, <code>yearID</code>,
+<code>stint</code></li>
+<li>Fremdschlüssel: <code>playerID</code> = <code>Master$playerID</code>
+(mehrere zu eins)</li>
+</ul></li>
+<li><code>Salaries</code>
+<ul>
+<li>Primärschlüssel: <code>yearID</code>, <code>teamID</code>,
+<code>playerID</code></li>
+<li>Fremdschlüssel: <code>playerID</code> = <code>Master$playerID</code>
+(mehrere zu eins)</li>
+</ul></li>
+</ul>
+<p>Die Spalten <code>teamID</code> und <code>lgID</code> sind keine
+Fremdschlüssel, obwohl sie in mehreren Tabellen vorkommen (mit derselben
+Bedeutung), da sie keine Primärschlüssel für eine der betrachteten
+Tabellen in dieser Übung sind. Die Variable <code>teamID</code> verweist
+auf <code>Teams$teamID</code>, und <code>lgID</code> hat keine eigene
+Tabelle.</p>
+<p><em>R for Data Science</em> verwendet Datenbankschemadiagramme, um
+die Beziehungen zwischen den Tabellen zu veranschaulichen. Die meisten
+Flussdiagramm- oder Diagrammsoftware können verwendet werden, um
+Datenbankschemadiagramme zu erstellen, ebenso wie einige spezialisierte
+Datenbanksoftware. Die Diagramme in <em>R for Data Science</em> wurden
+mit <a href="https://www.gliffy.com/">OmniGraffle</a> erstellt, und ihre
+Quellen befinden sich im <a
+href="https://github.com/hadley/r4ds/tree/master/diagrams">GitHub-Repository</a>.</p>
+<p>Das folgende Diagramm wurde mit OmniGraffle im gleichen Stil wie die
+Diagramme in <em>R for Data Science</em> erstellt. Es zeigt die
+Beziehungen zwischen den Tabellen <code>Master</code> (entspricht
+<code>People</code>), <code>Batting</code> und
+<code>Salaries</code>.</p>
+<p><img src="images/lahman.png" /><!-- --></p>
+</div>
+</div>
+<div id="übung-6" class="section level1">
+<h1>Übung 6</h1>
+<div id="aufgabe-1-3" class="section level2">
+<h2>Aufgabe 1</h2>
+<p>1a. Angenommen, du hast zwei Datenrahmen <code>df1</code> und
+<code>df2</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>left_join()</code> durch und speichere das Ergebnis im Datenrahmen
+<code>merged_df</code>. Gib anschließend den resultierenden Datenrahmen
+aus.</p>
+<div class="sourceCode" id="cb106"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe left_join() durch</span></span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">&lt;-</span> <span class="fu">left_join</span>(df1, df2, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-13"><a href="#cb106-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb106-14"><a href="#cb106-14" aria-hidden="true" tabindex="-1"></a>merged_df</span></code></pre></div>
+<pre><code>##   ID    Name Age
+## 1  1   Alice  NA
+## 2  2     Bob  25
+## 3  3 Charlie  30
+## 4  4   David  NA</code></pre>
+<p>1b. Gegeben sind zwei Datenrahmen <code>df3</code> und
+<code>df4</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>inner_join()</code> durch und speichere das Ergebnis im
+Datenrahmen <code>merged_inner</code>. Gib anschließend den
+resultierenden Datenrahmen aus.</p>
+<div class="sourceCode" id="cb108"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe inner_join() durch</span></span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a>merged_inner <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(df3, df4, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-11"><a href="#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb108-12"><a href="#cb108-12" aria-hidden="true" tabindex="-1"></a>merged_inner</span></code></pre></div>
+<pre><code>##   ID    Name Age
+## 1  2     Bob  25
+## 2  3 Charlie  30</code></pre>
+<p>1c. Angenommen, du hast zwei Datenrahmen <code>df5</code> und
+<code>df6</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>right_join()</code> durch und speichere das Ergebnis im
+Datenrahmen <code>merged_right</code>. Gib anschließend den
+resultierenden Datenrahmen aus.</p>
+<div class="sourceCode" id="cb110"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>df6 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe right_join() durch</span></span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>merged_right <span class="ot">&lt;-</span> <span class="fu">right_join</span>(df5, df6, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>merged_right</span></code></pre></div>
+<pre><code>##   ID    Name Age
+## 1  2     Bob  25
+## 2  3 Charlie  30
+## 3  5    &lt;NA&gt;  35</code></pre>
+<p>1d. Gegeben sind zwei Datenrahmen <code>df7</code> und
+<code>df8</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>full_join()</code> durch und speichere das Ergebnis im Datenrahmen
+<code>merged_full</code>. Gib anschließend den resultierenden
+Datenrahmen aus.</p>
+<div class="sourceCode" id="cb112"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>df7 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>df8 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe full_join() durch</span></span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>merged_full <span class="ot">&lt;-</span> <span class="fu">full_join</span>(df7, df8, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>merged_full</span></code></pre></div>
+<pre><code>##   ID    Name Age
+## 1  1   Alice  NA
+## 2  2     Bob  25
+## 3  3 Charlie  30
+## 4  4   David  NA
+## 5  5    &lt;NA&gt;  35</code></pre>
+<p>1e. Angenommen, du hast zwei Datenrahmen <code>df9</code> und
+<code>df10</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>semi_join()</code> durch und speichere das Ergebnis im Datenrahmen
+<code>merged_semi</code>. Gib anschließend den resultierenden
+Datenrahmen aus.</p>
+<div class="sourceCode" id="cb114"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>df9 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>df10 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe semi_join() durch</span></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>merged_semi <span class="ot">&lt;-</span> <span class="fu">semi_join</span>(df9, df10, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a>merged_semi</span></code></pre></div>
+<pre><code>##   ID    Name
+## 1  2     Bob
+## 2  3 Charlie</code></pre>
+<p>1f. Gegeben sind zwei Datenrahmen <code>df11</code> und
+<code>df12</code> mit einer gemeinsamen Spalte “ID”. Führe einen
+<code>anti_join()</code> durch und speichere das Ergebnis im Datenrahmen
+<code>merged_anti</code>. Gib anschließend den resultierenden
+Datenrahmen aus.</p>
+<div class="sourceCode" id="cb116"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>df11 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>df12 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Führe anti_join() durch</span></span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>merged_anti <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(df11, df12, <span class="at">by =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gib das Ergebnis aus</span></span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>merged_anti</span></code></pre></div>
+<pre><code>##   ID  Name
+## 1  1 Alice
+## 2  4 David</code></pre>
 </div>
 </div>
 

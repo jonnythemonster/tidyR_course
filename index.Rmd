@@ -5,9 +5,11 @@ output:
     css: style.css
     toc: true
     toc_depth: 3
-    toc_float: true
-    collapsed: false
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
     number_sections: false
+    highlight: pygments
     #code_folding: hide
 ---
 
@@ -16,6 +18,15 @@ knitr::opts_chunk$set(cache=TRUE)
 ```
 
 Sommersemester 2023 | Stand: `r Sys.Date()`
+
+Hinweis: Zum jetzigen Zeitpunkt dieses Skipt in weiten Teilen eine Übersetzung des großartigen Buches [R for Data Science](https://r4ds.hadley.nz). 
+
+Dieses Werk ist lizenziert unter einer [Creative Commons Namensnennung-Nicht kommerziell 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc/4.0/). 
+![](https://i.creativecommons.org/l/by-nc/4.0/80x15.png){width="10%"}
+
+![Eine Galaxie von tidyverse-bezogenen Hex-Aufklebern von Allison Horst](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/b467ee99-87e3-4663-ae27-aaf027f940ce_rw_1920.png?h=0573cb8b960ba2f2c8486188761f03e0){width="45%"}
+![](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/e684f0da-13b1-4d00-ab25-37814e79ee1e_rw_1920.png?h=2b72c110cfcf02f5cf1f74b558461c06){width="45%"}
+
 
 # Einführung
 In diesem Kurs geht es um die Programmiersprache R. Doch was ist das eigentlich?
@@ -55,8 +66,6 @@ Die Strukturierung von Daten nach diesen Prinzipien erleichtert es den Benutzern
 
 # Grundlagen: Datawrangling mit dplyr
 In diesem Kapitel geht es um das Paket dplyr, was ein unerlässlicher Bestandteil vom tidyverse ist. Wir werden die wichtigsten Ideen anhand von Daten aus dem Paket nycflights13 veranschaulichen.
-
-Zum jetzigen Zeitpunkt ist das Kapitel in weiten Teilen eine Übersetzung des großartigen Buches [R for Data Science](https://r4ds.hadley.nz).
 
 ## Voraussetzungen
 Somit müssen wir als erstes das tidyverse und den Datensatz laden.
@@ -274,7 +283,7 @@ flights  %>%
   )
 ```
 
-Da wir das Ergebnis der obigen Berechnung nicht den Flügen zugewiesen haben, werden die neuen Variablen gain, hours und gain_per_hour nur gedruckt, aber nicht in einem Datenrahmen gespeichert. Und wenn wir wollen, dass sie in einem Datenrahmen für die künftige Verwendung zur Verfügung stehen, sollten wir uns genau überlegen, ob wir das Ergebnis wieder Flügen zuweisen und den ursprünglichen Datenrahmen mit vielen weiteren Variablen überschreiben oder einem neuen Objekt. Oft ist die richtige Antwort ein neues Objekt, das informativ benannt wird, um seinen Inhalt anzugeben, z. B. delay_gain, aber Sie könnten auch gute Gründe haben, flights zu überschreiben.
+Da wir das Ergebnis der obigen Berechnung nicht den Flügen zugewiesen haben, werden die neuen Variablen gain, hours und gain_per_hour nur gedruckt, aber nicht in einem Datensatz gespeichert. Und wenn wir wollen, dass sie in einem Datensatz für die künftige Verwendung zur Verfügung stehen, sollten wir uns genau überlegen, ob wir das Ergebnis wieder Flügen zuweisen und den ursprünglichen Datensatz mit vielen weiteren Variablen überschreiben oder einem neuen Objekt. Oft ist die richtige Antwort ein neues Objekt, das informativ benannt wird, um seinen Inhalt anzugeben, z. B. delay_gain, aber Sie könnten auch gute Gründe haben, flights zu überschreiben.
 
 ### `select()`
 Es ist nicht ungewöhnlich, Datensätze mit Hunderten oder sogar Tausenden von Variablen zu erhalten. In dieser Situation besteht die erste Herausforderung oft darin, sich auf die interessanten Variablen zu konzentrieren. `select()` ermöglicht es, schnell auf eine nützliche Teilmenge zuzugreifen, indem Operationen verwendet werden, die auf den Namen der Variablen basieren:
@@ -613,7 +622,788 @@ flights  %>%
           group_by(y, z) %>%
           mutate(mean_x = mean(x))
         ```
-  
+
+
+# Pivotieren der Daten
+## Verlängern der Daten
+Die Prinzipien von tidy data mögen so offensichtlich sein, dass du dich fragst, ob du jemals auf einen Datensatz treffen wirst, der nicht sauber ist.
+Leider sind jedoch die meisten realen Daten nicht sauber.
+Es gibt zwei Hauptgründe:
+
+1. Daten werden oft so organisiert, dass sie ein Ziel außerhalb der Analyse unterstützen. Zum Beispiel ist es häufig, dass Daten strukturiert sind, um die Dateneingabe und nicht die Analyse zu erleichtern.
+
+2. Die meisten Menschen sind nicht mit den Prinzipien sauberer Daten vertraut, und es ist schwierig, sie selbst abzuleiten, es sei denn, du verbringst viel Zeit mit der Arbeit mit Daten.
+
+Das bedeutet, dass die meisten echten Analysen zumindest eine kleine Bereinigung erfordern. Du wirst damit beginnen herauszufinden, welche zugrunde liegenden Variablen und Beobachtungen vorhanden sind. Manchmal ist dies einfach; andere Male musst du möglicherweise mit den Personen sprechen, die die Daten ursprünglich generiert haben. Als Nächstes wirst du deine Daten in eine saubere Form umwandeln, mit Variablen in den Spalten und Beobachtungen in den Zeilen.
+
+`tidyr` bietet zwei Funktionen zum Umwandeln von Daten: `pivot_longer()` und `pivot_wider()`. Wir beginnen zunächst mit `pivot_longer()`, da dies der häufigste Fall ist. Lass uns einige Beispiele durchgehen.
+
+### Daten in Spaltennamen
+
+Der Datensatz "billboard" enthält Informationen über die Charts im Jahr 2000:
+
+```{r}
+billboard
+```
+
+In diesem Datensatz stellt jede Beobachtung einen Song dar. Die ersten drei Spalten (`artist`, `track` und `date.entered`) sind Variablen, die den Song beschreiben. Anschließend haben wir 76 Spalten (`wk1`-`wk76`), die den Rang des Songs in jeder Woche beschreiben. Hierbei stellen die Spaltennamen eine Variable dar (die `week`) und die Zellenwerte eine andere Variable (den `rank`) dar.
+
+Der Song wird aufgenommen, solange er im Jahr 2000 irgendwann in den Top 100 war und bis zu 72 Wochen nach seinem Erscheinen verfolgt wird.
+
+Um diese Daten zu bereinigen, werden wir `pivot_longer()` verwenden:
+
+```{r, R.options=list(pillar.print_min = 10)}
+billboard %>%  
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank"
+  )
+```
+
+Nach den Daten gibt es drei wichtige Argumente:
+
+- `cols` gibt an, welche Spalten umgewandelt werden sollen, d.h. welche Spalten keine Variablen sind. Dieses Argument verwendet die gleiche Syntax wie `select()`, daher könnten wir hier `!c(artist, track, date.entered)` oder `starts_with("wk")` verwenden.
+- `names_to` benennt die Variable, die in den Spaltennamen gespeichert wird, wir haben diese Variable "week" genannt.
+- `values_to` benennt die Variable, die in den Zellenwerten gespeichert wird, wir haben diese Variable "rank" genannt.
+
+Beachte, dass in dem Code "week" und "rank" in Anführungszeichen gesetzt sind, da dies neue Variablen sind, die wir erstellen. Sie existieren noch nicht in den Daten, wenn wir den Aufruf von `pivot_longer()` ausführen.
+
+Nun wollen wir uns dem resultierenden, längeren Datensatz widmen. Was passiert, wenn ein Song weniger als 76 Wochen lang in den Top 100 ist?
+Nehmen wir zum Beispiel 2 Pac's "Baby Don't Cry". Die obige Ausgabe legt nahe, dass es nur 7 Wochen lang in den Top 100 war und alle verbleibenden Wochen mit fehlenden Werten aufgefüllt sind. Diese `NA`s repräsentieren nicht wirklich unbekannte Beobachtungen. Sie wurden durch die Struktur des Datensatzes erzwungen. Daher können wir `pivot_longer()` bitten, sie mit `values_drop_na = TRUE` zu entfernen:
+
+```{r}
+billboard %>%  
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+```
+
+Die Anzahl der Zeilen ist nun deutlich niedriger, was darauf hinweist, dass viele Zeilen mit `NA` entfernt wurden.
+
+Du könntest dich auch fragen, was passiert, wenn ein Song länger als 76 Wochen lang in den Top 100 ist. Aus diesen Daten können wir es nicht erkennen, aber du könntest vermuten, dass zusätzliche Spalten `wk77`, `wk78`, ... zum Datensatz hinzugefügt würden.
+
+Die Daten sind jetzt sauber, aber wir könnten zukünftige Berechnungen etwas einfacher machen, indem wir die Werte von `week` von Zeichenketten in Zahlen umwandeln, und zwar mithilfe von `mutate()` und `readr::parse_number()`. `parse_number()` ist eine praktische Funktion, die die erste Zahl aus einem String extrahiert und alle anderen Texte ignoriert.
+
+```{r}
+billboard_longer <- billboard %>%  
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  ) %>%  
+  mutate(
+    week = parse_number(week)
+  )
+billboard_longer
+```
+
+Jetzt, da wir alle Wochennummern in einer Variablen und alle Rangwerte in einer anderen Variablen haben, sind wir in einer guten Position, um zu visualisieren, wie sich die Song-Ränge im Laufe der Zeit ändern. Der Code wird unten angezeigt und das Ergebnis ist in der Abbildung zu sehen. Wir können sehen, dass nur sehr wenige Songs mehr als 20 Wochen lang in den Top 100 bleiben.
+
+```{r}
+billboard_longer %>%  
+  ggplot(aes(x = week, y = rank, group = track)) + 
+  geom_line(alpha = 0.25) + 
+  scale_y_reverse()
+```
+
+### Wie funktioniert das Pivoting?
+Jetzt, da du gesehen hast, wie wir das Pivoting verwenden können, um unsere Daten umzuformen, nehmen wir uns etwas Zeit, um ein intuitives Verständnis dafür zu entwickeln, was das Pivoting mit den Daten macht. Beginnen wir mit einem sehr einfachen Datensatz, um zu sehen, was passiert. Angenommen, wir haben drei Patienten mit den ids A, B und C und wir nehmen zwei Blutdruckmessungen bei jedem Patienten vor. Wir werden die Daten mit tribble() erstellen, einer praktischen Funktion zum manuellen Erstellen kleiner Tibbles:
+
+```{r}
+df <- tribble(
+  ~id,  ~bp1, ~bp2,
+   "A",  100,  120,
+   "B",  140,  115,
+   "C",  120,  125
+)
+```
+
+Wir möchten, dass unser neuer Datensatz drei Variablen enthält: id (existiert bereits), measurement (die Spaltennamen) und value (die Zellenwerte).
+Um dies zu erreichen, müssen wir df länger drehen (pivotieren):
+
+```{r}
+df %>%  
+  pivot_longer(
+    cols = bp1:bp2,
+    names_to = "measurement",
+    values_to = "value"
+  )
+```
+
+Wie funktioniert das Umgestalten?
+Es ist einfacher zu verstehen, wenn wir es spaltenweise betrachten. Wie in der Abbildung dargestellt, müssen die Werte in der Spalte, die bereits eine Variable im ursprünglichen Datensatz war (`id`), für jede umgeformte Spalte wiederholt werden.
+
+```{r}
+#| echo: false
+#| fig-cap: > 
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+knitr::include_graphics("images/r4ds/variables.png", dpi = 270)
+```
+
+Die Spaltennamen werden zu Werten in einer neuen Variable, deren Name durch `names_to` definiert wird, wie unten gezeigt.
+Sie müssen für jede Zeile im ursprünglichen Datensatz einmal wiederholt werden.
+
+```{r}
+#| echo: false
+#| fig-cap: > 
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+knitr::include_graphics("images/r4ds/column-names.png", dpi = 270)
+```
+
+Die Zellenwerte werden ebenfalls zu Werten in einer neuen Variable, deren Name durch values_to definiert wird. Sie werden Zeile für Zeile aufgedröselt. Der Prozess ist hier veranschaulicht:
+
+```{r}
+#| echo: false
+#| fig-cap: > 
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+knitr::include_graphics("images/r4ds/cell-values.png", dpi = 270)
+```
+
+### Viele Variablen im Spaltennamen
+Eine anspruchsvollere Situation tritt auf, wenn mehrere Informationen in den Spaltennamen zusammengefasst sind und du diese in separaten neuen Variablen speichern möchtest. Nehmen wir zum Beispiel den Datensatz `who2`, der die Grundlage für `table1` und ähnliche Tabellen bildet, die du oben gesehen hast:
+
+```{r}
+who2
+```
+
+Dieser Datensatz, der von der Weltgesundheitsorganisation (WHO) gesammelt wurde, enthält Informationen über Tuberkulose-Diagnosen. Es gibt zwei Spalten, die bereits Variablen sind und leicht interpretiert werden können: `country` und `year`. Darauf folgen 56 Spalten wie `sp_m_014`, `ep_m_4554` und `rel_m_3544`.
+Wenn du diese Spalten lange genug betrachtest, wirst du ein Muster erkennen. Jeder Spaltenname besteht aus drei Teilen, die durch `_` getrennt sind. Der erste Teil, `sp`/`rel`/`ep`, beschreibt die Methode, die für die Diagnose verwendet wurde. Der zweite Teil, `m`/`f`, steht für das Geschlecht (kodiert als binäre Variable in diesem Datensatz), und der dritte Teil, `014`/`1524`/`2534`/`3544`/`4554`/`5564`/`65`, steht für die Altersgruppe (`014` repräsentiert zum Beispiel die Altersgruppe 0-14).
+
+In diesem Fall haben wir sechs Informationen im Datensatz `who2` erfasst: das Land und das Jahr (bereits vorhandene Spalten), die Diagnosemethode, die Geschlechtskategorie und die Altersgruppenkategorie (enthalten in den anderen Spaltennamen) sowie die Anzahl der Patienten in dieser Kategorie (Zellenwerte).
+Um diese sechs Informationen in sechs separaten Spalten zu organisieren, verwenden wir `pivot_longer()` mit einem Vektor von Spaltennamen für `names_to` und Anweisungen zum Aufteilen der ursprünglichen Variablennamen in Teile für `names_sep`, sowie einem Spaltennamen für `values_to`:
+
+```{r}
+who2 %>%  
+  pivot_longer(
+    cols = !(country:year),
+    names_to = c("diagnosis", "gender", "age"), 
+    names_sep = "_",
+    values_to = "count"
+  )
+```
+
+Eine Alternative zu `names_sep` ist `names_pattern`, das du verwenden kannst, um Variablen aus komplexeren Namensszenarien zu extrahieren, sobald du dich mit RegExps vertraut gemacht hast.
+
+Konzeptuell handelt es sich nur um eine geringfügige Abweichung von dem einfacheren Fall, den du bereits gesehen hast. Die Abbidlung zeigt die grundlegende Idee: Anstatt dass die Spaltennamen in eine einzige Spalte umgeformt werden, werden sie in mehrere Spalten umgeformt. Du kannst dir vorstellen, dass dies in zwei Schritten geschieht (erst Umformung und dann Aufteilung), aber unter der Haube geschieht dies in einem einzigen Schritt, weil es schneller ist.
+
+```{r}
+#| echo: false
+#| fig-cap: > 
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+knitr::include_graphics("images/r4ds/multiple-names.png", dpi = 270)
+```
+
+### Daten und Variablennamen in den Spaltenüberschriften
+
+Der nächste Schritt in der Komplexität besteht darin, dass die Spaltennamen eine Mischung aus Variablenwerten und Variablennamen enthalten.
+Nehmen wir zum Beispiel den Datensatz `household`:
+
+```{r}
+household
+```
+
+Dieser Datensatz enthält Daten zu fünf Familien mit den Namen und Geburtsdaten von bis zu zwei Kindern.
+Die neue Herausforderung bei diesem Datensatz besteht darin, dass die Spaltennamen die Namen von zwei Variablen (`dob`, `name`) und die Werte einer anderen Variablen (`child`, mit den Werten 1 oder 2) enthalten.
+Um dieses Problem zu lösen, müssen wir erneut einen Vektor an `names_to` übergeben, verwenden jedoch dieses Mal das spezielle `".value"`-Sentinel. Dies ist nicht der Name einer Variablen, sondern ein eindeutiger Wert, der `pivot_longer()` mitteilt, etwas anderes zu tun.
+Dies überschreibt das übliche Argument `values_to`, um den ersten Bestandteil des umgeformten Spaltennamens als Variablennamen in der Ausgabe zu verwenden.
+
+```{r}
+household %>%  
+  pivot_longer(
+    cols = !family, 
+    names_to = c(".value", "child"), 
+    names_sep = "_", 
+    values_drop_na = TRUE
+  )
+```
+
+Wir verwenden erneut `values_drop_na = TRUE`, da die Struktur der Eingabe die Erzeugung von expliziten fehlenden Variablen erzwingt (z. B. für Familien mit nur einem Kind).
+
+Die Abbildungveranschaulicht die grundlegende Idee anhand eines einfacheren Beispiels.
+Wenn du `".value"` in `names_to` verwendest, tragen die Spaltennamen in der Eingabe sowohl zu den Werten als auch zu den Variablennamen in der Ausgabe bei.
+
+```{r}
+#| echo: false
+#| fig-cap: > 
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+knitr::include_graphics("images/r4ds/names-and-values.png", dpi = 270)
+```
+
+## Verbreitern der Daten
+
+Bisher haben wir `pivot_longer()` verwendet, um die häufig auftretende Problematik zu lösen, bei der Werte in den Spaltennamen landen.
+Als Nächstes wenden wir uns `pivot_wider()` zu, das Datensätze **breiter** macht, indem es Spalten erhöht und Zeilen reduziert, und uns hilft, wenn eine Beobachtung auf mehrere Zeilen verteilt ist.
+Dies scheint seltener vorzukommen, aber es taucht häufig bei der Verarbeitung von Regierungsdaten auf.
+
+Wir beginnen mit dem Datensatz `cms_patient_experience`, einem Datensatz der Centers for Medicare and Medicaid Services, der Daten zu den Erfahrungen von Patienten sammelt:
+
+```{r}
+cms_patient_experience
+```
+
+Die Kerngröße, die untersucht wird, ist eine Organisation, aber jede Organisation ist auf sechs Zeilen verteilt, wobei jede Zeile eine Messung in der untersuchten Organisation darstellt.
+Wir können den vollständigen Satz von Werten für `measure_cd` und `measure_title` mit `distinct()` anzeigen:
+
+```{r}
+cms_patient_experience %>%  
+  distinct(measure_cd, measure_title)
+```
+
+Keine dieser Spalten eignet sich besonders gut als Variablennamen: `measure_cd` gibt keinen Hinweis auf die Bedeutung der Variablen, und `measure_title` ist ein langer Satz mit Leerzeichen.
+Vorerst verwenden wir `measure_cd` als Quelle für unsere neuen Spaltennamen, aber in einer echten Analyse möchtest du vielleicht eigene Variablennamen erstellen, die sowohl kurz als auch aussagekräftig sind.
+
+`pivot_wider()` hat die entgegengesetzte Schnittstelle zu `pivot_longer()`: Anstatt neue Spaltennamen auszuwählen, müssen wir die vorhandenen Spalten angeben, die die Werte definieren (`values_from`) und den Spaltennamen (`names_from`):
+
+```{r}
+cms_patient_experience %>%  
+  pivot_wider(
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+```
+
+Die Ausgabe sieht noch nicht ganz richtig aus; es scheint immer noch mehrere Zeilen für jede Organisation zu geben.
+Das liegt daran, dass wir `pivot_wider()` auch mitteilen müssen, welche Spalte oder Spalten Werte enthalten, die jede Zeile eindeutig identifizieren; in diesem Fall sind das die Variablen, die mit `"org"` beginnen:
+
+```{r}
+cms_patient_experience %>%  
+  pivot_wider(
+    id_cols = starts_with("org"),
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+```
+
+Damit erhalten wir die gewünschte Ausgabe.
+
+### Wie funktioniert `pivot_wider()`?
+
+Um zu verstehen, wie `pivot_wider()` funktioniert, beginnen wir erneut mit einem sehr einfachen Datensatz.
+Dieses Mal haben wir zwei Patienten mit den IDs A und B sowie drei Blutdruckmessungen für Patient A und zwei für Patient B:
+
+```{r}
+df <- tribble(
+  ~id, ~measurement, ~value,
+  "A",        "bp1",    100,
+  "B",        "bp1",    140,
+  "B",        "bp2",    115, 
+  "A",        "bp2",    120,
+  "A",        "bp3",    105
+)
+```
+
+Wir nehmen die Werte aus der Spalte `value` und die Namen aus der Spalte `measurement`:
+
+```{r}
+df %>%  
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
+```
+
+Um den Prozess zu beginnen, muss `pivot_wider()` zuerst herausfinden, was in den Zeilen und Spalten stehen wird.
+Die neuen Spaltennamen sind die eindeutigen Werte von `measurement`.
+
+```{r}
+df %>%  
+  distinct(measurement) %>%  
+  pull()
+```
+
+Standardmäßig werden die Zeilen im Ausgabedatensatz durch alle Variablen bestimmt, die nicht in die neuen Spalten- oder Wertekategorien übernommen werden.
+Diese werden `id_cols` genannt.
+In diesem Fall gibt es nur eine Spalte, aber allgemein können es beliebig viele sein.
+
+```{r}
+df %>%  
+  select(-measurement, -value) %>%  
+  distinct()
+```
+
+`pivot_wider()` kombiniert dann diese Ergebnisse, um einen leeren Datensatz zu generieren:
+
+```{r}
+df %>%  
+  select(-measurement, -value) %>%  
+  distinct() %>%  
+  mutate(x = NA, y = NA, z = NA)
+```
+
+Anschließend werden alle fehlenden Werte mit den Daten aus dem Eingabedatensatz aufgefüllt. In diesem Fall gibt es keine dritte Blutdruckmessung für Patient B, daher bleibt diese Zelle leer.
+
+Du fragst dich vielleicht auch, was passiert, wenn es mehrere Zeilen im Eingabedatensatz gibt, die einer Zelle im Ausgabedatensatz entsprechen.
+Das folgende Beispiel hat zwei Zeilen, die der `id` "A" und der `measurement` "bp1" entsprechen:
+
+```{r}
+df <- tribble(
+  ~id, ~measurement, ~value,
+  "A",        "bp1",    100,
+  "A",        "bp1",    102,
+  "A",        "bp2",    120,
+  "B",        "bp1",    140, 
+  "B",        "bp2",    115
+)
+```
+
+Wenn wir versuchen, dies zu verarbeiten, erhalten wir eine Ausgabe, die Listenspalten enthält:
+
+```{r}
+df %>% 
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
+```
+
+Da du noch nicht weißt, wie du mit solchen Daten
+
+ arbeiten kannst, solltest du dem Hinweis in der Warnung folgen, um herauszufinden, wo das Problem liegt:
+
+```{r}
+df %>%  
+  group_by(id, measurement) %>%  
+  summarize(n = n(), .groups = "drop") %>%  
+  filter(n > 1)
+```
+
+Dann liegt es an dir, herauszufinden, was mit deinen Daten schiefgegangen ist, und entweder den zugrunde liegenden Fehler zu beheben oder deine Gruppierungs- und Zusammenfassungsfähigkeiten zu nutzen, um sicherzustellen, dass jede Kombination von Zeilen- und Spaltenwerten nur eine einzelne Zeile hat.
+
+## Zusammenfassung
+
+In diesem Kapitel hast du etwas über übersichtliche Daten gelernt: Daten, bei denen Variablen in Spalten und Beobachtungen in Zeilen angeordnet sind.
+Übersichtliche Daten erleichtern die Arbeit mit dem Tidyverse, da es sich um eine konsistente Struktur handelt, die von den meisten Funktionen verstanden wird. Die Hauptherausforderung besteht darin, die Daten von ihrer ursprünglichen Struktur in ein übersichtliches Format zu transformieren.
+Zu diesem Zweck hast du gelernt, wie man `pivot_longer()` und `pivot_wider()` verwendet, um viele unübersichtliche Datensätze aufzubereiten.
+Die hier vorgestellten Beispiele sind eine Auswahl aus der Vignette "pivot" des Pakets "tidyr". Wenn du auf ein Problem stößt, das in diesem Kapitel nicht behandelt wird, ist diese Vignette ein guter nächster Anlaufpunkt.
+
+Eine weitere Herausforderung besteht darin, dass es für einen gegebenen Datensatz unmöglich sein kann, die längere oder breitere Version als die "übersichtliche" zu kennzeichnen.
+Dies ist teilweise eine Reflexion unserer Definition von übersichtlichen Daten, bei der wir gesagt haben, dass übersichtliche Daten eine Variable in jeder Spalte haben, aber wir haben tatsächlich nicht definiert, was eine Variable ist (und es ist überraschend schwierig, dies zu tun).
+Es ist völlig in Ordnung, pragmatisch zu sein und zu sagen, dass eine Variable das ist, was deine Analyse am einfachsten macht.
+Wenn du also Schwierigkeiten hast, eine Berechnung durchzuführen, solltest du in Betracht ziehen, die Organisation deiner Daten zu ändern. Hab keine Angst, sie zu entfalten, zu transformieren und bei Bedarf erneut zu ordnen!
+
+Wenn dir dieses Kapitel gefallen hat und du mehr über die zugrunde liegende Theorie erfahren möchtest, kannst du weitere Informationen zur Geschichte und den theoretischen Grundlagen in dem [Tidy Data](https://www.jstatsoft.org/article/view/v059i10)-Artikel nachlesen, der in der Zeitschrift Journal of Statistical Software veröffentlicht wurde.
+
+Jetzt, da du eine beträchtliche Menge an R-Code schreibst, ist es an der Zeit, mehr über die Organisation deines Codes in Dateien und Verzeichnissen zu lernen.
+Im nächsten Kapitel wirst du alles über die Vorteile von Skripten und Projekten erfahren und einige der vielen Tools kennenlernen, die sie bieten, um dir das Leben zu erleichtern.
+
+## Übung 4
+1. Verwandle breite Daten in lange Daten:
+Angenommen, du hast einen Datensatz mit den Spalten "Land", "Januar", "Februar" und "März", wobei jede Spalte die Anzahl der Besucher in diesem Monat darstellt. Verwende `pivot_longer()`, um die Daten in ein Format umzuwandeln, in dem jeder Monat in einer separaten Zeile steht.
+    ```{r}
+    daten <- tribble(
+      ~Land, ~Januar, ~Februar, ~März,
+      "Deutschland", 100, 120, 90,
+      "USA", 150, 180, 200
+    )
+    ```
+
+2. Aggregiere mehrere Spalten zu einer einzigen Spalte:
+Angenommen, du hast einen Datensatz mit den Spalten "ID", "Kategorie_A", "Kategorie_B" und "Kategorie_C", wobei jede Kategorie den Wert für eine bestimmte ID darstellt. Verwende `pivot_longer()`, um die Kategorien in einer einzigen Spalte namens "Kategorie" zusammenzufassen.
+    ```{r}
+    daten <- tribble(
+      ~ID, ~Kategorie_A, ~Kategorie_B, ~Kategorie_C,
+      1, "A1", "B1", "C1",
+      2, "A2", "B2", "C2",
+      3, "A3", "B3", "C3"
+    )
+    ```
+
+3. Arbeite mit Spaltennamen als Werten:
+Angenommen, du hast einen Datensatz mit den Spalten "Produkt_A", "Produkt_B" und "Produkt_C", wobei jede Spalte den Verkaufspreis für das entsprechende Produkt darstellt. Verwende `pivot_longer()`, um die Produktnamen als Werte in einer neuen Spalte namens "Produkt" zu erfassen.
+    ```{r}
+    daten <- tribble(
+      ~Produkt_A, ~Produkt_B, ~Produkt_C,
+      10, 8, 5,
+      15, 12, 10,
+      20, 18, 15
+    )
+    ```
+
+4. Transformiere lange Daten in breite Daten:
+Angenommen, du hast einen Datensatz mit den Spalten "Land", "Monat" und "Besucher", wobei jeder Eintrag die Anzahl der Besucher in einem bestimmten Monat und Land darstellt. Verwende `pivot_wider()`, um die Daten in das ursprüngliche breite Format zurückzuführen.
+    ```{r}
+    daten <- tribble(
+      ~Land, ~Monat, ~Besucher,
+      "Deutschland", "Januar", 100,
+      "Deutschland", "Februar", 120,
+      "USA", "Januar", 150,
+      "USA", "Februar", 180
+    )
+    ```
+
+5. Erstelle neue Spalten aus einer einzelnen Spalte:
+Angenommen, du hast einen Datensatz mit den Spalten "ID", "Kategorie" und "Wert", wobei die Kategorien die verschiedenen Eigenschaften der IDs darstellen. Verwende `pivot_wider()`, um aus der Spalte "Kategorie" neue Spalten zu erstellen, die die entsprechenden Werte enthalten.
+    ```{r}
+    daten <- tribble(
+      ~ID, ~Kategorie, ~Wert,
+      1, "A", 10,
+      1, "B", 20,
+      2, "A", 15,
+      2, "B", 25
+    )
+    ```
+
+6. Summiere Werte aus mehreren Zeilen:
+Angenommen, du hast einen Datensatz mit den Spalten "Kategorie", "Monat" und "Wert", wobei der Wert die monatlichen Verkäufe in einer bestimmten Kategorie darstellt. Verwende `pivot_wider()`, um die monatlichen Werte für jede Kategorie zu summieren und in neuen Spalten darzustellen.
+    ```{r}
+    daten <- tribble(
+      ~Kategorie, ~Monat, ~Wert,
+      "A", "Januar", 100,
+      "A", "Februar", 120,
+      "B", "Januar", 150,
+      "B", "Februar", 180
+    )
+    ```
+
+    **Hinweis für Übungsaufgabe 7 und 8:** Du kannst den `mtcars`-Datensatz mit `data(mtcars)` laden und den `iris`-Datensatz mit `data(iris)`.
+
+7. Verwende den eingebauten Datensatz "mtcars", der Informationen über verschiedene Automodelle enthält, um folgende Transformationen durchzuführen:
+
+    a) Verwende `pivot_longer()` um die Spalten "mpg", "hp" und "wt" in eine längere Form zu bringen. Die Spalte "variable" sollte die ursprünglichen Spaltennamen ("mpg", "hp", "wt") enthalten und die Spalte "value" sollte die entsprechenden Werte enthalten.
+    
+    b) Verwende `pivot_wider()` um die längeren Daten aus Schritt a) zurück in die ursprüngliche Form zu bringen. Die Spalten "variable" sollten die ursprünglichen Spaltennamen ("mpg", "hp", "wt") sein und die Werte sollten in den entsprechenden Spalten enthalten sein.
+
+
+8. Verwende den eingebauten Datensatz "iris", der Messungen von Blüten enthält, um folgende Transformationen durchzuführen:
+
+    a) Verwende `pivot_longer()` um die Spalten "Sepal.Length", "Sepal.Width", "Petal.Length" und "Petal.Width" in eine längere Form zu bringen. Die Spalte "variable" sollte die ursprünglichen Spaltennamen ("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width") enthalten und die Spalte "value" sollte die entsprechenden Werte enthalten.
+    
+    b) Verwende `pivot_wider()` um die längeren Daten aus Schritt a) zurück in die ursprüngliche Form zu bringen. Die Spalte "variable" sollte die ursprünglichen Spaltennamen ("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width") sein und die Werte sollten in den entsprechenden Spalten enthalten sein.
+
+# Joining der Daten
+## Grundlagen
+Um zwei DataFrames mit einander zu verbinden, bedienen wir uns der Funktion `.merge()`. Die Art und Weise, wie diese Funktion funktioniert ist dabei sehr an die Sprache [SQL](https://de.wikipedia.org/wiki/SQL) für [relationale Datenbanken](https://de.wikipedia.org/wiki/Relationale_Datenbank) angelegt; dabei meine ich nicht so sehr die Syntax, als die *Denkweise* von SQL.
+
+Möchte man in SQL *zwei* Tabellen einer Datenbank miteinander verknüpfen, als einen sog. *Join* machen, betrachtet man die Inhalte der Tabellen wie zwei Mengen (im mathematischen Sinn), die man auf vier unterschiedliche Weise verknüpfen kann. Diese Weisen der Verknüpfung lassen sich auch in sog. [Venn Diagrammen](https://de.wikipedia.org/wiki/Mengendiagramm) darstellen. Bei der Darstellung mit Venn Diagrammen von der Verknüpfung von genau *zwei* Mengen gibt es immer eine *linke* Seite, eine *rechte* Seite, einen *inneren* Bereich und einen *äuẞeren* Bereich. Dies sind dann auch genau die vier Grundarten (es gibt noch ein paar speziellere aber weniger wichtige Arte), wie sich in SQL Tabellen miteinander verbinden lassen. Dementsprechend spricht man von einem *left*, einem *right*, einem *inner* und einem *outer* Join.
+
+Folgende Schaubilder aus dem [Kurs Statistik und Datenanalyse mit Python](https://github.com/datenschauer/python-stats-course/tree/main) von Stefan Böhringer mögen das veranschaulichen:
+
+![](images/python_stats/inner_join.png)
+![](images/python_stats/left_join.png)
+![](images/python_stats/right_join.png)
+![](images/python_stats/outer_join.png)
+<div class="hinweis" style='background-color: #D6EAF8; color: #34495E; border-left: solid #34495E 4px; border-radius: 4px; padding: 0.7em;'>
+<p style='margin:1em;'>
+Eine alternative Beschreibung mit anderer Visualisierung findet sich in [Kapitel 20.4 How do joins work?](https://r4ds.hadley.nz/joins.html#how-do-joins-work) von R4DS
+</p>
+</div>
+
+Gehen wir zurück zum Datensatz aus R4DS und einem komplexeren, aber durchaus realistischen Fall. 
+
+## Keys
+
+Um Joins zu verstehen, musst du darüber hinaus verstehen, wie zwei Tabellen über ein Paar von Schlüsseln miteinander verbunden werden können, innerhalb jeder Tabelle.
+In diesem Abschnitt lernst du die beiden Arten von Schlüsseln kennen und sie anhand der Datensätze des Pakets "nycflights13" beispielhaft zu sehen.
+Du lernst auch, wie du überprüfen kannst, ob deine Schlüssel gültig sind, und was zu tun ist, wenn deine Tabelle keinen Schlüssel hat.
+
+### Primärschlüssel und Fremdschlüssel
+
+Jeder Join beinhaltet ein Paar von Schlüsseln: einen Primärschlüssel und einen Fremdschlüssel.
+Ein **Primärschlüssel** ist eine Variable oder eine Gruppe von Variablen, die jede Beobachtung eindeutig identifiziert.
+Wenn mehr als eine Variable erforderlich ist, wird der Schlüssel als **zusammengesetzter Schlüssel** bezeichnet. Zum Beispiel in "nycflights13":
+
+-   `airlines` enthält zwei Datenfelder zu jeder Fluggesellschaft: ihren Carrier-Code und ihren vollständigen Namen.
+    Du kannst eine Fluggesellschaft mit ihrem Carrier-Code identifizieren, wodurch `carrier` der Primärschlüssel ist.
+
+    ```{r}
+    airlines
+    ```
+
+-   `airports` enthält Daten zu jedem Flughafen.
+    Jeden Flughafen kannst du anhand seines dreistelligen Flughafencodes identifizieren, wodurch `faa` der Primärschlüssel ist.
+
+    ```{r}
+    #| R.options:
+    #|   width: 67
+    airports
+    ```
+
+-   `planes` enthält Daten zu jedem Flugzeug.
+    Ein Flugzeug kannst du anhand seiner Kennung (Tail Number) identifizieren, wodurch `tailnum` der Primärschlüssel ist.
+
+    ```{r}
+    #| R.options:
+    #|   width: 67
+    planes
+    ```
+
+-   `weather` enthält Daten zum Wetter an den Abflugflughäfen.
+    Du kannst jede Beobachtung durch die Kombination von Ort und Uhrzeit identifizieren, wodurch `origin` und `time_hour` der zusammengesetzte Primärschlüssel sind.
+
+    ```{r}
+    #| R.options:
+    #|   width: 67
+    weather
+    ```
+
+Ein **Fremdschlüssel** ist eine Variable (oder eine Gruppe von Variablen), die zu einem Primärschlüssel in einer anderen Tabelle korrespondiert.
+Beispiele dafür sind:
+
+- `flights$tailnum` ist ein Fremdschlüssel, der zum Primärschlüssel `planes$tailnum` korrespondiert.
+- `flights$carrier` ist ein Fremdschlüssel, der zum Primärschlüssel `airlines$carrier` korrespondiert.
+- `flights$origin` ist ein Fremdschlüssel, der zum Primärschlüssel `airports$faa` korrespondiert.
+- `flights$dest` ist ein Fremdschlüssel, der dem Primärschlüssel `airports$faa` entspricht.
+- `flights$origin`-`flights$time_hour` ist ein zusammengesetzter Fremdschlüssel, der dem zusammengesetzten Primärschlüssel `weather$origin`-`weather$time_hour` entspricht.
+
+Diese Beziehungen werden visuell hier zusammengefasst:
+
+```{r}
+#| label: fig-flights-relationships
+#| echo: false
+#| out-width: ~
+#| fig-cap: >
+#|   Grafik aus R for Data Science (2e): r4ds.hadley.nz
+#|   Verbindungen zwischen allen fünf Datensätzen im nycflights13-Paket.
+#|   Variablen, die einen Primärschlüssel bilden, sind grau eingefärbt und mit Pfeilen mit ihren entsprechenden Fremdschlüsseln verbunden.
+knitr::include_graphics("images/r4ds/relational.png", dpi = 270)
+```
+
+Du wirst eine interessante Funktion im Design dieser Schlüssel bemerken: Die Primär- und Fremdschlüssel haben fast immer die gleichen Namen, was, wie du gleich sehen wirst, das Verknüpfen erleichtert.
+Es ist auch erwähnenswert, dass die Variablennamen, die in mehreren Tabellen verwendet werden, in jedem Fall die gleiche Bedeutung haben.
+Es gibt nur eine Ausnahme: `year` bedeutet das Abfahrtsjahr in `flights` und das Herstellungsjahr in `planes`.
+Das wird wichtig, wenn wir tatsächlich Tabellen miteinander verknüpfen.
+
+### Überprüfung der Primärschlüssel
+
+Nachdem wir die Primärschlüssel in jeder Tabelle identifiziert haben, ist es gute Praxis, zu überprüfen, ob sie tatsächlich jede Beobachtung eindeutig identifizieren.
+Eine Möglichkeit dies zu tun, besteht darin, die Anzahl der Primärschlüssel mit `count()` zu ermitteln und nach Einträgen zu suchen, bei denen `n` größer als eins ist.
+Dadurch wird deutlich, dass sowohl `planes` als auch `weather` in Ordnung sind:
+
+```{r}
+planes %>%  
+  count(tailnum) %>%  
+  filter(n > 1)
+
+weather %>%  
+  count(time_hour, origin) %>%  
+  filter(n > 1)
+```
+
+Du solltest auch nach fehlenden Werten in deinen Primärschlüsseln suchen - wenn ein Wert fehlt, kann er keine Beobachtung identifizieren!
+
+```{r}
+planes %>%  
+  filter(is.na(tailnum))
+
+weather %>%  
+  filter(is.na(time_hour) | is.na(origin))
+```
+
+### Ersatzschlüssel
+
+Bisher haben wir noch nicht über den Primärschlüssel für `flights` gesprochen.
+Dies ist hier nicht besonders wichtig, da es keine Datensatz gibt, die ihn als Fremdschlüssel verwenden, aber es ist dennoch nützlich, darüber nachzudenken, da es einfacher ist, Beobachtungen zu bearbeiten, wenn wir eine Möglichkeit haben, sie anderen zu beschreiben.
+
+Nach etwas Nachdenken und Experimentieren haben wir festgestellt, dass es drei Variablen gibt, die zusammen jede Flugreise eindeutig identifizieren:
+
+```{r}
+flights %>%  
+  count(time_hour, carrier, flight) %>%  
+  filter(n > 1)
+```
+
+Bedeutet das Fehlen von Duplikaten automatisch, dass `time_hour`-`carrier`-`flight` ein Primärschlüssel ist?
+Es ist sicherlich ein guter Anfang, aber es garantiert es nicht.
+Ist zum Beispiel Höhe und Breitengrad ein guter Primärschlüssel für `airports`?
+
+```{r}
+airports %>% 
+  count(alt, lat) %>%  
+  filter(n > 1)
+```
+
+Es ist offensichtlich keine gute Idee, einen Flughafen durch seine Höhe und Breitengrad zu identifizieren, und im Allgemeinen ist es anhand der Daten allein nicht möglich zu wissen, ob eine Kombination von Variablen einen guten Primärschlüssel bildet oder nicht.
+Aber für Flüge scheint die Kombination von `time_hour`, `carrier` und `flight` vernünftig, da es sehr verwirrend für eine Fluggesellschaft und ihre Kunden wäre, wenn es mehrere Flüge mit derselben Flugnummer zur gleichen Zeit in der Luft gäbe.
+
+Das heißt, es wäre vielleicht sinnvoller, einen einfachen numerischen Ersatzschlüssel einzuführen, der die Zeilennummer verwendet:
+
+```{r}
+flights2 <- flights %>%  
+  mutate(id = row_number(), .before = 1)
+flights2
+```
+
+Ersatzschlüssel können besonders nützlich sein, wenn man sich mit anderen Menschen austauscht: Es ist viel einfacher, jemanden darum zu bitten, sich den Flug 2001 anzusehen, als zu sagen, schau dir UA430 an, der am 3. Januar 2013 um 9 Uhr abgeflogen ist.
+
+## Übung 5
+
+1. Die Beziehung zwischen `weather` und `airports` ist in der Visulaiserung der Relationen nicht dargestellt. 
+   Was ist die Beziehung und wie sollte sie im Diagramm dargestellt werden?
+
+2. `weather` enthält nur Informationen für die drei Ursprungsflughäfen in New York City. 
+   Wenn es Wetteraufzeichnungen für alle Flughäfen in den USA enthalten würde, welche zusätzliche Verbindung würde es zu `flights` herstellen?
+
+3. Wir wissen, dass einige Tage im Jahr besonders sind und weniger Menschen als üblich fliegen (z.B. Heiligabend und Weihnachtstag). 
+   Wie könntest du diese Daten als Datensatz darstellen? 
+   Was wäre der Primärschlüssel? 
+   Wie würde er sich mit den vorhandenen Datensätzen verbinden?
+
+4. Zeichne ein Diagramm, das die Verbindungen zwischen den Datensätzen `Batting`, `People` und `Salaries` im Lahman-Paket veranschaulicht. 
+
+## Basic Joins
+Jetzt, da du verstehst, wie Datensätze über Schlüssel miteinander verbunden sind, können wir anfangen, Joins zu verwenden, um das `flights`-Datenset besser zu verstehen.
+dplyr stellt sechs Join-Funktionen zur Verfügung: `left_join()`, `inner_join()`, `right_join()`, `full_join()`, `semi_join()` und `anti_join()`. Sie alle haben die gleiche Schnittstelle: Sie nehmen ein Paar von Datensätzen (`x` und `y`) entgegen und geben einen Datensatz zurück.
+Die Reihenfolge der Zeilen und Spalten in der Ausgabe wird hauptsächlich von `x` bestimmt.
+
+In diesem Abschnitt lernst du, wie du einen mutierenden Join, `left_join()`, und zwei filternde Joins, `semi_join()` und `anti_join()`, verwenden kannst.
+Im nächsten Abschnitt lernst du genau, wie diese Funktionen funktionieren, sowie die verbleibenden `inner_join()`, `right_join()` und `full_join()`.
+
+## Übung 6
+1. Gegeben sind zwei Datensätzen `df1` und `df1` mit einer gemeinsamen Spalte "ID". 
+    ```{r}
+    df1 <- data.frame(ID = c(1, 2, 3, 4),
+                      Name = c("Alice", "Bob", "Charlie", "David"))
+    
+    df2 <- data.frame(ID = c(2, 3, 5),
+                      Age = c(25, 30, 35))
+    ```
+    a. Führe einen `left_join()` durch und speichere das Ergebnis im Datensatz `merged_df`. Gib anschließend den resultierenden Datensatz aus.
+    b. Führe einen `inner_join()` durch und speichere das Ergebnis im Datensatz `merged_inner`. Gib anschließend den resultierenden Datensatz aus.
+    c. Führe einen `right_join()` durch und speichere das Ergebnis im Datensatz `merged_right`. Gib anschließend den resultierenden Datensatz aus.
+    d. Führe einen `full_join()` durch und speichere das Ergebnis im Datensatz `merged_full`. Gib anschließend den resultierenden Datensatz aus.
+    e. Führe einen `semi_join()` durch und speichere das Ergebnis im Datensatz `merged_semi`. Gib anschließend den resultierenden Datensatz aus.
+    e. Führe einen `anti_join()` durch und speichere das Ergebnis im Datensatz `merged_anti`. Gib anschließend den resultierenden Datensatz aus.
+
+### Mutierende Joins
+
+Ein **mutierender Join** ermöglicht es dir, Variablen aus zwei Datensätzen zu kombinieren: Zuerst werden die Beobachtungen anhand ihrer Schlüssel abgeglichen und dann werden die Variablen von einem Datensatz in den anderen kopiert.
+Ähnlich wie bei `mutate()` fügen die Join-Funktionen die Variablen rechts hinzu, daher werden die neuen Variablen möglicherweise nicht angezeigt, wenn dein Datensatz viele Variablen enthält.
+Für diese Beispiele werden wir es einfacher machen, zu sehen, was vor sich geht, indem wir einen schmaleren Datensatz mit nur sechs Variablen erstellen:
+
+Denke daran, dass du in RStudio auch `View()` verwenden kannst, um dieses Problem zu umgehen.
+
+```{r}
+flights2 <- flights %>%  
+  select(year, time_hour, origin, dest, tailnum, carrier)
+flights2
+```
+
+Es gibt vier Arten von mutierenden Joins, aber eine wirst du fast immer verwenden: `left_join()`.
+Er ist besonders, weil die Ausgabe immer die gleichen Zeilen wie `x` hat. (Das ist nicht zu 100% korrekt, aber du erhältst eine Warnung, wenn das nicht der Fall ist.)
+Der Hauptzweck von `left_join()` besteht darin, zusätzliche Metadaten hinzuzufügen.
+Beispielsweise können wir `left_join()` verwenden, um den vollen Namen der Fluggesellschaft zu den `flights2`-Daten hinzuzufügen:
+
+
+```{r}
+flights2 %>% 
+  left_join(airlines)
+```
+
+Oder wir könnten die Temperatur und Windgeschwindigkeit herausfinden, als jedes Flugzeug abgeflogen ist:
+
+```{r}
+flights2 %>%  
+  left_join(weather %>%  select(origin, time_hour, temp, wind_speed))
+```
+
+Oder welche Größe das Flugzeug hatte, das geflogen ist:
+
+```{r}
+flights2 %>%  
+  left_join(planes %>%  select(tailnum, type, engines, seats))
+```
+
+Wenn `left_join()` keine Übereinstimmung für eine Zeile in `x` findet, füllt es die neuen Variablen mit fehlenden Werten auf.
+Beispielsweise gibt es keine Informationen über das Flugzeug mit der Tail-Nummer `N3ALAA`, daher werden der `type`, die `engines` und die `seats` fehlen:
+
+```{r}
+flights2 %>%  
+  filter(tailnum == "N3ALAA") %>%  
+  left_join(planes %>%  select(tailnum, type, engines, seats))
+```
+
+### Spezifizierung der Join-Schlüssel
+
+Standardmäßig verwendet `left_join()` alle Variablen, die in beiden Datensätzen vorkommen, als den Join-Schlüssel, den sogenannten **natural** Join.
+Dies ist eine nützliche Heuristik, aber sie funktioniert nicht immer.
+Was passiert zum Beispiel, wenn wir versuchen, `flights2` mit dem vollständigen `planes`-Datensatz zu verbinden?
+
+```{r}
+flights2 %>%  
+  left_join(planes)
+```
+
+Es gibt viele fehlende Übereinstimmungen, weil unser Join versucht, `tailnum` und `year` als zusammengesetzten Schlüssel zu verwenden.
+Sowohl `flights` als auch `planes` haben eine `year`-Spalte, aber sie bedeuten unterschiedliche Dinge: `flights$year` ist das Jahr, in dem der Flug stattgefunden hat, und `planes$year` ist das Jahr, in dem das Flugzeug gebaut wurde.
+Wir möchten nur nach `tailnum` verbinden, daher müssen wir eine explizite Spezifikation mit `join_by()` angeben:
+
+```{r}
+flights2 %>%  
+  left_join(planes, join_by(tailnum))
+```
+
+Beachte, dass die `year`-Variablen in der Ausgabe mit einem Suffix (`year.x` und `year.y`) eindeutig gekennzeichnet sind, der angibt, ob die Variable aus dem `x`- oder `y`-Argument stammt.
+Du kannst die Standard-Suffixe mit dem Argument `suffix` überschreiben.
+
+`join_by(tailnum)` steht für `join_by(tailnum == tailnum)`.
+Es ist wichtig, diese ausführlichere Form aus zwei Gründen zu kennen.
+Erstens beschreibt sie die Beziehung zwischen den beiden Tabellen: Die Schlüssel müssen übereinstimmen.
+Daher wird dieser Typ von Join oft als **equi-join** bezeichnet.
+
+Zweitens kannst du damit verschiedene Join-Schlüssel in jeder Tabelle angeben.
+Beispielsweise gibt es zwei Möglichkeiten, die Tabellen `flight2` und `airports` zu verbinden: entweder nach `dest` oder nach `origin`:
+
+```{r}
+flights2 %>%  
+  left_join(airports, join_by(dest == faa))
+
+flights2 %>%  
+  left_join(airports, join_by(origin == faa))
+```
+
+In älterem Code kannst du eine andere Art der Spezifizierung der Join-Schlüssel sehen, indem du einen Zeichenvektor verwendest:
+
+-   `by = "x"` entspricht `join_by(x)`.
+-   `by = c("a" = "x")` entspricht `join_by(a == x)`.
+
+Jetzt, da `join_by()` existiert, bevorzugen wir es, da es eine klarere und flexiblere Spezifikation ermöglicht.
+
+`inner_join()`, `right_join()`, `full_join()` haben die gleiche Schnittstelle wie `left_join()`.
+Der Unterschied besteht darin, welche Zeilen beibehalten werden: Der Left Join behält alle Zeilen in `x` bei, der Right Join behält alle Zeilen in `y` bei, der Full Join behält alle Zeilen entweder in `x` oder `y` bei, und der Inner Join behält nur Zeilen bei, die sowohl in `x` als auch in `y` vorkommen.
+
+### Filtering Joins
+
+Wie du dir vielleicht vorstellen kannst, besteht die Hauptfunktion eines **Filtering Joins** darin, die Zeilen zu filtern.
+Es gibt zwei Arten: Semi-Joins und Anti-Joins.
+**Semi-Joins** behalten alle Zeilen in `x` bei, die eine Übereinstimmung in `y` haben.
+Zum Beispiel könnten wir einen Semi-Join verwenden, um den `airports`-Datensatz zu filtern und nur die Ursprungsflughäfen anzuzeigen:
+
+```{r}
+airports %>%  
+  semi_join(flights2, join_by(faa == origin))
+```
+
+Oder nur die Zielorte:
+
+```{r}
+airports %>%  
+  semi_join(flights2, join_by(faa == dest))
+```
+
+**Anti-Joins** sind das Gegenteil: Sie geben alle Zeilen in `x` zurück, die keine Übereinstimmung in `y` haben.
+Sie sind nützlich, um fehlende Werte zu finden, die im Datenbestand **implizit** sind.
+Implizit fehlende Werte werden nicht als `NA` angezeigt, sondern existieren nur durch ihre Abwesenheit.
+Beispielsweise können wir Zeilen finden, die in `airports` fehlen, indem wir nach Flügen suchen, die keinen passenden Zielflughafen haben:
+
+```{r}
+flights2 %>%  
+  anti_join(airports, join_by(dest == faa)) %>%  
+  distinct(dest)
+```
+
+Oder wir können herausfinden, welche `tailnum`s in `planes` fehlen:
+
+```{r}
+flights2 %>% 
+  anti_join(planes, join_by(tailnum)) %>%  
+  distinct(tailnum)
+```
+
 <!-- --- -->
 
 <!-- # Data Transformation -->

@@ -652,6 +652,599 @@ besten geeignet ist, probiere beide Methoden aus und vergleiche die
 Ergebnisse, um die beste Option für deine Bedürfnisse zu wählen.</p>
 </div>
 </div>
+<div id="übung-2" class="section level1">
+<h1>Übung 2</h1>
+<div id="aufgabe-5" class="section level2">
+<h2>1. Aufgabe</h2>
+<p>Vergleiche dep_time, sched_dep_time, und dep_delay. Welchen
+Zusammenhang erwartest du zwischen diesen drei Zahlen?</p>
+<pre class="r"><code>flights %&gt;% 
+  select(dep_time, sched_dep_time, dep_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 3
+##    dep_time sched_dep_time dep_delay
+##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;
+##  1      517            515         2
+##  2      533            529         4
+##  3      542            540         2
+##  4      544            545        -1
+##  5      554            600        -6
+##  6      554            558        -4
+##  7      555            600        -5
+##  8      557            600        -3
+##  9      557            600        -3
+## 10      558            600        -2
+## # ℹ 336,766 more rows</code></pre>
+<p>dep_time bezieht sich auf die tatsächliche Abflugzeit eines Fluges,
+während sched_dep_time die geplante Abflugzeit angibt. Der dep_delay
+gibt die Verspätung bei der Abflugzeit an, die als Differenz zwischen
+dep_time und sched_dep_time berechnet wird.</p>
+<p>In Bezug auf den Zusammenhang zwischen diesen drei Variablen können
+wir erwarten, dass, wenn ein Flugzeug gemäß dem geplanten Zeitplan
+abfliegt, dep_delay gleich Null sein wird, da die Differenz zwischen
+dep_time und sched_dep_time Null sein wird. Wenn jedoch ein Flugzeug
+später als geplant abfliegt, wird dep_delay positiv sein, was bedeutet,
+dass der Abflug verzögert war.</p>
+<p>Insgesamt können wir also sagen, dass dep_time und sched_dep_time
+direkt mit dep_delay verbunden sind. Wenn ein Flug später als geplant
+abfliegt, wird die Abflugzeit (dep_time) später als die geplante
+Abflugzeit (sched_dep_time) sein, was zu einer positiven dep_delay
+führt.</p>
+</div>
+<div id="aufgabe-6" class="section level2">
+<h2>2. Aufgabe</h2>
+<p>Überlege dir so viele Möglichkeiten wie möglich, um dep_time,
+dep_delay, arr_time und arr_delay aus flights auszuwählen.</p>
+<pre class="r"><code>select(flights, dep_time, dep_delay, arr_time, arr_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, &quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, 4, 6, 7, 9)</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, all_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>select(flights, any_of(c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+<pre class="r"><code>variables &lt;- c(&quot;dep_time&quot;, &quot;dep_delay&quot;, &quot;arr_time&quot;, &quot;arr_delay&quot;)
+select(flights, all_of(variables))</code></pre>
+<pre><code>## # A tibble: 336,776 × 4
+##    dep_time dep_delay arr_time arr_delay
+##       &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1      517         2      830        11
+##  2      533         4      850        20
+##  3      542         2      923        33
+##  4      544        -1     1004       -18
+##  5      554        -6      812       -25
+##  6      554        -4      740        12
+##  7      555        -5      913        19
+##  8      557        -3      709       -14
+##  9      557        -3      838        -8
+## 10      558        -2      753         8
+## # ℹ 336,766 more rows</code></pre>
+</div>
+<div id="aufgabe-7" class="section level2">
+<h2>3. Aufgabe</h2>
+<p>Was passiert, wenn man den Namen der gleichen Variable mehrmals in
+einem select()-Aufruf angibt? nichts</p>
+<pre class="r"><code>flights %&gt;% 
+  select(-c(year, year))</code></pre>
+<pre><code>## # A tibble: 336,776 × 18
+##    month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1     1     1      517            515         2      830            819
+##  2     1     1      533            529         4      850            830
+##  3     1     1      542            540         2      923            850
+##  4     1     1      544            545        -1     1004           1022
+##  5     1     1      554            600        -6      812            837
+##  6     1     1      554            558        -4      740            728
+##  7     1     1      555            600        -5      913            854
+##  8     1     1      557            600        -3      709            723
+##  9     1     1      557            600        -3      838            846
+## 10     1     1      558            600        -2      753            745
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-8" class="section level2">
+<h2>4. Aufgabe</h2>
+<p>Was macht die Funktion any_of()?Warum könnte sie in Verbindung mit
+diesem Vektor hilfreich sein?</p>
+<p><strong>Lösung</strong> Die Funktion any_of() ist eine Funktion aus
+dem Paket dplyr, die verwendet wird, um eine Zeichenfolge (z. B. den
+Namen einer Variablen) mit einem Vektor von Spaltennamen zu vergleichen.
+Die Funktion gibt TRUE zurück, wenn die Zeichenfolge mit mindestens
+einem der Elemente des Vektors übereinstimmt, andernfalls gibt sie FALSE
+zurück.</p>
+<p>In Verbindung mit dem gegebenen Vektor variables &lt;- c(“year”,
+“month”, “day”, “dep_delay”, “arr_delay”) kann die Funktion any_of()
+verwendet werden, um zu überprüfen, ob eine bestimmte Spalte in einem
+Datensatz enthalten ist. Zum Beispiel, wenn wir einen Datensatz haben,
+der diese Spalten enthält, können wir mit der any_of()-Funktion
+überprüfen, ob eine bestimmte Spalte enthalten ist, ohne jeden
+Spaltennamen einzeln zu überprüfen.</p>
+<p>Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden
+könnte, um zu überprüfen, ob ein Datensatz Spalten mit den Namen aus dem
+Vektor variables enthält:</p>
+<pre class="r"><code># Vektor von Spaltennamen
+variables &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)
+
+# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
+selected_columns &lt;- flights %&gt;% 
+  select(any_of(variables))
+
+# Ergebnis
+selected_columns</code></pre>
+<pre><code>## # A tibble: 336,776 × 5
+##     year month   day dep_delay arr_delay
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1  2013     1     1         2        11
+##  2  2013     1     1         4        20
+##  3  2013     1     1         2        33
+##  4  2013     1     1        -1       -18
+##  5  2013     1     1        -6       -25
+##  6  2013     1     1        -4        12
+##  7  2013     1     1        -5        19
+##  8  2013     1     1        -3       -14
+##  9  2013     1     1        -3        -8
+## 10  2013     1     1        -2         8
+## # ℹ 336,766 more rows</code></pre>
+</div>
+<div id="aufgabe-9" class="section level2">
+<h2>5. Aufgabe</h2>
+<p>Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die
+Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie
+kannst du diese Voreinstellung ändern?</p>
+<pre class="r"><code>flights %&gt;% select(contains(&quot;TIME&quot;))</code></pre>
+<pre><code>## # A tibble: 336,776 × 6
+##    dep_time sched_dep_time arr_time sched_arr_time air_time time_hour          
+##       &lt;int&gt;          &lt;int&gt;    &lt;int&gt;          &lt;int&gt;    &lt;dbl&gt; &lt;dttm&gt;             
+##  1      517            515      830            819      227 2013-01-01 05:00:00
+##  2      533            529      850            830      227 2013-01-01 05:00:00
+##  3      542            540      923            850      160 2013-01-01 05:00:00
+##  4      544            545     1004           1022      183 2013-01-01 05:00:00
+##  5      554            600      812            837      116 2013-01-01 06:00:00
+##  6      554            558      740            728      150 2013-01-01 05:00:00
+##  7      555            600      913            854      158 2013-01-01 06:00:00
+##  8      557            600      709            723       53 2013-01-01 06:00:00
+##  9      557            600      838            846      140 2013-01-01 06:00:00
+## 10      558            600      753            745      138 2013-01-01 06:00:00
+## # ℹ 336,766 more rows</code></pre>
+<p>Die contains()-Funktion wählt alle Spalten aus, die einen bestimmten
+String in ihrem Namen enthalten. Die contains()-Funktion ist
+standardmäßig nicht casesensitive, d.h. sie unterscheidet nicht zwischen
+Groß- und Kleinschreibung. Das bedeutet, dass alle Spalten ausgewählt
+werden, die den String “TIME”, “time” oder “Time” im Namen
+enthalten.</p>
+<p>Wenn Sie jedoch eine Funktion verwenden möchten, die casesensitive
+ist, können Sie die matches()-Funktion anstelle von contains() verwenden
+und einen regulären Ausdruck (Regex) als Argument übergeben, um die
+Groß- und Kleinschreibung zu steuern.</p>
+</div>
+<div id="aufgabe-10" class="section level2">
+<h2>6. Aufgabe</h2>
+<p>Benenne air_time in air_time_min um, um die Maßeinheiten anzugeben
+und verschiebe es an den Anfang des Datensatzes.</p>
+<pre class="r"><code># air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben
+flights %&gt;% 
+  rename(air_time_min = air_time) %&gt;% 
+  relocate(air_time_min)</code></pre>
+<pre><code>## # A tibble: 336,776 × 19
+##    air_time_min  year month   day dep_time sched_dep_time dep_delay arr_time
+##           &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1          227  2013     1     1      517            515         2      830
+##  2          227  2013     1     1      533            529         4      850
+##  3          160  2013     1     1      542            540         2      923
+##  4          183  2013     1     1      544            545        -1     1004
+##  5          116  2013     1     1      554            600        -6      812
+##  6          150  2013     1     1      554            558        -4      740
+##  7          158  2013     1     1      555            600        -5      913
+##  8           53  2013     1     1      557            600        -3      709
+##  9          140  2013     1     1      557            600        -3      838
+## 10          138  2013     1     1      558            600        -2      753
+## # ℹ 336,766 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-11" class="section level2">
+<h2>7. Aufgabe</h2>
+<p>Warum funktioniert das Folgende nicht, und was bedeutet der
+Fehler?</p>
+<p><strong>Lösung</strong> Der Code führt zu einem Fehler, weil Sie
+arrange() auf eine Spalte anwenden, die in der aktuellen Pipeline nicht
+vorhanden ist.</p>
+<p>In Ihrer Pipeline haben Sie nur die Spalte tailnum ausgewählt und
+arrange() wurde auf dieser reduzierten Datenmenge angewendet. Da
+arr_delay nicht in den ausgewählten Spalten enthalten ist, gibt es eine
+Fehlermeldung, wenn arrange() versucht, den Datensatz basierend auf
+dieser Spalte zu ordnen.</p>
+<p>Um den Fehler zu beheben, müssen Sie sicherstellen, dass arr_delay in
+der aktuellen Pipeline verfügbar ist. Sie können beispielsweise die
+Spalte arr_delay mit select() auswählen, bevor Sie arrange()
+anwenden:</p>
+<pre class="r"><code>flights %&gt;%
+  select(tailnum, arr_delay) %&gt;%  # arr_delay auswählen
+  arrange(arr_delay)</code></pre>
+<pre><code>## # A tibble: 336,776 × 2
+##    tailnum arr_delay
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 N843VA        -86
+##  2 N840VA        -79
+##  3 N851UA        -75
+##  4 N3KCAA        -75
+##  5 N551AS        -74
+##  6 N24212        -73
+##  7 N3760C        -71
+##  8 N806UA        -71
+##  9 N805JB        -71
+## 10 N855VA        -70
+## # ℹ 336,766 more rows</code></pre>
+</div>
+</div>
+<div id="übung-3" class="section level1">
+<h1>Übung 3</h1>
+<div id="aufgabe-12" class="section level2">
+<h2>1.Aufgabe</h2>
+<p>Welcher Anbieter hat die schlechtesten durchschnittlichen
+Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten
+Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum
+nicht? (Tipp: denke darüber nach:
+<code>flights %&gt;% group_by(carrier, dest) %&gt;% summarize(n())</code>).</p>
+<p>Um den Anbieter mit den schlechtesten durchschnittlichen Verspätungen
+zu finden, können wir den flights-Datensatz gruppieren und die
+durchschnittlichen Verspätungen für jeden Anbieter berechnen. Hier ist
+ein Beispielcode, der dies tut:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(avg_delay = mean(arr_delay, na.rm = TRUE)) %&gt;%
+  arrange(desc(avg_delay))</code></pre>
+<pre><code>## # A tibble: 16 × 2
+##    carrier avg_delay
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 F9         21.9  
+##  2 FL         20.1  
+##  3 EV         15.8  
+##  4 YV         15.6  
+##  5 OO         11.9  
+##  6 MQ         10.8  
+##  7 WN          9.65 
+##  8 B6          9.46 
+##  9 9E          7.38 
+## 10 UA          3.56 
+## 11 US          2.13 
+## 12 VX          1.76 
+## 13 DL          1.64 
+## 14 AA          0.364
+## 15 HA         -6.92 
+## 16 AS         -9.93</code></pre>
+<pre class="r"><code>filter(airlines, carrier == &quot;F9&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   carrier name                  
+##   &lt;chr&gt;   &lt;chr&gt;                 
+## 1 F9      Frontier Airlines Inc.</code></pre>
+<p>Dieser Code gruppiert den flights-Datensatz nach dem Anbieter und
+berechnet den durchschnittlichen Verspätungswert für jeden Anbieter. Das
+na.rm = TRUE -Argument sorgt dafür, dass alle fehlenden Werte in der
+arr_delay Spalte ignoriert werden. Wir ordnen die Ergebnisse dann nach
+dem avg_delay Wert, um den Anbieter mit den schlechtesten
+durchschnittlichen Verspätungen zu finden.</p>
+<p>Um die Auswirkungen von schlechten Flughäfen und schlechten Anbietern
+auseinanderzuhalten, müssen wir Airline, Abflugort und Ankunftsort
+berücksichtigen.</p>
+<pre class="r"><code>flights %&gt;%
+  summarise(carrier_n = n_distinct(carrier),
+            origin_n = n_distinct(origin),
+            dest_n = n_distinct(dest))</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   carrier_n origin_n dest_n
+##       &lt;int&gt;    &lt;int&gt;  &lt;int&gt;
+## 1        16        3    105</code></pre>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  # Total delay by carrier within each origin, dest
+  group_by(origin, dest, carrier) %&gt;%
+  summarise(
+    arr_delay_odc_sum = sum(arr_delay),
+    flights_odc = n()) %&gt;%
+  # Total delay within each origin dest
+  mutate(
+    arr_delay_od_sum = sum(arr_delay_odc_sum),
+    flights_od = sum(flights_odc)) %&gt;%
+  # average delay of each carrier - average delay of other carriers
+  ungroup() %&gt;%
+  mutate(
+    arr_delay_others = (arr_delay_od_sum - arr_delay_odc_sum) / (flights_od - flights_odc),
+    arr_delay_mean = arr_delay_odc_sum / flights_odc,
+    arr_delay_diff = arr_delay_mean - arr_delay_others) %&gt;%
+  # remove NaN values (when there is only one carrier)
+  filter(is.finite(arr_delay_diff)) %&gt;%
+  # average over all airports it flies to
+  group_by(carrier) %&gt;%
+  summarise(arr_delay_diff = mean(arr_delay_diff)) %&gt;%
+  ggplot(aes(x=carrier, y=arr_delay_diff)) + 
+    geom_bar(stat = &quot;identity&quot;)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;origin&#39;, &#39;dest&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<p><img src="Loesungen_Script_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-13" class="section level2">
+<h2>2.Aufgabe</h2>
+<p>Finde die Flüge, die bei der Abreise von jedem Zielort am meisten
+verspätet sind.</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(dest) %&gt;% 
+  slice_max(dep_delay, n = 1) %&gt;% 
+  relocate(dest)</code></pre>
+<pre><code>## # A tibble: 105 × 19
+## # Groups:   dest [105]
+##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##  1 ABQ    2013    12    14     2223           2001       142      133
+##  2 ACK    2013     7    23     1139            800       219     1250
+##  3 ALB    2013     1    25      123           2000       323      229
+##  4 ANC    2013     8    17     1740           1625        75     2042
+##  5 ATL    2013     7    22     2257            759       898      121
+##  6 AUS    2013     7    10     2056           1505       351     2347
+##  7 AVL    2013     6    14     1158            816       222     1335
+##  8 BDL    2013     2    21     1728           1316       252     1839
+##  9 BGR    2013    12     1     1504           1056       248     1628
+## 10 BHM    2013     4    10       25           1900       325      136
+## # ℹ 95 more rows
+## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+<div id="aufgabe-14" class="section level2">
+<h2>3.Aufgabe</h2>
+<p>Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine
+Antwort mit einem Diagramm.</p>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(arr_delay)) %&gt;%
+  group_by(hour) %&gt;%
+  summarise(avg_arr_delay = mean(arr_delay)) %&gt;%
+  ggplot(aes(x = hour, y = avg_arr_delay)) +
+  geom_line() +
+  labs(x = &quot;Stunde des Tages&quot;, y = &quot;Durchschnittliche Ankunftsverspätung (Minuten)&quot;)</code></pre>
+<p><img src="Loesungen_Script_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+</div>
+<div id="aufgabe-15" class="section level2">
+<h2>4.Aufgabe</h2>
+<p>Was passiert, wenn du slice_min() und verwandten Funktionen eine
+negative <code>n</code> lieferst?</p>
+<pre class="r"><code>flights %&gt;% 
+  slice_min(dep_delay, n = -1, with_ties = F)</code></pre>
+<pre><code>## # A tibble: 336,775 × 19
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013    12     7     2040           2123       -43       40           2352
+##  2  2013     2     3     2022           2055       -33     2240           2338
+##  3  2013    11    10     1408           1440       -32     1549           1559
+##  4  2013     1    11     1900           1930       -30     2233           2243
+##  5  2013     1    29     1703           1730       -27     1947           1957
+##  6  2013     8     9      729            755       -26     1002            955
+##  7  2013    10    23     1907           1932       -25     2143           2143
+##  8  2013     3    30     2030           2055       -25     2213           2250
+##  9  2013     3     2     1431           1455       -24     1601           1631
+## 10  2013     5     5      934            958       -24     1225           1309
+## # ℹ 336,765 more rows
+## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Es werden <code>n</code> Zeilen entfernt.</p>
+</div>
+<div id="aufgabe-16" class="section level2">
+<h2>5.Aufgabe</h2>
+<p>Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du
+gerade gelernt hast. Was macht das sort-Argument von count()?</p>
+<p>count() ist ein dplyr-Verb, das verwendet wird, um die Anzahl der
+Vorkommen von eindeutigen Werten in einer oder mehreren Spalten zu
+zählen und eine Zusammenfassung des Ergebnisses zurückzugeben. count()
+kann auch in Verbindung mit anderen dplyr-Verben wie group_by(),
+summarize() und slice() verwendet werden, um die Ergebnisse weiter zu
+manipulieren.</p>
+<p>##6.Aufgabe Angenommen, wir haben den folgenden winzigen
+Datensatz:</p>
+<pre><code>```r
+df &lt;- tibble(
+  x = 1:5,
+  y = c(&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;),
+  z = c(&quot;K&quot;, &quot;K&quot;, &quot;L&quot;, &quot;L&quot;, &quot;K&quot;)
+)
+```</code></pre>
+<ol style="list-style-type: lower-alpha">
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe
+zuletzt mit eigenen Worten, was <code>group_by()</code> tut.</p>
+<p>Die Ausgabe wird die gruppierten Daten nach der Spalte “y” zeigen.
+Die <code>group_by()</code>-Funktion teilt den Datensatz in separate
+Gruppen basierend auf den eindeutigen Werten in der angegebenen
+Spalte.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+## # Groups:   y [2]
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     2 b     K    
+## 3     3 a     L    
+## 4     4 a     L    
+## 5     5 b     K</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was <code>arrange()</code> tut. Kommentiere auch,
+inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a)
+unterscheidet.</p>
+<p>Die Ausgabe wird den Datensatz nach der Spalte “y” sortiert zeigen.
+Die <code>arrange()</code>-Funktion sortiert den Datensatz nach den
+angegebenen Spalten in aufsteigender Reihenfolge. Im Vergleich zu
+<code>group_by()</code> werden die Daten nicht gruppiert, sondern nur
+sortiert.</p>
+<pre class="r"><code>df %&gt;%
+  arrange(y)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##       x y     z    
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1     1 a     K    
+## 2     3 a     L    
+## 3     4 a     L    
+## 4     2 b     K    
+## 5     5 b     K</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut.</p>
+<p>Die Ausgabe wird die aggregierten Daten nach der Spalte “y” mit der
+durchschnittlichen “x”-Wert für jede Gruppe zeigen. Die Pipeline führt
+eine Gruppierung nach “y” durch und berechnet dann den Durchschnitt von
+“x” für jede Gruppe mit der <code>summarize()</code>-Funktion.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y) %&gt;%
+  summarize(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   y     mean_x
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a       2.67
+## 2 b       3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der
+Konsole?</p>
+<p>Die Ausgabe wird die aggregierten Daten nach den Spalten “y” und “z”
+zeigen, wobei der Durchschnitt von “x” für jede Kombination der beiden
+Gruppen berechnet wird. Die Nachricht in der Konsole lautet “Adding
+missing grouping variables: <code>z</code>”. Dies bedeutet, dass die
+Spalte “z” zur Gruppierung hinzugefügt wurde, da sie in der
+<code>summarize()</code>-Funktion verwendet wurde, aber nicht in der
+<code>group_by()</code>-Funktion angegeben war.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y, z) %&gt;%
+  summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output
+von Frage 6d.</p>
+<p>Die Ausgabe wird die aggregierten Daten nach den Spalten “y” und “z”
+zeigen, wobei der Durchschnitt von “x” für jede Kombination der beiden
+Gruppen berechnet wird. Der Unterschied zu Frage 6d besteht darin, dass
+der Parameter <code>.groups = "drop"</code> hinzugefügt wurde, um die
+Gruppierungsattribute aus der Ausgabe zu entfernen.</p>
+<pre class="r"><code>df %&gt;%
+  group_by(y, z) %&gt;%
+  summarize(mean_x = mean(x), .groups = &quot;drop&quot;)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre></li>
+<li><p>Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit
+eigenen Worten, was die pipeline tut. Wie unterscheiden sich die beiden
+pipelines?</p>
+<p>Die erste Pipeline wird die aggregierten Daten nach den Spalten “y”
+und “z” zeigen, wobei der Durchschnitt von “x” für jede Kombination der
+beiden Gruppen berechnet wird. Die zweite Pipeline wird eine neue Spalte
+“mean_x” hinzufügen, die den Durchschnitt von “x” für jede Zeile in der
+jeweiligen Gruppe enthält. Der Unterschied besteht darin, dass
+<code>summarize()</code> die Datensatzgröße reduziert und eine Zeile pro
+Gruppe zurückgibt, während <code>mutate()</code> die gleiche Anzahl von
+Zeilen beib ehält und eine neue Spalte für jede Zeile im Datensatz
+hinzufügt.</p>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+summarize(mean_x = mean(x))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;y&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   y [2]
+##   y     z     mean_x
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 a     K        1  
+## 2 a     L        3.5
+## 3 b     K        3.5</code></pre>
+<pre class="r"><code>df %&gt;%
+group_by(y, z) %&gt;%
+mutate(mean_x = mean(x))</code></pre>
+<pre><code>## # A tibble: 5 × 4
+## # Groups:   y, z [3]
+##       x y     z     mean_x
+##   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1     1 a     K        1  
+## 2     2 b     K        3.5
+## 3     3 a     L        3.5
+## 4     4 a     L        3.5
+## 5     5 b     K        3.5</code></pre></li>
+</ol>
+</div>
+</div>
 
 
 

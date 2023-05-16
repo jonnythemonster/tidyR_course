@@ -111,3 +111,275 @@ Ja, die Reihenfolge der Verwendung von `filter()` und `arrange()` in R spielt ei
 Ein Beispiel: Du hast einen Datensatz mit Personen und möchtest nur diejenigen behalten, die in einem bestimmten Alter sind und dann nach Namen sortieren. Die richtige Reihenfolge wäre `filter()` und dann `arrange()`. Wenn du jedoch zuerst nach Namen sortierst und dann nach Alter filterst, können Personen im Ergebnis enthalten sein, die nicht dem ursprünglichen Filterkriterium entsprechen.
 
 Letztendlich hängt die richtige Reihenfolge von der Analyse ab, die du durchführen möchtest, und von den Anforderungen deiner Daten. Wenn du unsicher bist, welche Reihenfolge für deine spezifische Analyse am besten geeignet ist, probiere beide Methoden aus und vergleiche die Ergebnisse, um die beste Option für deine Bedürfnisse zu wählen.
+
+# Übung 2
+## 1. Aufgabe
+Vergleiche dep_time, sched_dep_time, und dep_delay. Welchen Zusammenhang erwartest du zwischen diesen drei Zahlen?
+```{r}
+flights %>% 
+  select(dep_time, sched_dep_time, dep_delay)
+```
+
+dep_time bezieht sich auf die tatsächliche Abflugzeit eines Fluges, während sched_dep_time die geplante Abflugzeit angibt. Der dep_delay gibt die Verspätung bei der Abflugzeit an, die als Differenz zwischen dep_time und sched_dep_time berechnet wird.
+
+In Bezug auf den Zusammenhang zwischen diesen drei Variablen können wir erwarten, dass, wenn ein Flugzeug gemäß dem geplanten Zeitplan abfliegt, dep_delay gleich Null sein wird, da die Differenz zwischen dep_time und sched_dep_time Null sein wird. Wenn jedoch ein Flugzeug später als geplant abfliegt, wird dep_delay positiv sein, was bedeutet, dass der Abflug verzögert war.
+
+Insgesamt können wir also sagen, dass dep_time und sched_dep_time direkt mit dep_delay verbunden sind. Wenn ein Flug später als geplant abfliegt, wird die Abflugzeit (dep_time) später als die geplante Abflugzeit (sched_dep_time) sein, was zu einer positiven dep_delay führt.
+
+## 2. Aufgabe
+Überlege dir so viele Möglichkeiten wie möglich, um dep_time, dep_delay, arr_time und arr_delay aus flights auszuwählen.
+
+```{r}
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+```
+
+```{r}
+select(flights, "dep_time", "dep_delay", "arr_time", "arr_delay")
+```
+
+```{r}
+select(flights, 4, 6, 7, 9)
+```
+
+```{r}
+select(flights, all_of(c("dep_time", "dep_delay", "arr_time", "arr_delay")))
+```
+
+```{r}
+select(flights, any_of(c("dep_time", "dep_delay", "arr_time", "arr_delay")))
+```
+
+```{r}
+variables <- c("dep_time", "dep_delay", "arr_time", "arr_delay")
+select(flights, all_of(variables))
+```
+
+## 3. Aufgabe
+Was passiert, wenn man den Namen der gleichen Variable mehrmals in einem select()-Aufruf angibt?
+nichts
+```{r}
+flights %>% 
+  select(-c(year, year))
+```
+
+## 4. Aufgabe
+Was macht die Funktion any_of()?Warum könnte sie in Verbindung mit diesem Vektor hilfreich sein?
+
+**Lösung** 
+Die Funktion any_of() ist eine Funktion aus dem Paket dplyr, die verwendet wird, um eine Zeichenfolge (z. B. den Namen einer Variablen) mit einem Vektor von Spaltennamen zu vergleichen. Die Funktion gibt TRUE zurück, wenn die Zeichenfolge mit mindestens einem der Elemente des Vektors übereinstimmt, andernfalls gibt sie FALSE zurück.
+
+In Verbindung mit dem gegebenen Vektor variables <- c("year", "month", "day", "dep_delay", "arr_delay") kann die Funktion any_of() verwendet werden, um zu überprüfen, ob eine bestimmte Spalte in einem Datensatz enthalten ist. Zum Beispiel, wenn wir einen Datensatz haben, der diese Spalten enthält, können wir mit der any_of()-Funktion überprüfen, ob eine bestimmte Spalte enthalten ist, ohne jeden Spaltennamen einzeln zu überprüfen.
+
+Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden könnte, um zu überprüfen, ob ein Datensatz Spalten mit den Namen aus dem Vektor variables enthält:
+
+```{r}
+# Vektor von Spaltennamen
+variables <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
+selected_columns <- flights %>% 
+  select(any_of(variables))
+
+# Ergebnis
+selected_columns
+```
+
+## 5. Aufgabe
+Überrascht dich das Ergebnis des folgenden Codes? Wie gehen die Select-Helfer standardmäßig mit der Groß- und Kleinschreibung um? Wie kannst du diese Voreinstellung ändern?
+```{r}
+flights %>% select(contains("TIME"))
+```
+Die contains()-Funktion wählt alle Spalten aus, die einen bestimmten String in ihrem Namen enthalten. Die contains()-Funktion ist standardmäßig nicht casesensitive, d.h. sie unterscheidet nicht zwischen Groß- und Kleinschreibung. Das bedeutet, dass alle Spalten ausgewählt werden, die den String "TIME", "time" oder "Time" im Namen enthalten.
+
+Wenn Sie jedoch eine Funktion verwenden möchten, die casesensitive ist, können Sie die matches()-Funktion anstelle von contains() verwenden und einen regulären Ausdruck (Regex) als Argument übergeben, um die Groß- und Kleinschreibung zu steuern.
+
+## 6. Aufgabe
+Benenne air_time in air_time_min um, um die Maßeinheiten anzugeben und verschiebe es an den Anfang des Datensatzes.
+```{r}
+# air_time in air_time_min umbenennen und an den Anfang des Datensatzes verschieben
+flights %>% 
+  rename(air_time_min = air_time) %>% 
+  relocate(air_time_min)
+```
+
+## 7. Aufgabe
+Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
+
+**Lösung**
+Der Code führt zu einem Fehler, weil Sie arrange() auf eine Spalte anwenden, die in der aktuellen Pipeline nicht vorhanden ist.
+
+In Ihrer Pipeline haben Sie nur die Spalte tailnum ausgewählt und arrange() wurde auf dieser reduzierten Datenmenge angewendet. Da arr_delay nicht in den ausgewählten Spalten enthalten ist, gibt es eine Fehlermeldung, wenn arrange() versucht, den Datensatz basierend auf dieser Spalte zu ordnen.
+
+Um den Fehler zu beheben, müssen Sie sicherstellen, dass arr_delay in der aktuellen Pipeline verfügbar ist. Sie können beispielsweise die Spalte arr_delay mit select() auswählen, bevor Sie arrange() anwenden:
+
+```{r}
+flights %>%
+  select(tailnum, arr_delay) %>%  # arr_delay auswählen
+  arrange(arr_delay)
+```
+
+# Übung 3
+
+## 1.Aufgabe
+Welcher Anbieter hat die schlechtesten durchschnittlichen Verspätungen? Herausforderung: Kannst du die Auswirkungen von schlechten Flughäfen und schlechten Anbietern auseinanderhalten? Warum / warum nicht? (Tipp: denke darüber nach: `flights %>% group_by(carrier, dest) %>% summarize(n())`).
+
+Um den Anbieter mit den schlechtesten durchschnittlichen Verspätungen zu finden, können wir den flights-Datensatz gruppieren und die durchschnittlichen Verspätungen für jeden Anbieter berechnen. Hier ist ein Beispielcode, der dies tut:
+
+```{r}
+flights %>%
+  group_by(carrier) %>%
+  summarize(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(avg_delay))
+
+```
+
+```{r}
+filter(airlines, carrier == "F9")
+```
+
+
+Dieser Code gruppiert den flights-Datensatz nach dem Anbieter und berechnet den durchschnittlichen Verspätungswert für jeden Anbieter. Das na.rm = TRUE -Argument sorgt dafür, dass alle fehlenden Werte in der arr_delay Spalte ignoriert werden. Wir ordnen die Ergebnisse dann nach dem avg_delay Wert, um den Anbieter mit den schlechtesten durchschnittlichen Verspätungen zu finden.
+
+Um die Auswirkungen von schlechten Flughäfen und schlechten Anbietern auseinanderzuhalten, müssen wir Airline, Abflugort und Ankunftsort berücksichtigen.
+
+```{r}
+flights %>%
+  summarise(carrier_n = n_distinct(carrier),
+            origin_n = n_distinct(origin),
+            dest_n = n_distinct(dest))
+```
+
+```{r}
+flights %>%
+  filter(!is.na(arr_delay)) %>%
+  # Total delay by carrier within each origin, dest
+  group_by(origin, dest, carrier) %>%
+  summarise(
+    arr_delay_odc_sum = sum(arr_delay),
+    flights_odc = n()) %>%
+  # Total delay within each origin dest
+  mutate(
+    arr_delay_od_sum = sum(arr_delay_odc_sum),
+    flights_od = sum(flights_odc)) %>%
+  # average delay of each carrier - average delay of other carriers
+  ungroup() %>%
+  mutate(
+    arr_delay_others = (arr_delay_od_sum - arr_delay_odc_sum) / (flights_od - flights_odc),
+    arr_delay_mean = arr_delay_odc_sum / flights_odc,
+    arr_delay_diff = arr_delay_mean - arr_delay_others) %>%
+  # remove NaN values (when there is only one carrier)
+  filter(is.finite(arr_delay_diff)) %>%
+  # average over all airports it flies to
+  group_by(carrier) %>%
+  summarise(arr_delay_diff = mean(arr_delay_diff)) %>%
+  ggplot(aes(x=carrier, y=arr_delay_diff)) + 
+    geom_bar(stat = "identity")
+```
+
+## 2.Aufgabe
+Finde die Flüge, die bei der Abreise von jedem Zielort am meisten verspätet sind.
+```{r}
+flights %>% 
+  group_by(dest) %>% 
+  slice_max(dep_delay, n = 1) %>% 
+  relocate(dest)
+```
+
+## 3.Aufgabe
+Wie variieren Verspätungen im Laufe des Tages? Veranschauliche deine Antwort mit einem Diagramm.
+```{r}
+flights %>%
+  filter(!is.na(arr_delay)) %>%
+  group_by(hour) %>%
+  summarise(avg_arr_delay = mean(arr_delay)) %>%
+  ggplot(aes(x = hour, y = avg_arr_delay)) +
+  geom_line() +
+  labs(x = "Stunde des Tages", y = "Durchschnittliche Ankunftsverspätung (Minuten)")
+```
+
+## 4.Aufgabe
+Was passiert, wenn du slice_min() und verwandten Funktionen eine negative `n` lieferst?
+```{r}
+flights %>% 
+  slice_min(dep_delay, n = -1, with_ties = F)
+```
+Es werden `n` Zeilen entfernt. 
+
+
+## 5.Aufgabe
+Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du gerade gelernt hast. Was macht das sort-Argument von count()?
+
+count() ist ein dplyr-Verb, das verwendet wird, um die Anzahl der Vorkommen von eindeutigen Werten in einer oder mehreren Spalten zu zählen und eine Zusammenfassung des Ergebnisses zurückzugeben. count() kann auch in Verbindung mit anderen dplyr-Verben wie group_by(), summarize() und slice() verwendet werden, um die Ergebnisse weiter zu manipulieren.
+
+
+##6.Aufgabe
+Angenommen, wir haben den folgenden winzigen Datensatz:
+    ```{r}
+    df <- tibble(
+      x = 1:5,
+      y = c("a", "b", "a", "a", "b"),
+      z = c("K", "K", "L", "L", "K")
+    )
+    ```
+
+a.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt mit eigenen Worten, was `group_by()` tut.
+
+    Die Ausgabe wird die gruppierten Daten nach der Spalte "y" zeigen. Die `group_by()`-Funktion teilt den Datensatz in separate Gruppen basierend auf den eindeutigen Werten in der angegebenen Spalte.
+
+    ```{r}
+    df %>%
+      group_by(y)
+    ```
+
+b.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was `arrange()` tut. Kommentiere auch, inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a) unterscheidet.
+
+    Die Ausgabe wird den Datensatz nach der Spalte "y" sortiert zeigen. Die `arrange()`-Funktion sortiert den Datensatz nach den angegebenen Spalten in aufsteigender Reihenfolge. Im Vergleich zu `group_by()` werden die Daten nicht gruppiert, sondern nur sortiert.
+
+    ```{r}
+    df %>%
+      arrange(y)
+    ```
+
+c.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut.
+
+    Die Ausgabe wird die aggregierten Daten nach der Spalte "y" mit der durchschnittlichen "x"-Wert für jede Gruppe zeigen. Die Pipeline führt eine Gruppierung nach "y" durch und berechnet dann den Durchschnitt von "x" für jede Gruppe mit der `summarize()`-Funktion.
+
+    ```{r}
+    df %>%
+      group_by(y) %>%
+      summarize(mean_x = mean(x))
+    ```
+
+d.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der Konsole?
+
+    Die Ausgabe wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Die Nachricht in der Konsole lautet "Adding missing grouping variables: `z`". Dies bedeutet, dass die Spalte "z" zur Gruppierung hinzugefügt wurde, da sie in der `summarize()`-Funktion verwendet wurde, aber nicht in der `group_by()`-Funktion angegeben war.
+
+    ```{r}
+    df %>%
+      group_by(y, z) %>%
+      summarize(mean_x = mean(x))
+    ```
+
+e.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output von Frage 6d.
+
+    Die Ausgabe wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Der Unterschied zu Frage 6d besteht darin, dass der Parameter `.groups = "drop"` hinzugefügt wurde, um die Gruppierungsattribute aus der Ausgabe zu entfernen.
+
+    ```{r}
+    df %>%
+      group_by(y, z) %>%
+      summarize(mean_x = mean(x), .groups = "drop")
+    ```
+
+f.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Wie unterscheiden sich die beiden pipelines?
+
+    Die erste Pipeline wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Die zweite Pipeline wird eine neue Spalte "mean_x" hinzufügen, die den Durchschnitt von "x" für jede Zeile in der jeweiligen Gruppe enthält. Der Unterschied besteht darin, dass `summarize()` die Datensatzgröße reduziert und eine Zeile pro Gruppe zurückgibt, während `mutate()` die gleiche Anzahl von Zeilen beib ehält und eine neue Spalte für jede Zeile im Datensatz hinzufügt.
+
+    ```{r}
+    df %>%
+    group_by(y, z) %>%
+    summarize(mean_x = mean(x))
+                
+    df %>%
+    group_by(y, z) %>%
+    mutate(mean_x = mean(x))
+    ```

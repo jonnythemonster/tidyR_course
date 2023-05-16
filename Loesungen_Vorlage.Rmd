@@ -10,6 +10,7 @@ output:
     collapsed: true
     number_sections: false
     toc_depth: 3
+    highlight: pygments
     #code_folding: hide
 ---
 
@@ -311,9 +312,6 @@ Es werden `n` Zeilen entfernt.
 Erkläre, was count() im Hinblick auf die dplyr-Verben tut, die du gerade gelernt hast. Was macht das sort-Argument von count()?
 
 count() ist ein dplyr-Verb, das verwendet wird, um die Anzahl der Vorkommen von eindeutigen Werten in einer oder mehreren Spalten zu zählen und eine Zusammenfassung des Ergebnisses zurückzugeben. count() kann auch in Verbindung mit anderen dplyr-Verben wie group_by(), summarize() und slice() verwendet werden, um die Ergebnisse weiter zu manipulieren.
-```{r}
-
-```
 
 
 ## 6.Aufgabe
@@ -328,60 +326,348 @@ Angenommen, wir haben den folgenden winzigen Datensatz:
 
 a.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe zuletzt mit eigenen Worten, was `group_by()` tut.
 
-```{r}
-            
-df %>%
-group_by(y)
-```
+    Die Ausgabe wird die gruppierten Daten nach der Spalte "y" zeigen. Die `group_by()`-Funktion teilt den Datensatz in separate Gruppen basierend auf den eindeutigen Werten in der angegebenen Spalte.
+
+    ```{r}
+    df %>%
+      group_by(y)
+    ```
 
 b.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was `arrange()` tut. Kommentiere auch, inwiefern sich diese Funktion von group_by() in Aufgabe 6a (a) unterscheidet.
 
-```{r}
-            
-df %>%
-arrange(y)
-```
+    Die Ausgabe wird den Datensatz nach der Spalte "y" sortiert zeigen. Die `arrange()`-Funktion sortiert den Datensatz nach den angegebenen Spalten in aufsteigender Reihenfolge. Im Vergleich zu `group_by()` werden die Daten nicht gruppiert, sondern nur sortiert.
+
+    ```{r}
+    df %>%
+      arrange(y)
+    ```
 
 c.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut.
 
-```{r}
-            
-df %>%
-group_by(y) %>%
-summarize(mean_x = mean(x))
-```
+    Die Ausgabe wird die aggregierten Daten nach der Spalte "y" mit der durchschnittlichen "x"-Wert für jede Gruppe zeigen. Die Pipeline führt eine Gruppierung nach "y" durch und berechnet dann den Durchschnitt von "x" für jede Gruppe mit der `summarize()`-Funktion.
+
+    ```{r}
+    df %>%
+      group_by(y) %>%
+      summarize(mean_x = mean(x))
+    ```
 
 d.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Was steht in der Nachricht in der Konsole?
 
-```{r}
-            
-df %>%
-group_by(y, z) %>%
-summarize(mean_x = mean(x))
-```
+    Die Ausgabe wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Die Nachricht in der Konsole lautet "Adding missing grouping variables: `z`". Dies bedeutet, dass die Spalte "z" zur Gruppierung hinzugefügt wurde, da sie in der `summarize()`-Funktion verwendet wurde, aber nicht in der `group_by()`-Funktion angegeben war.
+
+    ```{r}
+    df %>%
+      group_by(y, z) %>%
+      summarize(mean_x = mean(x))
+    ```
 
 e.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Wie unterscheidet sich der Output von Frage 6d.
 
+    Die Ausgabe wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Der Unterschied zu Frage 6d besteht darin, dass der Parameter `.groups = "drop"` hinzugefügt wurde, um die Gruppierungsattribute aus der Ausgabe zu entfernen.
+
+    ```{r}
+    df %>%
+      group_by(y, z) %>%
+      summarize(mean_x = mean(x), .groups = "drop")
+    ```
+
+f.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. Wie unterscheiden sich die beiden pipelines?
+
+    Die erste Pipeline wird die aggregierten Daten nach den Spalten "y" und "z" zeigen, wobei der Durchschnitt von "x" für jede Kombination der beiden Gruppen berechnet wird. Die zweite Pipeline wird eine neue Spalte "mean_x" hinzufügen, die den Durchschnitt von "x" für jede Zeile in der jeweiligen Gruppe enthält. Der Unterschied besteht darin, dass `summarize()` die Datensatzgröße reduziert und eine Zeile pro Gruppe zurückgibt, während `mutate()` die gleiche Anzahl von Zeilen beib ehält und eine neue Spalte für jede Zeile im Datensatz hinzufügt.
+
+    ```{r}
+    df %>%
+    group_by(y, z) %>%
+    summarize(mean_x = mean(x))
+                
+    df %>%
+    group_by(y, z) %>%
+    mutate(mean_x = mean(x))
+    ```
+
+# Übung 4
+
+Lösungen für `pivot_longer()`:
+
+## Aufgabe 1
+Verwandle breite Daten in lange Daten:
 ```{r}
-            
-df %>%
-group_by(y, z) %>%
-summarize(mean_x = mean(x), .groups = "drop")
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Land, ~Januar, ~Februar, ~März,
+  "Deutschland", 100, 120, 90,
+  "USA", 150, 180, 200
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Januar:März, names_to = "Monat", values_to = "Besucher")
 ```
 
-f.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Worten, was die pipeline tut. HWie unterscheiden sich die beiden pipelines?
-
+## Aufgabe 2
+Aggregiere mehrere Spalten zu einer einzigen Spalte:
 ```{r}
-            
-df %>%
-group_by(y, z) %>%
-summarize(mean_x = mean(x))
-            
-df %>%
-group_by(y, z) %>%
-mutate(mean_x = mean(x))
+# Beispiel-Datensatz
+daten <- tribble(
+  ~ID, ~Kategorie_A, ~Kategorie_B, ~Kategorie_C,
+  1, "A1", "B1", "C1",
+  2, "A2", "B2", "C2",
+  3, "A3", "B3", "C3"
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Kategorie_A:Kategorie_C, names_to = "Kategorie", values_to = "Wert")
 ```
 
+## Aufgabe 3
+Arbeite mit Spaltennamen als Werten:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Produkt_A, ~Produkt_B, ~Produkt_C,
+  10, 8, 5,
+  15, 12, 10,
+  20, 18, 15
+)
 
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Produkt_A:Produkt_C, names_to = "Produkt", values_to = "Verkaufspreis")
+```
+
+Lösungen für `pivot_wider()`:
+
+## Aufgabe 4
+Transformiere lange Daten in breite Daten:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Land, ~Monat, ~Besucher,
+  "Deutschland", "Januar", 100,
+  "Deutschland", "Februar", 120,
+  "USA", "Januar", 150,
+  "USA", "Februar", 180
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Monat, values_from = Besucher)
+```
+
+## Aufgabe 5
+Erstelle neue Spalten aus einer einzelnen Spalte:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~ID, ~Kategorie, ~Wert,
+  1, "A", 10,
+  1, "B", 20,
+  2, "A", 15,
+  2, "B", 25
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Kategorie, values_from = Wert)
+```
+
+## Aufgabe 6
+Summiere Werte aus mehreren Zeilen:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Kategorie, ~Monat, ~Wert,
+  "A", "Januar
+
+", 100,
+  "A", "Februar", 120,
+  "B", "Januar", 150,
+  "B", "Februar", 180
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Kategorie, values_from = Wert)
+```
+
+# Übung 5
+## Aufgabe 1
+Die Beziehung zwischen `weather` und `airports` ist in der Visulaiserung der Relationen nicht dargestellt. Was ist die Beziehung und wie sollte sie im Diagramm dargestellt werden?
+   
+Die beiden Tabellen können mit den Variablen `origin` in Wetter und `faa` in Flughäfen abgeglichen werden.
+```{r}
+colnames(weather)
+```
+```{r}
+colnames(airports)
+```
+
+```{r}
+weather %>% 
+  select(origin) %>% 
+  table()
+```
+```{r}
+airports %>% 
+  filter(faa %in% c("EWR", "JFK", "LGA"))
+```
+
+## Aufgabe 2
+`weather` enthält nur Informationen für die drei Ursprungsflughäfen in New York City. Wenn es Wetteraufzeichnungen für alle Flughäfen in den USA enthalten würde, welche zusätzliche Verbindung würde es zu `flights` herstellen?
+
+Wenn das Wetter für alle Flughäfen in den USA enthalten wäre, würde es das Wetter für den Zielort jedes Fluges liefern. Die Spalten des Wetterdatenrahmens (Jahr, Monat, Tag, Stunde, Herkunft) sind ein Fremdschlüssel für die Spalten des Flugdatenrahmens (Jahr, Monat, Tag, Stunde, Ziel). Dies würde Informationen über das Wetter am Zielflughafen zum Zeitpunkt des Abflugs liefern, es sei denn, die Ankunftszeit wurde berechnet.
+
+## Aufgabe 3
+Wir wissen, dass einige Tage im Jahr besonders sind und weniger Menschen als üblich fliegen (z.B. Heiligabend und Weihnachtstag). 
+   Wie könntest du diese Daten als Datenrahmen darstellen? 
+   Was wäre der Primärschlüssel? 
+   Wie würde er sich mit den vorhandenen Datenrahmen verbinden?
+   
+Man könnte einen separaten Datensatz mit den Feiertagen in den USA nach Tag und Monat erstellen. Mit diesen Informationen lassen sich die einzelnen Flüge im Datensatz "flights" abgleichen.
+
+## Aufgabe 4
+Zeichne ein Diagramm, das die Verbindungen zwischen den Datensätzen `Batting`, `People` und `Salaries` im Lahman-Paket veranschaulicht. 
+
+```{r}
+require(Lahman)
+glimpse(Batting)
+glimpse(People)
+glimpse(Salaries)
+```
+
+Für die Tabellen `Batting`, `People` und `Salaries` gelten folgende Informationen:
+
+-   `People`
+    -   Primärschlüssel: `playerID`
+
+-   `Batting`
+    -   Primärschlüssel: `playerID`, `yearID`, `stint`
+    -   Fremdschlüssel: `playerID` = `Master$playerID` (mehrere zu eins)
+
+-   `Salaries`
+    -   Primärschlüssel: `yearID`, `teamID`, `playerID`
+    -   Fremdschlüssel: `playerID` = `Master$playerID` (mehrere zu eins)
+
+Die Spalten `teamID` und `lgID` sind keine Fremdschlüssel, obwohl sie in mehreren Tabellen vorkommen (mit derselben Bedeutung), da sie keine Primärschlüssel für eine der betrachteten Tabellen in dieser Übung sind.
+Die Variable `teamID` verweist auf `Teams$teamID`, und `lgID` hat keine eigene Tabelle.
+
+*R for Data Science* verwendet Datenbankschemadiagramme, um die Beziehungen zwischen den Tabellen zu veranschaulichen.
+Die meisten Flussdiagramm- oder Diagrammsoftware können verwendet werden, um Datenbankschemadiagramme zu erstellen, ebenso wie einige spezialisierte Datenbanksoftware.
+Die Diagramme in *R for Data Science* wurden mit [OmniGraffle](https://www.gliffy.com/) erstellt, und ihre Quellen befinden sich im [GitHub-Repository](https://github.com/hadley/r4ds/tree/master/diagrams).
+
+Das folgende Diagramm wurde mit OmniGraffle im gleichen Stil wie die Diagramme in *R for Data Science* erstellt.
+Es zeigt die Beziehungen zwischen den Tabellen `Master` (entspricht `People`), `Batting` und `Salaries`.
+
+```{r, echo = FALSE, out.width = NULL, purl = FALSE}
+knitr::include_graphics("images/lahman.png")
+```
+
+# Übung 6
+## Aufgabe 1
+1a. Angenommen, du hast zwei Datenrahmen `df1` und `df2` mit einer gemeinsamen Spalte "ID". Führe einen `left_join()` durch und speichere das Ergebnis im Datenrahmen `merged_df`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+library(dplyr)
+
+# Erzeuge Beispieldaten
+df1 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df2 <- data.frame(ID = c(2, 3, 5),
+                  Age = c(25, 30, 35))
+
+# Führe left_join() durch
+merged_df <- left_join(df1, df2, by = "ID")
+
+# Gib das Ergebnis aus
+merged_df
+```
+
+1b. Gegeben sind zwei Datenrahmen `df3` und `df4` mit einer gemeinsamen Spalte "ID". Führe einen `inner_join()` durch und speichere das Ergebnis im Datenrahmen `merged_inner`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+# Erzeuge Beispieldaten
+df3 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df4 <- data.frame(ID = c(2, 3, 5),
+                  Age = c(25, 30, 35))
+
+# Führe inner_join() durch
+merged_inner <- inner_join(df3, df4, by = "ID")
+
+# Gib das Ergebnis aus
+merged_inner
+```
+
+1c. Angenommen, du hast zwei Datenrahmen `df5` und `df6` mit einer gemeinsamen Spalte "ID". Führe einen `right_join()` durch und speichere das Ergebnis im Datenrahmen `merged_right`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+# Erzeuge Beispieldaten
+df5 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df6 <- data.frame(ID = c(2, 3, 5),
+                  Age = c(25, 30, 35))
+
+# Führe right_join() durch
+merged_right <- right_join(df5, df6, by = "ID")
+
+# Gib das Ergebnis aus
+merged_right
+```
+
+1d. Gegeben sind zwei Datenrahmen `df7` und `df8` mit einer gemeinsamen Spalte "ID". Führe einen `full_join()` durch und speichere das Ergebnis im Datenrahmen `merged_full`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+# Erzeuge Beispieldaten
+df7 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df8 <- data.frame(ID = c(2, 3, 5),
+                  Age = c(25, 30, 35))
+
+# Führe full_join() durch
+merged_full <- full_join(df7, df8, by = "ID")
+
+# Gib das Ergebnis aus
+merged_full
+```
+
+1e. Angenommen, du hast zwei Datenrahmen `df9` und `df10` mit einer gemeinsamen Spalte "ID". Führe einen `semi_join()` durch und speichere das Ergebnis im Datenrahmen `merged_semi`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+# Erzeuge Beispieldaten
+df9 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df10 <- data.frame(ID = c(2, 3, 5),
+                   Age = c(25, 30, 35))
+
+# Führe semi_join() durch
+merged_semi <- semi_join(df9, df10, by = "ID")
+
+# Gib das Ergebnis aus
+merged_semi
+```
+
+1f. Gegeben sind zwei Datenrahmen `df11` und `df12` mit einer gemeinsamen Spalte "ID". Führe einen `anti_join()` durch und speichere das Ergebnis im Datenrahmen `merged_anti`. Gib anschließend den resultierenden Datenrahmen aus.
+
+```{r}
+# Erzeuge Beispieldaten
+df11 <- data.frame(ID = c(1, 2, 3, 4),
+                   Name = c("Alice", "Bob", "Charlie", "David"))
+
+df12 <- data.frame(ID = c(2, 3, 5),
+                   Age = c(25, 30, 35))
+
+# Führe anti_join() durch
+merged_anti <- anti_join(df11, df12, by = "ID")
+
+# Gib das Ergebnis aus
+merged_anti
+```
 
 
