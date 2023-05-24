@@ -824,7 +824,33 @@ household %>%
 
 Wir verwenden erneut `values_drop_na = TRUE`, da die Struktur der Eingabe die Erzeugung von expliziten fehlenden Variablen erzwingt (z. B. für Familien mit nur einem Kind).
 
-Die Abbildungveranschaulicht die grundlegende Idee anhand eines einfacheren Beispiels.
+Vielleicht kann ein weiteres Beispiel die Funktionsweise verdeutlichen. Nehmen wir einen einfachen Datensatz:
+```{r}
+a3 <- head(anscombe,3)
+a3
+```
+Dies ist ein breites Format, das wir in ein langes Format umwandeln wollen. Mit der normalen Funktion pivot_longer() erhalten wir folgendes Ergebnis:
+```{r}
+a3 %>%
+  pivot_longer(
+    everything(),
+    names_to = c("charpart", "numpart"),
+    names_pattern = "(.)(.)"
+  )
+```
+Dies ist ein langes Format. Wenn wir annehmen, dass x1 und y1 oder x2 und y2 oder ... zur selben Beobachtung gehören, dann müssen wir eine andere Ausgabe erzeugen. Sie sollte so aussehen, dass wir `numpart`, `x` und `y` als Spaltennamen haben. `x` und `y` sind dann die Werte, während `numpart` die eindeutige Beobachtung angibt. Sieh dir die Originaltabelle an und überlege, was theoretisch zu tun wäre. Alle Werte einer Spalte, die mit `x` beginnen, müssen in die neue Spalte `x` geschrieben werden. Alle Spalten, die mit `y` beginnen, müssen in y geschrieben werden. Als zusätzliche Information benötigen wir die Endung des ursprünglichen Spaltennamens als neue Spalte `numpart`. Diesen Anwendungsfall können wir mit `.value` realisieren. ".value" bedeutet, dass die entsprechende Komponente des Spaltennamens (hier `x` oder `y`) den Namen der Ausgabespalte definiert. Diese neuen Spalten `x` und `y` enthalten die Werte der ursprünglichen Zellen, wobei values_to ignoriert wird.
+
+```{r}
+a3 %>%
+  pivot_longer(
+    everything(),
+    names_to = c(".value", "numpart"),
+    names_pattern = "(.)(.)"
+  )
+```
+
+
+Die Abbildungveranschaulicht die grundlegende Idee anhand eines weiteren einfachen Beispiels.
 Wenn du `".value"` in `names_to` verwendest, tragen die Spaltennamen in der Eingabe sowohl zu den Werten als auch zu den Variablennamen in der Ausgabe bei.
 
 ```{r}
@@ -1077,11 +1103,11 @@ Angenommen, du hast einen Datensatz mit den Spalten "Kategorie", "Monat" und "We
 
 # Joining der Daten
 ## Grundlagen
-Um zwei DataFrames mit einander zu verbinden, bedienen wir uns der Funktion `.merge()`. Die Art und Weise, wie diese Funktion funktioniert ist dabei sehr an die Sprache [SQL](https://de.wikipedia.org/wiki/SQL) für [relationale Datenbanken](https://de.wikipedia.org/wiki/Relationale_Datenbank) angelegt; dabei meine ich nicht so sehr die Syntax, als die *Denkweise* von SQL.
+Um zwei DataFrames mit einander zu verbinden, bedienen wir uns der `.join()`-Funktionen. Die Art und Weise, wie diese Funktion funktioniert ist dabei sehr an die Sprache [SQL](https://de.wikipedia.org/wiki/SQL) für [relationale Datenbanken](https://de.wikipedia.org/wiki/Relationale_Datenbank) angelegt; dabei meine ich nicht so sehr die Syntax, als die *Denkweise* von SQL.
 
 Möchte man in SQL *zwei* Tabellen einer Datenbank miteinander verknüpfen, als einen sog. *Join* machen, betrachtet man die Inhalte der Tabellen wie zwei Mengen (im mathematischen Sinn), die man auf vier unterschiedliche Weise verknüpfen kann. Diese Weisen der Verknüpfung lassen sich auch in sog. [Venn Diagrammen](https://de.wikipedia.org/wiki/Mengendiagramm) darstellen. Bei der Darstellung mit Venn Diagrammen von der Verknüpfung von genau *zwei* Mengen gibt es immer eine *linke* Seite, eine *rechte* Seite, einen *inneren* Bereich und einen *äuẞeren* Bereich. Dies sind dann auch genau die vier Grundarten (es gibt noch ein paar speziellere aber weniger wichtige Arte), wie sich in SQL Tabellen miteinander verbinden lassen. Dementsprechend spricht man von einem *left*, einem *right*, einem *inner* und einem *outer* Join.
 
-Folgende Schaubilder aus dem [Kurs Statistik und Datenanalyse mit Python](https://github.com/datenschauer/python-stats-course/tree/main) von Stefan Böhringer mögen das veranschaulichen:
+Folgende Schaubilder aus dem [Kurs Statistik und Datenanalyse mit Python](https://github.com/datenschauer/python-stats-course/tree/main) von Stefan Böhringer veranschaulichen das sehr gut:
 
 ![](images/python_stats/inner_join.png)
 ![](images/python_stats/left_join.png)

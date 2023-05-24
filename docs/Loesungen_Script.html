@@ -1245,6 +1245,154 @@ mutate(mean_x = mean(x))</code></pre>
 </ol>
 </div>
 </div>
+<div id="übung-4" class="section level1">
+<h1>Übung 4</h1>
+<p>Lösungen für <code>pivot_longer()</code>:</p>
+<div id="aufgabe-1-1" class="section level2">
+<h2>Aufgabe 1</h2>
+<p>Verwandle breite Daten in lange Daten:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~Land, ~Januar, ~Februar, ~März,
+  &quot;Deutschland&quot;, 100, 120, 90,
+  &quot;USA&quot;, 150, 180, 200
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_longer(cols = Januar:März, names_to = &quot;Monat&quot;, values_to = &quot;Besucher&quot;)</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##   Land        Monat   Besucher
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;
+## 1 Deutschland Januar       100
+## 2 Deutschland Februar      120
+## 3 Deutschland März          90
+## 4 USA         Januar       150
+## 5 USA         Februar      180
+## 6 USA         März         200</code></pre>
+</div>
+<div id="aufgabe-2-1" class="section level2">
+<h2>Aufgabe 2</h2>
+<p>Aggregiere mehrere Spalten zu einer einzigen Spalte:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~ID, ~Kategorie_A, ~Kategorie_B, ~Kategorie_C,
+  1, &quot;A1&quot;, &quot;B1&quot;, &quot;C1&quot;,
+  2, &quot;A2&quot;, &quot;B2&quot;, &quot;C2&quot;,
+  3, &quot;A3&quot;, &quot;B3&quot;, &quot;C3&quot;
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_longer(cols = Kategorie_A:Kategorie_C, names_to = &quot;Kategorie&quot;, values_to = &quot;Wert&quot;)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##      ID Kategorie   Wert 
+##   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;
+## 1     1 Kategorie_A A1   
+## 2     1 Kategorie_B B1   
+## 3     1 Kategorie_C C1   
+## 4     2 Kategorie_A A2   
+## 5     2 Kategorie_B B2   
+## 6     2 Kategorie_C C2   
+## 7     3 Kategorie_A A3   
+## 8     3 Kategorie_B B3   
+## 9     3 Kategorie_C C3</code></pre>
+</div>
+<div id="aufgabe-3-1" class="section level2">
+<h2>Aufgabe 3</h2>
+<p>Arbeite mit Spaltennamen als Werten:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~Produkt_A, ~Produkt_B, ~Produkt_C,
+  10, 8, 5,
+  15, 12, 10,
+  20, 18, 15
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_longer(cols = Produkt_A:Produkt_C, names_to = &quot;Produkt&quot;, values_to = &quot;Verkaufspreis&quot;)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   Produkt   Verkaufspreis
+##   &lt;chr&gt;             &lt;dbl&gt;
+## 1 Produkt_A            10
+## 2 Produkt_B             8
+## 3 Produkt_C             5
+## 4 Produkt_A            15
+## 5 Produkt_B            12
+## 6 Produkt_C            10
+## 7 Produkt_A            20
+## 8 Produkt_B            18
+## 9 Produkt_C            15</code></pre>
+<p>Lösungen für <code>pivot_wider()</code>:</p>
+</div>
+<div id="aufgabe-4-1" class="section level2">
+<h2>Aufgabe 4</h2>
+<p>Transformiere lange Daten in breite Daten:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~Land, ~Monat, ~Besucher,
+  &quot;Deutschland&quot;, &quot;Januar&quot;, 100,
+  &quot;Deutschland&quot;, &quot;Februar&quot;, 120,
+  &quot;USA&quot;, &quot;Januar&quot;, 150,
+  &quot;USA&quot;, &quot;Februar&quot;, 180
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_wider(names_from = Monat, values_from = Besucher)</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   Land        Januar Februar
+##   &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Deutschland    100     120
+## 2 USA            150     180</code></pre>
+</div>
+<div id="aufgabe-5-1" class="section level2">
+<h2>Aufgabe 5</h2>
+<p>Erstelle neue Spalten aus einer einzelnen Spalte:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~ID, ~Kategorie, ~Wert,
+  1, &quot;A&quot;, 10,
+  1, &quot;B&quot;, 20,
+  2, &quot;A&quot;, 15,
+  2, &quot;B&quot;, 25
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_wider(names_from = Kategorie, values_from = Wert)</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##      ID     A     B
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    10    20
+## 2     2    15    25</code></pre>
+</div>
+<div id="aufgabe-6-1" class="section level2">
+<h2>Aufgabe 6</h2>
+<p>Summiere Werte aus mehreren Zeilen:</p>
+<pre class="r"><code># Beispiel-Datensatz
+daten &lt;- tribble(
+  ~Kategorie, ~Monat, ~Wert,
+  &quot;A&quot;, &quot;Januar
+
+&quot;, 100,
+  &quot;A&quot;, &quot;Februar&quot;, 120,
+  &quot;B&quot;, &quot;Januar&quot;, 150,
+  &quot;B&quot;, &quot;Februar&quot;, 180
+)
+
+# Pivotieren der Daten
+daten %&gt;%
+  pivot_wider(names_from = Kategorie, values_from = Wert)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   Monat            A     B
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+## 1 &quot;Januar\n\n&quot;   100    NA
+## 2 &quot;Februar&quot;      120   180
+## 3 &quot;Januar&quot;        NA   150</code></pre>
+</div>
+</div>
 
 
 
