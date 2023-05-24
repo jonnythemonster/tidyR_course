@@ -383,3 +383,110 @@ f.  Wie wird die Ausgabe aussehen? Hattest du Recht? Beschreibe mit eigenen Wort
     group_by(y, z) %>%
     mutate(mean_x = mean(x))
     ```
+    
+    
+# Übung 4
+
+Lösungen für `pivot_longer()`:
+
+## Aufgabe 1
+Verwandle breite Daten in lange Daten:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Land, ~Januar, ~Februar, ~März,
+  "Deutschland", 100, 120, 90,
+  "USA", 150, 180, 200
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Januar:März, names_to = "Monat", values_to = "Besucher")
+```
+
+## Aufgabe 2
+Aggregiere mehrere Spalten zu einer einzigen Spalte:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~ID, ~Kategorie_A, ~Kategorie_B, ~Kategorie_C,
+  1, "A1", "B1", "C1",
+  2, "A2", "B2", "C2",
+  3, "A3", "B3", "C3"
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Kategorie_A:Kategorie_C, names_to = "Kategorie", values_to = "Wert")
+```
+
+## Aufgabe 3
+Arbeite mit Spaltennamen als Werten:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Produkt_A, ~Produkt_B, ~Produkt_C,
+  10, 8, 5,
+  15, 12, 10,
+  20, 18, 15
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_longer(cols = Produkt_A:Produkt_C, names_to = "Produkt", values_to = "Verkaufspreis")
+```
+
+Lösungen für `pivot_wider()`:
+
+## Aufgabe 4
+Transformiere lange Daten in breite Daten:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Land, ~Monat, ~Besucher,
+  "Deutschland", "Januar", 100,
+  "Deutschland", "Februar", 120,
+  "USA", "Januar", 150,
+  "USA", "Februar", 180
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Monat, values_from = Besucher)
+```
+
+## Aufgabe 5
+Erstelle neue Spalten aus einer einzelnen Spalte:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~ID, ~Kategorie, ~Wert,
+  1, "A", 10,
+  1, "B", 20,
+  2, "A", 15,
+  2, "B", 25
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Kategorie, values_from = Wert)
+```
+
+## Aufgabe 6
+Summiere Werte aus mehreren Zeilen:
+```{r}
+# Beispiel-Datensatz
+daten <- tribble(
+  ~Kategorie, ~Monat, ~Wert,
+  "A", "Januar
+
+", 100,
+  "A", "Februar", 120,
+  "B", "Januar", 150,
+  "B", "Februar", 180
+)
+
+# Pivotieren der Daten
+daten %>%
+  pivot_wider(names_from = Kategorie, values_from = Wert)
+```

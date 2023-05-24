@@ -432,7 +432,7 @@ div.tocify {
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-05-16</p>
+<p>Sommersemester 2023 | Stand: 2023-05-24</p>
 <p>Hinweis: Zum jetzigen Zeitpunkt dieses Skipt in weiten Teilen eine
 Übersetzung des großartigen Buches <a href="https://r4ds.hadley.nz">R
 for Data Science</a>.</p>
@@ -2336,8 +2336,80 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="#cb1
 <p>Wir verwenden erneut <code>values_drop_na = TRUE</code>, da die
 Struktur der Eingabe die Erzeugung von expliziten fehlenden Variablen
 erzwingt (z. B. für Familien mit nur einem Kind).</p>
+<p>Vielleicht kann ein weiteres Beispiel die Funktionsweise
+verdeutlichen. Nehmen wir einen einfachen Datensatz:</p>
+<div class="sourceCode" id="cb126"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>a3 <span class="ot">&lt;-</span> <span class="fu">head</span>(anscombe,<span class="dv">3</span>)</span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>a3</span></code></pre></div>
+<pre><code>##   x1 x2 x3 x4   y1   y2    y3   y4
+## 1 10 10 10  8 8.04 9.14  7.46 6.58
+## 2  8  8  8  8 6.95 8.14  6.77 5.76
+## 3 13 13 13  8 7.58 8.74 12.74 7.71</code></pre>
+<p>Dies ist ein breites Format, das wir in ein langes Format umwandeln
+wollen. Mit der normalen Funktion pivot_longer() erhalten wir folgendes
+Ergebnis:</p>
+<div class="sourceCode" id="cb128"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>a3 <span class="sc">%&gt;%</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">everything</span>(),</span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">&quot;charpart&quot;</span>, <span class="st">&quot;numpart&quot;</span>),</span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">&quot;(.)(.)&quot;</span></span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 24 × 3
+##    charpart numpart value
+##    &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
+##  1 x        1       10   
+##  2 x        2       10   
+##  3 x        3       10   
+##  4 x        4        8   
+##  5 y        1        8.04
+##  6 y        2        9.14
+##  7 y        3        7.46
+##  8 y        4        6.58
+##  9 x        1        8   
+## 10 x        2        8   
+## # ℹ 14 more rows</code></pre>
+<p>Dies ist ein langes Format. Wenn wir annehmen, dass x1 und y1 oder x2
+und y2 oder … zur selben Beobachtung gehören, dann müssen wir eine
+andere Ausgabe erzeugen. Sie sollte so aussehen, dass wir
+<code>numpart</code>, <code>x</code> und <code>y</code> als Spaltennamen
+haben. <code>x</code> und <code>y</code> sind dann die Werte, während
+<code>numpart</code> die eindeutige Beobachtung angibt. Sieh dir die
+Originaltabelle an und überlege, was theoretisch zu tun wäre. Alle Werte
+einer Spalte, die mit <code>x</code> beginnen, müssen in die neue Spalte
+<code>x</code> geschrieben werden. Alle Spalten, die mit <code>y</code>
+beginnen, müssen in y geschrieben werden. Als zusätzliche Information
+benötigen wir die Endung des ursprünglichen Spaltennamens als neue
+Spalte <code>numpart</code>. Diesen Anwendungsfall können wir mit
+<code>.value</code> realisieren. “.value” bedeutet, dass die
+entsprechende Komponente des Spaltennamens (hier <code>x</code> oder
+<code>y</code>) den Namen der Ausgabespalte definiert. Diese neuen
+Spalten <code>x</code> und <code>y</code> enthalten die Werte der
+ursprünglichen Zellen, wobei values_to ignoriert wird.</p>
+<div class="sourceCode" id="cb130"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>a3 <span class="sc">%&gt;%</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">everything</span>(),</span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">&quot;.value&quot;</span>, <span class="st">&quot;numpart&quot;</span>),</span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">&quot;(.)(.)&quot;</span></span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 3
+##    numpart     x     y
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 1          10  8.04
+##  2 2          10  9.14
+##  3 3          10  7.46
+##  4 4           8  6.58
+##  5 1           8  6.95
+##  6 2           8  8.14
+##  7 3           8  6.77
+##  8 4           8  5.76
+##  9 1          13  7.58
+## 10 2          13  8.74
+## 11 3          13 12.7 
+## 12 4           8  7.71</code></pre>
 <p>Die Abbildungveranschaulicht die grundlegende Idee anhand eines
-einfacheren Beispiels. Wenn du <code>".value"</code> in
+weiteren einfachen Beispiels. Wenn du <code>".value"</code> in
 <code>names_to</code> verwendest, tragen die Spaltennamen in der Eingabe
 sowohl zu den Werten als auch zu den Variablennamen in der Ausgabe
 bei.</p>
@@ -2360,8 +2432,8 @@ häufig bei der Verarbeitung von Regierungsdaten auf.</p>
 <p>Wir beginnen mit dem Datensatz <code>cms_patient_experience</code>,
 einem Datensatz der Centers for Medicare and Medicaid Services, der
 Daten zu den Erfahrungen von Patienten sammelt:</p>
-<div class="sourceCode" id="cb126"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience</span></code></pre></div>
 <pre><code>## # A tibble: 500 × 5
 ##    org_pac_id org_nm                           measure_cd measure_title prf_rate
 ##    &lt;chr&gt;      &lt;chr&gt;                            &lt;chr&gt;      &lt;chr&gt;            &lt;dbl&gt;
@@ -2381,9 +2453,9 @@ Organisation ist auf sechs Zeilen verteilt, wobei jede Zeile eine
 Messung in der untersuchten Organisation darstellt. Wir können den
 vollständigen Satz von Werten für <code>measure_cd</code> und
 <code>measure_title</code> mit <code>distinct()</code> anzeigen:</p>
-<div class="sourceCode" id="cb128"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(measure_cd, measure_title)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(measure_cd, measure_title)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
 ##   measure_cd   measure_title                                                    
 ##   &lt;chr&gt;        &lt;chr&gt;                                                            
@@ -2405,12 +2477,12 @@ aussagekräftig sind.</p>
 müssen wir die vorhandenen Spalten angeben, die die Werte definieren
 (<code>values_from</code>) und den Spaltennamen
 (<code>names_from</code>):</p>
-<div class="sourceCode" id="cb130"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
-<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measure_cd,</span>
-<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
-<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
+<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measure_cd,</span>
+<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
+<span id="cb136-5"><a href="#cb136-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 500 × 9
 ##    org_pac_id org_nm           measure_title CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3
 ##    &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -2432,13 +2504,13 @@ mehrere Zeilen für jede Organisation zu geben. Das liegt daran, dass wir
 Spalten Werte enthalten, die jede Zeile eindeutig identifizieren; in
 diesem Fall sind das die Variablen, die mit <code>"org"</code>
 beginnen:</p>
-<div class="sourceCode" id="cb132"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
-<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;org&quot;</span>),</span>
-<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measure_cd,</span>
-<span id="cb132-5"><a href="#cb132-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
-<span id="cb132-6"><a href="#cb132-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;org&quot;</span>),</span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measure_cd,</span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
+<span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 95 × 8
 ##    org_pac_id org_nm CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3 CAHPS_GRP_5 CAHPS_GRP_8
 ##    &lt;chr&gt;      &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
@@ -2461,23 +2533,23 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb1
 beginnen wir erneut mit einem sehr einfachen Datensatz. Dieses Mal haben
 wir zwei Patienten mit den IDs A und B sowie drei Blutdruckmessungen für
 Patient A und zwei für Patient B:</p>
-<div class="sourceCode" id="cb134"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>id, <span class="sc">~</span>measurement, <span class="sc">~</span>value,</span>
-<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">100</span>,</span>
-<span id="cb134-4"><a href="#cb134-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">140</span>,</span>
-<span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">115</span>, </span>
-<span id="cb134-6"><a href="#cb134-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">120</span>,</span>
-<span id="cb134-7"><a href="#cb134-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp3&quot;</span>,    <span class="dv">105</span></span>
-<span id="cb134-8"><a href="#cb134-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>id, <span class="sc">~</span>measurement, <span class="sc">~</span>value,</span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">100</span>,</span>
+<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">140</span>,</span>
+<span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">115</span>, </span>
+<span id="cb140-6"><a href="#cb140-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">120</span>,</span>
+<span id="cb140-7"><a href="#cb140-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp3&quot;</span>,    <span class="dv">105</span></span>
+<span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Wir nehmen die Werte aus der Spalte <code>value</code> und die Namen
 aus der Spalte <code>measurement</code>:</p>
-<div class="sourceCode" id="cb135"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measurement,</span>
-<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
-<span id="cb135-5"><a href="#cb135-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measurement,</span>
+<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
+<span id="cb141-5"><a href="#cb141-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
 ##   id      bp1   bp2   bp3
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -2487,20 +2559,20 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="#cb1
 herausfinden, was in den Zeilen und Spalten stehen wird. Die neuen
 Spaltennamen sind die eindeutigen Werte von
 <code>measurement</code>.</p>
-<div class="sourceCode" id="cb137"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(measurement) <span class="sc">%&gt;%</span>  </span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(measurement) <span class="sc">%&gt;%</span>  </span>
+<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;bp1&quot; &quot;bp2&quot; &quot;bp3&quot;</code></pre>
 <p>Standardmäßig werden die Zeilen im Ausgabedatensatz durch alle
 Variablen bestimmt, die nicht in die neuen Spalten- oder Wertekategorien
 übernommen werden. Diese werden <code>id_cols</code> genannt. In diesem
 Fall gibt es nur eine Spalte, aber allgemein können es beliebig viele
 sein.</p>
-<div class="sourceCode" id="cb139"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>measurement, <span class="sc">-</span>value) <span class="sc">%&gt;%</span>  </span>
-<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>measurement, <span class="sc">-</span>value) <span class="sc">%&gt;%</span>  </span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 1
 ##   id   
 ##   &lt;chr&gt;
@@ -2508,11 +2580,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="#cb1
 ## 2 B</code></pre>
 <p><code>pivot_wider()</code> kombiniert dann diese Ergebnisse, um einen
 leeren Datensatz zu generieren:</p>
-<div class="sourceCode" id="cb141"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>measurement, <span class="sc">-</span>value) <span class="sc">%&gt;%</span>  </span>
-<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb141-4"><a href="#cb141-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">z =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>measurement, <span class="sc">-</span>value) <span class="sc">%&gt;%</span>  </span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> <span class="cn">NA</span>, <span class="at">z =</span> <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
 ##   id    x     y     z    
 ##   &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;lgl&gt;
@@ -2526,23 +2598,23 @@ im Eingabedatensatz gibt, die einer Zelle im Ausgabedatensatz
 entsprechen. Das folgende Beispiel hat zwei Zeilen, die der
 <code>id</code> “A” und der <code>measurement</code> “bp1”
 entsprechen:</p>
-<div class="sourceCode" id="cb143"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>id, <span class="sc">~</span>measurement, <span class="sc">~</span>value,</span>
-<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">100</span>,</span>
-<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">102</span>,</span>
-<span id="cb143-5"><a href="#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">120</span>,</span>
-<span id="cb143-6"><a href="#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">140</span>, </span>
-<span id="cb143-7"><a href="#cb143-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">115</span></span>
-<span id="cb143-8"><a href="#cb143-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>id, <span class="sc">~</span>measurement, <span class="sc">~</span>value,</span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">100</span>,</span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">102</span>,</span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">120</span>,</span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp1&quot;</span>,    <span class="dv">140</span>, </span>
+<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>,        <span class="st">&quot;bp2&quot;</span>,    <span class="dv">115</span></span>
+<span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Wenn wir versuchen, dies zu verarbeiten, erhalten wir eine Ausgabe,
 die Listenspalten enthält:</p>
-<div class="sourceCode" id="cb144"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measurement,</span>
-<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
-<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measurement,</span>
+<span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
+<span id="cb150-5"><a href="#cb150-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## Warning: Values from `value` are not uniquely identified; output will contain list-cols.
 ## • Use `values_fn = list` to suppress this warning.
 ## • Use `values_fn = {summary_fun}` to summarise duplicates.
@@ -2559,11 +2631,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="#cb1
 <p>Da du noch nicht weißt, wie du mit solchen Daten</p>
 <p>arbeiten kannst, solltest du dem Hinweis in der Warnung folgen, um
 herauszufinden, wo das Problem liegt:</p>
-<div class="sourceCode" id="cb147"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id, measurement) <span class="sc">%&gt;%</span>  </span>
-<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span>  </span>
-<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span>  </span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id, measurement) <span class="sc">%&gt;%</span>  </span>
+<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb153-4"><a href="#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   id    measurement     n
 ##   &lt;chr&gt; &lt;chr&gt;       &lt;int&gt;
@@ -2622,76 +2694,76 @@ Datensatz mit den Spalten “Land”, “Januar”, “Februar” und “März�
 jede Spalte die Anzahl der Besucher in diesem Monat darstellt. Verwende
 <code>pivot_longer()</code>, um die Daten in ein Format umzuwandeln, in
 dem jeder Monat in einer separaten Zeile steht.</p>
-<div class="sourceCode" id="cb149"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Januar, <span class="sc">~</span>Februar, <span class="sc">~</span>März,</span>
-<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">90</span>,</span>
-<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="dv">150</span>, <span class="dv">180</span>, <span class="dv">200</span></span>
-<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
+<div class="sourceCode" id="cb155"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Januar, <span class="sc">~</span>Februar, <span class="sc">~</span>März,</span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">90</span>,</span>
+<span id="cb155-4"><a href="#cb155-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="dv">150</span>, <span class="dv">180</span>, <span class="dv">200</span></span>
+<span id="cb155-5"><a href="#cb155-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 <li><p>Aggregiere mehrere Spalten zu einer einzigen Spalte: Angenommen,
 du hast einen Datensatz mit den Spalten “ID”, “Kategorie_A”,
 “Kategorie_B” und “Kategorie_C”, wobei jede Kategorie den Wert für eine
 bestimmte ID darstellt. Verwende <code>pivot_longer()</code>, um die
 Kategorien in einer einzigen Spalte namens “Kategorie”
 zusammenzufassen.</p>
-<div class="sourceCode" id="cb150"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie_A, <span class="sc">~</span>Kategorie_B, <span class="sc">~</span>Kategorie_C,</span>
-<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A1&quot;</span>, <span class="st">&quot;B1&quot;</span>, <span class="st">&quot;C1&quot;</span>,</span>
-<span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;B2&quot;</span>, <span class="st">&quot;C2&quot;</span>,</span>
-<span id="cb150-5"><a href="#cb150-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="st">&quot;A3&quot;</span>, <span class="st">&quot;B3&quot;</span>, <span class="st">&quot;C3&quot;</span></span>
-<span id="cb150-6"><a href="#cb150-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
+<div class="sourceCode" id="cb156"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie_A, <span class="sc">~</span>Kategorie_B, <span class="sc">~</span>Kategorie_C,</span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A1&quot;</span>, <span class="st">&quot;B1&quot;</span>, <span class="st">&quot;C1&quot;</span>,</span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;B2&quot;</span>, <span class="st">&quot;C2&quot;</span>,</span>
+<span id="cb156-5"><a href="#cb156-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>, <span class="st">&quot;A3&quot;</span>, <span class="st">&quot;B3&quot;</span>, <span class="st">&quot;C3&quot;</span></span>
+<span id="cb156-6"><a href="#cb156-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 <li><p>Arbeite mit Spaltennamen als Werten: Angenommen, du hast einen
 Datensatz mit den Spalten “Produkt_A”, “Produkt_B” und “Produkt_C”,
 wobei jede Spalte den Verkaufspreis für das entsprechende Produkt
 darstellt. Verwende <code>pivot_longer()</code>, um die Produktnamen als
 Werte in einer neuen Spalte namens “Produkt” zu erfassen.</p>
-<div class="sourceCode" id="cb151"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Produkt_A, <span class="sc">~</span>Produkt_B, <span class="sc">~</span>Produkt_C,</span>
-<span id="cb151-3"><a href="#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">5</span>,</span>
-<span id="cb151-4"><a href="#cb151-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">10</span>,</span>
-<span id="cb151-5"><a href="#cb151-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">20</span>, <span class="dv">18</span>, <span class="dv">15</span></span>
-<span id="cb151-6"><a href="#cb151-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
+<div class="sourceCode" id="cb157"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Produkt_A, <span class="sc">~</span>Produkt_B, <span class="sc">~</span>Produkt_C,</span>
+<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">5</span>,</span>
+<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">10</span>,</span>
+<span id="cb157-5"><a href="#cb157-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">20</span>, <span class="dv">18</span>, <span class="dv">15</span></span>
+<span id="cb157-6"><a href="#cb157-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 <li><p>Transformiere lange Daten in breite Daten: Angenommen, du hast
 einen Datensatz mit den Spalten “Land”, “Monat” und “Besucher”, wobei
 jeder Eintrag die Anzahl der Besucher in einem bestimmten Monat und Land
 darstellt. Verwende <code>pivot_wider()</code>, um die Daten in das
 ursprüngliche breite Format zurückzuführen.</p>
-<div class="sourceCode" id="cb152"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Monat, <span class="sc">~</span>Besucher,</span>
-<span id="cb152-3"><a href="#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">100</span>,</span>
-<span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
-<span id="cb152-5"><a href="#cb152-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
-<span id="cb152-6"><a href="#cb152-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
-<span id="cb152-7"><a href="#cb152-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
+<div class="sourceCode" id="cb158"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Land, <span class="sc">~</span>Monat, <span class="sc">~</span>Besucher,</span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">100</span>,</span>
+<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Deutschland&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
+<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
+<span id="cb158-6"><a href="#cb158-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;USA&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
+<span id="cb158-7"><a href="#cb158-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 <li><p>Erstelle neue Spalten aus einer einzelnen Spalte: Angenommen, du
 hast einen Datensatz mit den Spalten “ID”, “Kategorie” und “Wert”, wobei
 die Kategorien die verschiedenen Eigenschaften der IDs darstellen.
 Verwende <code>pivot_wider()</code>, um aus der Spalte “Kategorie” neue
 Spalten zu erstellen, die die entsprechenden Werte enthalten.</p>
-<div class="sourceCode" id="cb153"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie, <span class="sc">~</span>Wert,</span>
-<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">10</span>,</span>
-<span id="cb153-4"><a href="#cb153-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">20</span>,</span>
-<span id="cb153-5"><a href="#cb153-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">15</span>,</span>
-<span id="cb153-6"><a href="#cb153-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">25</span></span>
-<span id="cb153-7"><a href="#cb153-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
+<div class="sourceCode" id="cb159"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>ID, <span class="sc">~</span>Kategorie, <span class="sc">~</span>Wert,</span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">10</span>,</span>
+<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">20</span>,</span>
+<span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;A&quot;</span>, <span class="dv">15</span>,</span>
+<span id="cb159-6"><a href="#cb159-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="st">&quot;B&quot;</span>, <span class="dv">25</span></span>
+<span id="cb159-7"><a href="#cb159-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div></li>
 <li><p>Summiere Werte aus mehreren Zeilen: Angenommen, du hast einen
 Datensatz mit den Spalten “Kategorie”, “Monat” und “Wert”, wobei der
 Wert die monatlichen Verkäufe in einer bestimmten Kategorie darstellt.
 Verwende <code>pivot_wider()</code>, um die monatlichen Werte für jede
 Kategorie zu summieren und in neuen Spalten darzustellen.</p>
-<div class="sourceCode" id="cb154"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Kategorie, <span class="sc">~</span>Monat, <span class="sc">~</span>Wert,</span>
-<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">100</span>,</span>
-<span id="cb154-4"><a href="#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
-<span id="cb154-5"><a href="#cb154-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
-<span id="cb154-6"><a href="#cb154-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
-<span id="cb154-7"><a href="#cb154-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a>daten <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>Kategorie, <span class="sc">~</span>Monat, <span class="sc">~</span>Wert,</span>
+<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">100</span>,</span>
+<span id="cb160-4"><a href="#cb160-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">120</span>,</span>
+<span id="cb160-5"><a href="#cb160-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Januar&quot;</span>, <span class="dv">150</span>,</span>
+<span id="cb160-6"><a href="#cb160-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Februar&quot;</span>, <span class="dv">180</span></span>
+<span id="cb160-7"><a href="#cb160-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><strong>Hinweis für Übungsaufgabe 7 und 8:</strong> Du kannst den
 <code>mtcars</code>-Datensatz mit <code>data(mtcars)</code> laden und
 den <code>iris</code>-Datensatz mit <code>data(iris)</code>.</p></li>
@@ -2732,7 +2804,7 @@ in den entsprechenden Spalten enthalten sein.</p></li>
 <div id="grundlagen" class="section level2">
 <h2>Grundlagen</h2>
 <p>Um zwei DataFrames mit einander zu verbinden, bedienen wir uns der
-Funktion <code>.merge()</code>. Die Art und Weise, wie diese Funktion
+<code>.join()</code>-Funktionen. Die Art und Weise, wie diese Funktion
 funktioniert ist dabei sehr an die Sprache <a
 href="https://de.wikipedia.org/wiki/SQL">SQL</a> für <a
 href="https://de.wikipedia.org/wiki/Relationale_Datenbank">relationale
@@ -2754,8 +2826,8 @@ man von einem <em>left</em>, einem <em>right</em>, einem <em>inner</em>
 und einem <em>outer</em> Join.</p>
 <p>Folgende Schaubilder aus dem <a
 href="https://github.com/datenschauer/python-stats-course/tree/main">Kurs
-Statistik und Datenanalyse mit Python</a> von Stefan Böhringer mögen das
-veranschaulichen:</p>
+Statistik und Datenanalyse mit Python</a> von Stefan Böhringer
+veranschaulichen das sehr gut:</p>
 <img src="images/python_stats/inner_join.png" /> <img
 src="images/python_stats/left_join.png" /> <img
 src="images/python_stats/right_join.png" /> <img
@@ -2793,8 +2865,8 @@ Zum Beispiel in “nycflights13”:</p>
 Fluggesellschaft: ihren Carrier-Code und ihren vollständigen Namen. Du
 kannst eine Fluggesellschaft mit ihrem Carrier-Code identifizieren,
 wodurch <code>carrier</code> der Primärschlüssel ist.</p>
-<div class="sourceCode" id="cb155"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>airlines</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>airlines</span></code></pre></div>
 <pre><code>## # A tibble: 16 × 2
 ##    carrier name                       
 ##    &lt;chr&gt;   &lt;chr&gt;                      
@@ -2817,8 +2889,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="#cb1
 <li><p><code>airports</code> enthält Daten zu jedem Flughafen. Jeden
 Flughafen kannst du anhand seines dreistelligen Flughafencodes
 identifizieren, wodurch <code>faa</code> der Primärschlüssel ist.</p>
-<div class="sourceCode" id="cb157"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>airports</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>airports</span></code></pre></div>
 <pre><code>## # A tibble: 1,458 × 8
 ##    faa   name                    lat    lon   alt    tz dst   tzone
 ##    &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
@@ -2836,8 +2908,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="#cb1
 <li><p><code>planes</code> enthält Daten zu jedem Flugzeug. Ein Flugzeug
 kannst du anhand seiner Kennung (Tail Number) identifizieren, wodurch
 <code>tailnum</code> der Primärschlüssel ist.</p>
-<div class="sourceCode" id="cb159"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>planes</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>planes</span></code></pre></div>
 <pre><code>## # A tibble: 3,322 × 9
 ##    tailnum  year type        manufacturer model engines seats speed
 ##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
@@ -2857,8 +2929,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="#cb1
 Abflugflughäfen. Du kannst jede Beobachtung durch die Kombination von
 Ort und Uhrzeit identifizieren, wodurch <code>origin</code> und
 <code>time_hour</code> der zusammengesetzte Primärschlüssel sind.</p>
-<div class="sourceCode" id="cb161"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>weather</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>weather</span></code></pre></div>
 <pre><code>## # A tibble: 26,115 × 15
 ##    origin  year month   day  hour  temp  dewp humid wind_dir
 ##    &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -2921,30 +2993,30 @@ die Anzahl der Primärschlüssel mit <code>count()</code> zu ermitteln und
 nach Einträgen zu suchen, bei denen <code>n</code> größer als eins ist.
 Dadurch wird deutlich, dass sowohl <code>planes</code> als auch
 <code>weather</code> in Ordnung sind:</p>
-<div class="sourceCode" id="cb163"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">%&gt;%</span>  </span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tailnum) <span class="sc">%&gt;%</span>  </span>
-<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">%&gt;%</span>  </span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tailnum) <span class="sc">%&gt;%</span>  </span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 2
 ## # ℹ 2 variables: tailnum &lt;chr&gt;, n &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb165"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span>  </span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(time_hour, origin) <span class="sc">%&gt;%</span>  </span>
-<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span>  </span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(time_hour, origin) <span class="sc">%&gt;%</span>  </span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 3
 ## # ℹ 3 variables: time_hour &lt;dttm&gt;, origin &lt;chr&gt;, n &lt;int&gt;</code></pre>
 <p>Du solltest auch nach fehlenden Werten in deinen Primärschlüsseln
 suchen - wenn ein Wert fehlt, kann er keine Beobachtung
 identifizieren!</p>
-<div class="sourceCode" id="cb167"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">%&gt;%</span>  </span>
-<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(tailnum))</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">%&gt;%</span>  </span>
+<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(tailnum))</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 9
 ## # ℹ 9 variables: tailnum &lt;chr&gt;, year &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;,
 ## #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb169"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span>  </span>
-<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(time_hour) <span class="sc">|</span> <span class="fu">is.na</span>(origin))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span>  </span>
+<span id="cb175-2"><a href="#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(time_hour) <span class="sc">|</span> <span class="fu">is.na</span>(origin))</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 15
 ## # ℹ 15 variables: origin &lt;chr&gt;, year &lt;int&gt;, month &lt;int&gt;, day &lt;int&gt;, hour &lt;int&gt;,
 ## #   temp &lt;dbl&gt;, dewp &lt;dbl&gt;, humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;,
@@ -2962,10 +3034,10 @@ anderen zu beschreiben.</p>
 <p>Nach etwas Nachdenken und Experimentieren haben wir festgestellt,
 dass es drei Variablen gibt, die zusammen jede Flugreise eindeutig
 identifizieren:</p>
-<div class="sourceCode" id="cb171"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span>  </span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(time_hour, carrier, flight) <span class="sc">%&gt;%</span>  </span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span>  </span>
+<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(time_hour, carrier, flight) <span class="sc">%&gt;%</span>  </span>
+<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 4
 ## # ℹ 4 variables: time_hour &lt;dttm&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, n &lt;int&gt;</code></pre>
 <p>Bedeutet das Fehlen von Duplikaten automatisch, dass
@@ -2973,10 +3045,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="#cb1
 Primärschlüssel ist? Es ist sicherlich ein guter Anfang, aber es
 garantiert es nicht. Ist zum Beispiel Höhe und Breitengrad ein guter
 Primärschlüssel für <code>airports</code>?</p>
-<div class="sourceCode" id="cb173"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span> </span>
-<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(alt, lat) <span class="sc">%&gt;%</span>  </span>
-<span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span> </span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(alt, lat) <span class="sc">%&gt;%</span>  </span>
+<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##     alt   lat     n
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -2991,10 +3063,10 @@ Fluggesellschaft und ihre Kunden wäre, wenn es mehrere Flüge mit
 derselben Flugnummer zur gleichen Zeit in der Luft gäbe.</p>
 <p>Das heißt, es wäre vielleicht sinnvoller, einen einfachen numerischen
 Ersatzschlüssel einzuführen, der die Zeilennummer verwendet:</p>
-<div class="sourceCode" id="cb175"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span>  </span>
-<span id="cb175-2"><a href="#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>(), <span class="at">.before =</span> <span class="dv">1</span>)</span>
-<span id="cb175-3"><a href="#cb175-3" aria-hidden="true" tabindex="-1"></a>flights2</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span>  </span>
+<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>(), <span class="at">.before =</span> <span class="dv">1</span>)</span>
+<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>flights2</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 20
 ##       id  year month   day dep_time sched_dep_time dep_delay arr_time
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
@@ -3064,12 +3136,12 @@ funktionieren, sowie die verbleibenden <code>inner_join()</code>,
 <ol style="list-style-type: decimal">
 <li><p>Gegeben sind zwei Datensätzen <code>df1</code> und
 <code>df1</code> mit einer gemeinsamen Spalte “ID”.</p>
-<div class="sourceCode" id="cb177"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
-<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
-<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-4"><a href="#cb177-4" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
-<span id="cb177-5"><a href="#cb177-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;Bob&quot;</span>, <span class="st">&quot;Charlie&quot;</span>, <span class="st">&quot;David&quot;</span>))</span>
+<span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb183-4"><a href="#cb183-4" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb183-5"><a href="#cb183-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>))</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Führe einen <code>left_join()</code> durch und speichere das
 Ergebnis im Datensatz <code>merged_df</code>. Gib anschließend den
@@ -3104,10 +3176,10 @@ wir es einfacher machen, zu sehen, was vor sich geht, indem wir einen
 schmaleren Datensatz mit nur sechs Variablen erstellen:</p>
 <p>Denke daran, dass du in RStudio auch <code>View()</code> verwenden
 kannst, um dieses Problem zu umgehen.</p>
-<div class="sourceCode" id="cb178"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span>  </span>
-<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, time_hour, origin, dest, tailnum, carrier)</span>
-<span id="cb178-3"><a href="#cb178-3" aria-hidden="true" tabindex="-1"></a>flights2</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span>  </span>
+<span id="cb184-2"><a href="#cb184-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, time_hour, origin, dest, tailnum, carrier)</span>
+<span id="cb184-3"><a href="#cb184-3" aria-hidden="true" tabindex="-1"></a>flights2</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 6
 ##     year time_hour           origin dest  tailnum carrier
 ##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  
@@ -3130,9 +3202,9 @@ ist.) Der Hauptzweck von <code>left_join()</code> besteht darin,
 zusätzliche Metadaten hinzuzufügen. Beispielsweise können wir
 <code>left_join()</code> verwenden, um den vollen Namen der
 Fluggesellschaft zu den <code>flights2</code>-Daten hinzuzufügen:</p>
-<div class="sourceCode" id="cb180"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span> </span>
-<span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airlines)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span> </span>
+<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airlines)</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(carrier)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 7
 ##     year time_hour           origin dest  tailnum carrier name                  
@@ -3150,9 +3222,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="#cb1
 ## # ℹ 336,766 more rows</code></pre>
 <p>Oder wir könnten die Temperatur und Windgeschwindigkeit herausfinden,
 als jedes Flugzeug abgeflogen ist:</p>
-<div class="sourceCode" id="cb183"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(weather <span class="sc">%&gt;%</span>  <span class="fu">select</span>(origin, time_hour, temp, wind_speed))</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(weather <span class="sc">%&gt;%</span>  <span class="fu">select</span>(origin, time_hour, temp, wind_speed))</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(time_hour, origin)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 8
 ##     year time_hour           origin dest  tailnum carrier  temp wind_speed
@@ -3169,9 +3241,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="#cb1
 ## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA       39.9       16.1
 ## # ℹ 336,766 more rows</code></pre>
 <p>Oder welche Größe das Flugzeug hatte, das geflogen ist:</p>
-<div class="sourceCode" id="cb186"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes <span class="sc">%&gt;%</span>  <span class="fu">select</span>(tailnum, type, engines, seats))</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes <span class="sc">%&gt;%</span>  <span class="fu">select</span>(tailnum, type, engines, seats))</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(tailnum)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 9
 ##     year time_hour           origin dest  tailnum carrier type     engines seats
@@ -3192,10 +3264,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="#cb1
 auf. Beispielsweise gibt es keine Informationen über das Flugzeug mit
 der Tail-Nummer <code>N3ALAA</code>, daher werden der <code>type</code>,
 die <code>engines</code> und die <code>seats</code> fehlen:</p>
-<div class="sourceCode" id="cb189"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tailnum <span class="sc">==</span> <span class="st">&quot;N3ALAA&quot;</span>) <span class="sc">%&gt;%</span>  </span>
-<span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes <span class="sc">%&gt;%</span>  <span class="fu">select</span>(tailnum, type, engines, seats))</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tailnum <span class="sc">==</span> <span class="st">&quot;N3ALAA&quot;</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes <span class="sc">%&gt;%</span>  <span class="fu">select</span>(tailnum, type, engines, seats))</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(tailnum)`</code></pre>
 <pre><code>## # A tibble: 63 × 9
 ##     year time_hour           origin dest  tailnum carrier type  engines seats
@@ -3220,9 +3292,9 @@ in beiden Datensätzen vorkommen, als den Join-Schlüssel, den sogenannten
 sie funktioniert nicht immer. Was passiert zum Beispiel, wenn wir
 versuchen, <code>flights2</code> mit dem vollständigen
 <code>planes</code>-Datensatz zu verbinden?</p>
-<div class="sourceCode" id="cb192"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes)</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(year, tailnum)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 13
 ##     year time_hour           origin dest  tailnum carrier type  manufacturer
@@ -3249,9 +3321,9 @@ in dem der Flug stattgefunden hat, und <code>planes$year</code> ist das
 Jahr, in dem das Flugzeug gebaut wurde. Wir möchten nur nach
 <code>tailnum</code> verbinden, daher müssen wir eine explizite
 Spezifikation mit <code>join_by()</code> angeben:</p>
-<div class="sourceCode" id="cb195"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes, <span class="fu">join_by</span>(tailnum))</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes, <span class="fu">join_by</span>(tailnum))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 14
 ##    year.x time_hour           origin dest  tailnum carrier year.y type          
 ##     &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;         
@@ -3283,9 +3355,9 @@ die Beziehung zwischen den beiden Tabellen: Die Schlüssel müssen
 angeben. Beispielsweise gibt es zwei Möglichkeiten, die Tabellen
 <code>flight2</code> und <code>airports</code> zu verbinden: entweder
 nach <code>dest</code> oder nach <code>origin</code>:</p>
-<div class="sourceCode" id="cb197"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(dest <span class="sc">==</span> faa))</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(dest <span class="sc">==</span> faa))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 13
 ##     year time_hour           origin dest  tailnum carrier name         lat   lon
 ##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
@@ -3301,9 +3373,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb1
 ## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      Chicago O…  42.0 -87.9
 ## # ℹ 336,766 more rows
 ## # ℹ 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;, tzone &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb199"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(origin <span class="sc">==</span> faa))</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(origin <span class="sc">==</span> faa))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 13
 ##     year time_hour           origin dest  tailnum carrier name         lat   lon
 ##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
@@ -3346,9 +3418,9 @@ behalten alle Zeilen in <code>x</code> bei, die eine Übereinstimmung in
 <code>y</code> haben. Zum Beispiel könnten wir einen Semi-Join
 verwenden, um den <code>airports</code>-Datensatz zu filtern und nur die
 Ursprungsflughäfen anzuzeigen:</p>
-<div class="sourceCode" id="cb201"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span>  </span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>(flights2, <span class="fu">join_by</span>(faa <span class="sc">==</span> origin))</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span>  </span>
+<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>(flights2, <span class="fu">join_by</span>(faa <span class="sc">==</span> origin))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 8
 ##   faa   name                  lat   lon   alt    tz dst   tzone           
 ##   &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;           
@@ -3356,9 +3428,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb2
 ## 2 JFK   John F Kennedy Intl  40.6 -73.8    13    -5 A     America/New_York
 ## 3 LGA   La Guardia           40.8 -73.9    22    -5 A     America/New_York</code></pre>
 <p>Oder nur die Zielorte:</p>
-<div class="sourceCode" id="cb203"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span>  </span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>(flights2, <span class="fu">join_by</span>(faa <span class="sc">==</span> dest))</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span>  </span>
+<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>(flights2, <span class="fu">join_by</span>(faa <span class="sc">==</span> dest))</span></code></pre></div>
 <pre><code>## # A tibble: 101 × 8
 ##    faa   name                                lat    lon   alt    tz dst   tzone 
 ##    &lt;chr&gt; &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
@@ -3381,10 +3453,10 @@ werden nicht als <code>NA</code> angezeigt, sondern existieren nur durch
 ihre Abwesenheit. Beispielsweise können wir Zeilen finden, die in
 <code>airports</code> fehlen, indem wir nach Flügen suchen, die keinen
 passenden Zielflughafen haben:</p>
-<div class="sourceCode" id="cb205"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
-<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(airports, <span class="fu">join_by</span>(dest <span class="sc">==</span> faa)) <span class="sc">%&gt;%</span>  </span>
-<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(dest)</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
+<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(airports, <span class="fu">join_by</span>(dest <span class="sc">==</span> faa)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(dest)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 1
 ##   dest 
 ##   &lt;chr&gt;
@@ -3394,10 +3466,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="#cb2
 ## 4 PSE</code></pre>
 <p>Oder wir können herausfinden, welche <code>tailnum</code>s in
 <code>planes</code> fehlen:</p>
-<div class="sourceCode" id="cb207"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span> </span>
-<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(planes, <span class="fu">join_by</span>(tailnum)) <span class="sc">%&gt;%</span>  </span>
-<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(tailnum)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span> </span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(planes, <span class="fu">join_by</span>(tailnum)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(tailnum)</span></code></pre></div>
 <pre><code>## # A tibble: 722 × 1
 ##    tailnum
 ##    &lt;chr&gt;  
