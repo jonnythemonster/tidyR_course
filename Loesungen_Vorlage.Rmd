@@ -178,7 +178,7 @@ Hier ist ein Beispiel, wie man die any_of()-Funktion verwenden könnte, um zu ü
 # Vektor von Spaltennamen
 variables <- c("year", "month", "day", "dep_delay", "arr_delay")
 
-# Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind
+# Auswählen der Spalten aus dem Datensatz, die in dem Vektor von Spaltennamen enthalten sind
 selected_columns <- flights %>% 
   select(any_of(variables))
 
@@ -517,13 +517,13 @@ airports %>%
 ## Aufgabe 2
 `weather` enthält nur Informationen für die drei Ursprungsflughäfen in New York City. Wenn es Wetteraufzeichnungen für alle Flughäfen in den USA enthalten würde, welche zusätzliche Verbindung würde es zu `flights` herstellen?
 
-Wenn das Wetter für alle Flughäfen in den USA enthalten wäre, würde es das Wetter für den Zielort jedes Fluges liefern. Die Spalten des Wetterdatenrahmens (Jahr, Monat, Tag, Stunde, Herkunft) sind ein Fremdschlüssel für die Spalten des Flugdatenrahmens (Jahr, Monat, Tag, Stunde, Ziel). Dies würde Informationen über das Wetter am Zielflughafen zum Zeitpunkt des Abflugs liefern, es sei denn, die Ankunftszeit wurde berechnet.
+Wenn das Wetter für alle Flughäfen in den USA enthalten wäre, würde es das Wetter für den Zielort jedes Fluges liefern. Die Spalten des Wetterdatensatzes (Jahr, Monat, Tag, Stunde, Herkunft) sind ein Fremdschlüssel für die Spalten des Flugdatensatzes (Jahr, Monat, Tag, Stunde, Ziel). Dies würde Informationen über das Wetter am Zielflughafen zum Zeitpunkt des Abflugs liefern, es sei denn, die Ankunftszeit wurde berechnet.
 
 ## Aufgabe 3
 Wir wissen, dass einige Tage im Jahr besonders sind und weniger Menschen als üblich fliegen (z.B. Heiligabend und Weihnachtstag). 
-   Wie könntest du diese Daten als Datenrahmen darstellen? 
+   Wie könntest du diese Daten als Datensatz darstellen? 
    Was wäre der Primärschlüssel? 
-   Wie würde er sich mit den vorhandenen Datenrahmen verbinden?
+   Wie würde er sich mit den vorhandenen Datensätzen verbinden?
    
 Man könnte einen separaten Datensatz mit den Feiertagen in den USA nach Tag und Monat erstellen. Mit diesen Informationen lassen sich die einzelnen Flüge im Datensatz "flights" abgleichen.
 
@@ -566,7 +566,7 @@ knitr::include_graphics("images/lahman.png")
 
 # Übung 6
 ## Aufgabe 1
-1a. Angenommen, du hast zwei Datenrahmen `df1` und `df2` mit einer gemeinsamen Spalte "ID". Führe einen `left_join()` durch und speichere das Ergebnis im Datenrahmen `merged_df`. Gib anschließend den resultierenden Datenrahmen aus.
+1a. Angenommen, du hast zwei Datensätze `df1` und `df2` mit einer gemeinsamen Spalte "ID". Führe einen `left_join()` durch und speichere das Ergebnis im Datensatz `merged_df`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 library(dplyr)
@@ -585,7 +585,7 @@ merged_df <- left_join(df1, df2, by = "ID")
 merged_df
 ```
 
-1b. Gegeben sind zwei Datenrahmen `df3` und `df4` mit einer gemeinsamen Spalte "ID". Führe einen `inner_join()` durch und speichere das Ergebnis im Datenrahmen `merged_inner`. Gib anschließend den resultierenden Datenrahmen aus.
+1b. Gegeben sind zwei Datensätze `df3` und `df4` mit einer gemeinsamen Spalte "ID". Führe einen `inner_join()` durch und speichere das Ergebnis im Datensatz `merged_inner`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 # Erzeuge Beispieldaten
@@ -602,7 +602,7 @@ merged_inner <- inner_join(df3, df4, by = "ID")
 merged_inner
 ```
 
-1c. Angenommen, du hast zwei Datenrahmen `df5` und `df6` mit einer gemeinsamen Spalte "ID". Führe einen `right_join()` durch und speichere das Ergebnis im Datenrahmen `merged_right`. Gib anschließend den resultierenden Datenrahmen aus.
+1c. Angenommen, du hast zwei Datensätze `df5` und `df6` mit einer gemeinsamen Spalte "ID". Führe einen `right_join()` durch und speichere das Ergebnis im Datensazt `merged_right`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 # Erzeuge Beispieldaten
@@ -619,7 +619,7 @@ merged_right <- right_join(df5, df6, by = "ID")
 merged_right
 ```
 
-1d. Gegeben sind zwei Datenrahmen `df7` und `df8` mit einer gemeinsamen Spalte "ID". Führe einen `full_join()` durch und speichere das Ergebnis im Datenrahmen `merged_full`. Gib anschließend den resultierenden Datenrahmen aus.
+1d. Gegeben sind zwei Datensätze `df7` und `df8` mit einer gemeinsamen Spalte "ID". Führe einen `full_join()` durch und speichere das Ergebnis im Datensatz `merged_full`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 # Erzeuge Beispieldaten
@@ -636,7 +636,7 @@ merged_full <- full_join(df7, df8, by = "ID")
 merged_full
 ```
 
-1e. Angenommen, du hast zwei Datenrahmen `df9` und `df10` mit einer gemeinsamen Spalte "ID". Führe einen `semi_join()` durch und speichere das Ergebnis im Datenrahmen `merged_semi`. Gib anschließend den resultierenden Datenrahmen aus.
+1e. Angenommen, du hast zwei Datensätze `df9` und `df10` mit einer gemeinsamen Spalte "ID". Führe einen `semi_join()` durch und speichere das Ergebnis im Datensatz `merged_semi`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 # Erzeuge Beispieldaten
@@ -653,7 +653,7 @@ merged_semi <- semi_join(df9, df10, by = "ID")
 merged_semi
 ```
 
-1f. Gegeben sind zwei Datenrahmen `df11` und `df12` mit einer gemeinsamen Spalte "ID". Führe einen `anti_join()` durch und speichere das Ergebnis im Datenrahmen `merged_anti`. Gib anschließend den resultierenden Datenrahmen aus.
+1f. Gegeben sind zwei Datensätze `df11` und `df12` mit einer gemeinsamen Spalte "ID". Führe einen `anti_join()` durch und speichere das Ergebnis im Datensatz `merged_anti`. Gib anschließend den resultierenden Datensatz aus.
 
 ```{r}
 # Erzeuge Beispieldaten
