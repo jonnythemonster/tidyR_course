@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jonas Trautner" />
 
-<meta name="date" content="2023-05-24" />
+<meta name="date" content="2023-05-31" />
 
 <title>Lösungen</title>
 
@@ -431,12 +431,12 @@ div.tocify {
 
 <h1 class="title toc-ignore">Lösungen</h1>
 <h4 class="author">Jonas Trautner</h4>
-<h4 class="date">2023-05-24</h4>
+<h4 class="date">2023-05-31</h4>
 
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-05-24</p>
+<p>Sommersemester 2023 | Stand: 2023-05-31</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verwendete Pakete</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
@@ -898,7 +898,7 @@ Vektor variables enthält:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vektor von Spaltennamen</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>, <span class="st">&quot;dep_delay&quot;</span>, <span class="st">&quot;arr_delay&quot;</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Auswählen der Spalten aus dem Datenrahmen, die in dem Vektor von Spaltennamen enthalten sind</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Auswählen der Spalten aus dem Datensatz, die in dem Vektor von Spaltennamen enthalten sind</span></span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">any_of</span>(variables))</span>
 <span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -1498,8 +1498,8 @@ alle Flughäfen in den USA enthalten würde, welche zusätzliche Verbindung
 würde es zu <code>flights</code> herstellen?</p>
 <p>Wenn das Wetter für alle Flughäfen in den USA enthalten wäre, würde
 es das Wetter für den Zielort jedes Fluges liefern. Die Spalten des
-Wetterdatenrahmens (Jahr, Monat, Tag, Stunde, Herkunft) sind ein
-Fremdschlüssel für die Spalten des Flugdatenrahmens (Jahr, Monat, Tag,
+Wetterdatensatzes (Jahr, Monat, Tag, Stunde, Herkunft) sind ein
+Fremdschlüssel für die Spalten des Flugdatensatzes (Jahr, Monat, Tag,
 Stunde, Ziel). Dies würde Informationen über das Wetter am Zielflughafen
 zum Zeitpunkt des Abflugs liefern, es sei denn, die Ankunftszeit wurde
 berechnet.</p>
@@ -1508,8 +1508,8 @@ berechnet.</p>
 <h2>Aufgabe 3</h2>
 <p>Wir wissen, dass einige Tage im Jahr besonders sind und weniger
 Menschen als üblich fliegen (z.B. Heiligabend und Weihnachtstag). Wie
-könntest du diese Daten als Datenrahmen darstellen? Was wäre der
-Primärschlüssel? Wie würde er sich mit den vorhandenen Datenrahmen
+könntest du diese Daten als Datensatz darstellen? Was wäre der
+Primärschlüssel? Wie würde er sich mit den vorhandenen Datensätzen
 verbinden?</p>
 <p>Man könnte einen separaten Datensatz mit den Feiertagen in den USA
 nach Tag und Monat erstellen. Mit diesen Informationen lassen sich die
@@ -1635,10 +1635,10 @@ Beziehungen zwischen den Tabellen <code>Master</code> (entspricht
 <h1>Übung 6</h1>
 <div id="aufgabe-1-3" class="section level2">
 <h2>Aufgabe 1</h2>
-<p>1a. Angenommen, du hast zwei Datenrahmen <code>df1</code> und
+<p>1a. Angenommen, du hast zwei Datensätze <code>df1</code> und
 <code>df2</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>left_join()</code> durch und speichere das Ergebnis im Datenrahmen
-<code>merged_df</code>. Gib anschließend den resultierenden Datenrahmen
+<code>left_join()</code> durch und speichere das Ergebnis im Datensatz
+<code>merged_df</code>. Gib anschließend den resultierenden Datensatz
 aus.</p>
 <div class="sourceCode" id="cb106"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -1660,11 +1660,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb1
 ## 2  2     Bob  25
 ## 3  3 Charlie  30
 ## 4  4   David  NA</code></pre>
-<p>1b. Gegeben sind zwei Datenrahmen <code>df3</code> und
+<p>1b. Gegeben sind zwei Datensätze <code>df3</code> und
 <code>df4</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>inner_join()</code> durch und speichere das Ergebnis im
-Datenrahmen <code>merged_inner</code>. Gib anschließend den
-resultierenden Datenrahmen aus.</p>
+<code>inner_join()</code> durch und speichere das Ergebnis im Datensatz
+<code>merged_inner</code>. Gib anschließend den resultierenden Datensatz
+aus.</p>
 <div class="sourceCode" id="cb108"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
@@ -1681,11 +1681,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb1
 <pre><code>##   ID    Name Age
 ## 1  2     Bob  25
 ## 2  3 Charlie  30</code></pre>
-<p>1c. Angenommen, du hast zwei Datenrahmen <code>df5</code> und
+<p>1c. Angenommen, du hast zwei Datensätze <code>df5</code> und
 <code>df6</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>right_join()</code> durch und speichere das Ergebnis im
-Datenrahmen <code>merged_right</code>. Gib anschließend den
-resultierenden Datenrahmen aus.</p>
+<code>right_join()</code> durch und speichere das Ergebnis im Datensazt
+<code>merged_right</code>. Gib anschließend den resultierenden Datensatz
+aus.</p>
 <div class="sourceCode" id="cb110"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
@@ -1703,11 +1703,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb1
 ## 1  2     Bob  25
 ## 2  3 Charlie  30
 ## 3  5    &lt;NA&gt;  35</code></pre>
-<p>1d. Gegeben sind zwei Datenrahmen <code>df7</code> und
+<p>1d. Gegeben sind zwei Datensätze <code>df7</code> und
 <code>df8</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>full_join()</code> durch und speichere das Ergebnis im Datenrahmen
-<code>merged_full</code>. Gib anschließend den resultierenden
-Datenrahmen aus.</p>
+<code>full_join()</code> durch und speichere das Ergebnis im Datensatz
+<code>merged_full</code>. Gib anschließend den resultierenden Datensatz
+aus.</p>
 <div class="sourceCode" id="cb112"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>df7 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
@@ -1727,11 +1727,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb1
 ## 3  3 Charlie  30
 ## 4  4   David  NA
 ## 5  5    &lt;NA&gt;  35</code></pre>
-<p>1e. Angenommen, du hast zwei Datenrahmen <code>df9</code> und
+<p>1e. Angenommen, du hast zwei Datensätze <code>df9</code> und
 <code>df10</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>semi_join()</code> durch und speichere das Ergebnis im Datenrahmen
-<code>merged_semi</code>. Gib anschließend den resultierenden
-Datenrahmen aus.</p>
+<code>semi_join()</code> durch und speichere das Ergebnis im Datensatz
+<code>merged_semi</code>. Gib anschließend den resultierenden Datensatz
+aus.</p>
 <div class="sourceCode" id="cb114"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>df9 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
@@ -1748,11 +1748,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="#cb1
 <pre><code>##   ID    Name
 ## 1  2     Bob
 ## 2  3 Charlie</code></pre>
-<p>1f. Gegeben sind zwei Datenrahmen <code>df11</code> und
+<p>1f. Gegeben sind zwei Datensätze <code>df11</code> und
 <code>df12</code> mit einer gemeinsamen Spalte “ID”. Führe einen
-<code>anti_join()</code> durch und speichere das Ergebnis im Datenrahmen
-<code>merged_anti</code>. Gib anschließend den resultierenden
-Datenrahmen aus.</p>
+<code>anti_join()</code> durch und speichere das Ergebnis im Datensatz
+<code>merged_anti</code>. Gib anschließend den resultierenden Datensatz
+aus.</p>
 <div class="sourceCode" id="cb116"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Erzeuge Beispieldaten</span></span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>df11 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
