@@ -404,7 +404,7 @@ flights %>%
 
 7. Warum funktioniert das Folgende nicht, und was bedeutet der Fehler?
     
-    ```{r}
+    ```{r, error=TRUE}
     #| error: true
     flights %>%  
       select(tailnum) %>% 
@@ -1430,25 +1430,75 @@ flights2 %>%
   distinct(tailnum)
 ```
 
-<!-- --- -->
+# Gut aussehen mit ggplot
+Sobald du den anfänglichen Abschnitt des Skripts gelesen hast, bekommst du zumindest einen oberflächlichen Einblick in die grundlegenden Instrumente, die für die Durchführung von Datenanalysen erforderlich sind. Jetzt ist es an der Zeit, in die Tiefe zu gehen und detailliertere Informationen zu erhalten. Im folgenden Abschnitt des Buches wirst du einen umfassenderen Einblick in die Kunst der Datenvisualisierung erhalten.
 
-<!-- # Data Transformation -->
-<!-- ## Logische Vektoren -->
+## Die Grundlagen
+Jeder Graph in ggplot2 besteht aus mindestens den folgenden drei Komponenten:
+- Die Daten und wie die Datenpunkte einander zugeordnet sind.
+- Einem Satz geometrischer Objekte, auch Geoms genannt (visuelle Markierungen, die die Datenpunkte darstellen, z.B. Balken, Punkte oder Linien).
+- Ein Koordinatensystem.
 
-<!-- ## Zahlen -->
-<!-- ### count() -->
+Zusätzlich zu den Grundebenen bietet ggplot2 viele weitere Ebenen, um Diagramme durch Einfärben, Skalieren, Aufteilen oder Hinzufügen statistischer Transformationen an die Daten anzupassen.
 
-<!-- ## Strings -->
+## Geometrische Objekte (Geoms)
+Die verfügbaren Geoms variieren je nach Dimensionalität und Typ der dargestellten Variable(n). Es ist eine gute Idee, das ggplot2 Cheatsheet von Posit zur Hand zu haben, da es eine Zusammenfassung der verfügbaren Geoms bietet. Alle Geoms in ggplot haben bestimmte Anforderungen an die Variablen. Dazu gehört zum Beispiel, ob es sich um eine kontinuierliche oder diskrete Variable handelt. Einige aesthetics können nur mit kategorischen Variablen arbeiten, wie z.B. die Form eines Punktes: Dreiecke, Kreise, Quadrate, etc. Einige aesthetics arbeiten mit kategorischen oder kontinuierlichen Variablen, wie z. B. der x-Position (horizontal). Bei einem Balkendiagramm muss die Variable kategorisch sein - eine kontinuierliche Variable auf der x-Achse würde keinen Sinn ergeben. Bei einem Streudiagramm muss die Variable kontinuierlich sein. Beide Datentypen (kategorial und kontinuierlich) können auf den ästhetischen Raum der x-Position abgebildet werden, erfordern aber unterschiedliche Skalentypen. Neben der Skalierung ist auch die Anzahl der Variablen entscheidend. Einige Plots benötigen nur eine Variable, während andere zwei Variablen benötigen. Dies wird im Folgenden für die einzelnen Plots betrachtet:
 
-<!-- ## Faktoren -->
+### Scatter Plot
+Variablen: zwei Variablen, beide kontinuierlich
 
-<!-- ## Daten und Zeiten -->
+Weitere Dimensionen: ~~alpha,~~ color, fill, shape, ~~size,~~ stroke
 
-<!-- ## Fehlende Werte -->
+Minimalbeispiel:
+```{r}
+ggplot(mpg, aes(cty, hwy, color = trans)) +
+  geom_point()
+```
 
-<!-- ## Verknüpfungen (Joins) -->
+Weiteres Beispiel:
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point()
+```
 
-<!-- # Gut aussehen mit ggplot -->
-<!-- ## Grammatik -->
+```{r}
+ggplot(flights, aes(x = air_time, y = distance)) +
+  geom_point()
+```
+<div class="hinweis" style='background-color: #D6EAF8; color: #34495E; border-left: solid #34495E 4px; border-radius: 4px; padding: 0.7em;'>
+<p style='margin:1em;'>
+Die Daten sind nicht unbedingt perfekt für ein Punktdiagramm. Letztendlich werden hier Strecken dargestellt - Werte dazwischen kommen nicht vor. Sie können jedoch theoretisch auftreten. Dennoch ist ein horizontaler Boxplot für ausgewählte Routen vorzuziehen.
+</p>
+</div>
+<br>
 
----
+### Line Graph
+Variablen: zwei Variablen, beide kontinuierlich
+
+Weitere Dimensionen: ~~alpha,~~ color, group, linetype, ~~size~~
+
+Minimalbeispiel:
+```{r}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line()
+```
+
+Weiteres Beispiel:
+Aktienkurs
+
+### Boxplot
+Variablen: zwei Variablen, eine diskret, eine kontinuierlich
+
+Weitere Dimensionen: lower, middle, upper, ymax, ymin, ~~alpha,~~ color, fill, group, linetype, ~~shape,~~ ~~size,~~ ~~weight~~
+
+Minimalbeispiel:
+```{r}
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot()
+```
+
+Weiteres Beispiel:
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_boxplot()
+```

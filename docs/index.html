@@ -432,7 +432,7 @@ div.tocify {
 </div>
 
 
-<p>Sommersemester 2023 | Stand: 2023-05-24</p>
+<p>Sommersemester 2023 | Stand: 2023-06-20</p>
 <p>Hinweis: Zum jetzigen Zeitpunkt dieses Skipt in weiten Teilen eine
 Übersetzung des großartigen Buches <a href="https://r4ds.hadley.nz">R
 for Data Science</a>.</p>
@@ -581,22 +581,20 @@ dokumentiert. Dieser Datensatz wir häufig für die Einführung in dplyr
 verwendet. Bei Problemen findet man somit fast immer eine Lösung.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Flights ist eine Tabelle, eine besondere Art von dataframe, die von
 Tidyverse verwendet wird, um einige häufige Probleme zu vermeiden. Der
 wichtigste Unterschied zwischen Tibbles und klassischen dataframes liegt
@@ -611,25 +609,25 @@ anzuzeigen, oder <code>glimpse()</code> verwenden:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(flights)</span></code></pre></div>
 <pre><code>## Rows: 336,776
 ## Columns: 19
-## $ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
-## $ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
-## $ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, …
-## $ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, …
-## $ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1…
-## $ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849,…
-## $ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851,…
-## $ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -1…
-## $ carrier        &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;, &quot;…
-## $ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 4…
-## $ tailnum        &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N394…
-## $ origin         &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;,…
-## $ dest           &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IAD&quot;,…
-## $ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 1…
-## $ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, …
-## $ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6…
-## $ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0…
-## $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 0…</code></pre>
+## $ year           &lt;int&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2013, 201…
+## $ month          &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ day            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ dep_time       &lt;int&gt; 517, 533, 542, 544, 554, 554, 555, 557, 557, 558, 558, 558, 558, 558, 559, 559, 559, 600, 600, 601, 602, 602, 606, 606, 607, 608,…
+## $ sched_dep_time &lt;int&gt; 515, 529, 540, 545, 600, 558, 600, 600, 600, 600, 600, 600, 600, 600, 600, 559, 600, 600, 600, 600, 610, 605, 610, 610, 607, 600,…
+## $ dep_delay      &lt;dbl&gt; 2, 4, 2, -1, -6, -4, -5, -3, -3, -2, -2, -2, -2, -2, -1, 0, -1, 0, 0, 1, -8, -3, -4, -4, 0, 8, 11, 3, 0, 0, -8, 13, -4, -6, -6, -…
+## $ arr_time       &lt;int&gt; 830, 850, 923, 1004, 812, 740, 913, 709, 838, 753, 849, 853, 924, 923, 941, 702, 854, 851, 837, 844, 812, 821, 858, 837, 858, 807…
+## $ sched_arr_time &lt;int&gt; 819, 830, 850, 1022, 837, 728, 854, 723, 846, 745, 851, 856, 917, 937, 910, 706, 902, 858, 825, 850, 820, 805, 910, 845, 915, 735…
+## $ arr_delay      &lt;dbl&gt; 11, 20, 33, -18, -25, 12, 19, -14, -8, 8, -2, -3, 7, -14, 31, -4, -8, -7, 12, -6, -8, 16, -12, -8, -17, 32, 14, 4, -21, -9, 3, 5,…
+## $ carrier        &lt;chr&gt; &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;EV&quot;, &quot;B6&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;B6&quot;, &quot;UA&quot;, &quot;UA&quot;, &quot;AA&quot;, &quot;B6&quot;, &quot;UA&quot;, &quot;B6&quot;, &quot;MQ&quot;, &quot;B6&quot;, &quot;DL&quot;, &quot;MQ…
+## $ flight         &lt;int&gt; 1545, 1714, 1141, 725, 461, 1696, 507, 5708, 79, 301, 49, 71, 194, 1124, 707, 1806, 1187, 371, 4650, 343, 1919, 4401, 1895, 1743,…
+## $ tailnum        &lt;chr&gt; &quot;N14228&quot;, &quot;N24211&quot;, &quot;N619AA&quot;, &quot;N804JB&quot;, &quot;N668DN&quot;, &quot;N39463&quot;, &quot;N516JB&quot;, &quot;N829AS&quot;, &quot;N593JB&quot;, &quot;N3ALAA&quot;, &quot;N793JB&quot;, &quot;N657JB&quot;, &quot;N29129&quot;,…
+## $ origin         &lt;chr&gt; &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;EWR&quot;, &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;JFK&quot;, &quot;EWR&quot;, &quot;LGA&quot;, &quot;JFK&quot;, &quot;EWR&quot;, &quot;LGA&quot;, &quot;LG…
+## $ dest           &lt;chr&gt; &quot;IAH&quot;, &quot;IAH&quot;, &quot;MIA&quot;, &quot;BQN&quot;, &quot;ATL&quot;, &quot;ORD&quot;, &quot;FLL&quot;, &quot;IAD&quot;, &quot;MCO&quot;, &quot;ORD&quot;, &quot;PBI&quot;, &quot;TPA&quot;, &quot;LAX&quot;, &quot;SFO&quot;, &quot;DFW&quot;, &quot;BOS&quot;, &quot;LAS&quot;, &quot;FLL&quot;, &quot;AT…
+## $ air_time       &lt;dbl&gt; 227, 227, 160, 183, 116, 150, 158, 53, 140, 138, 149, 158, 345, 361, 257, 44, 337, 152, 134, 147, 170, 105, 152, 128, 157, 139, 3…
+## $ distance       &lt;dbl&gt; 1400, 1416, 1089, 1576, 762, 719, 1065, 229, 944, 733, 1028, 1005, 2475, 2565, 1389, 187, 2227, 1076, 762, 1023, 1020, 502, 1085,…
+## $ hour           &lt;dbl&gt; 5, 5, 5, 5, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, …
+## $ minute         &lt;dbl&gt; 15, 29, 40, 45, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0, 0, 0, 0, 10, 5, 10, 10, 7, 0, 0, 10, 15, 15, 30, 10, 27, 30, 30, 30, 30,…
+## $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-01 06:00:00, 2013-01-01 05:00:00, 20…</code></pre>
 <p>In beiden Ansichten werden den Variablennamen Abkürzungen angehängt,
 die dir den Typ jeder Variablen mitteilen: <int> steht für Ganzzahl,
 <dbl> steht für Double (auch als reelle Zahlen bekannt). <int> ist eine
@@ -726,22 +724,20 @@ Beispiel könnten wir alle Flüge finden, die mit mehr als 240 Minuten
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep_delay <span class="sc">&gt;</span> <span class="dv">240</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 1,524 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      848           1835       853     1001           1950
-##  2  2013     1     1     1815           1325       290     2120           1542
-##  3  2013     1     1     1842           1422       260     1958           1535
-##  4  2013     1     1     2115           1700       255     2330           1920
-##  5  2013     1     1     2205           1720       285       46           2040
-##  6  2013     1     1     2343           1724       379      314           1938
-##  7  2013     1     2     1332            904       268     1616           1128
-##  8  2013     1     2     1412            838       334     1710           1147
-##  9  2013     1     2     1607           1030       337     2003           1355
-## 10  2013     1     2     2131           1512       379     2340           1741
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      848           1835       853     1001           1950       851 MQ        3944 N942MQ  JFK    BWI         41      184    18
+##  2  2013     1     1     1815           1325       290     2120           1542       338 EV        4417 N17185  EWR    OMA        213     1134    13
+##  3  2013     1     1     1842           1422       260     1958           1535       263 EV        4633 N18120  EWR    BTV         46      266    14
+##  4  2013     1     1     2115           1700       255     2330           1920       250 9E        3347 N924XJ  JFK    CVG        115      589    17
+##  5  2013     1     1     2205           1720       285       46           2040       246 AA        1999 N5DNAA  EWR    MIA        146     1085    17
+##  6  2013     1     1     2343           1724       379      314           1938       456 EV        4321 N21197  EWR    MCI        222     1092    17
+##  7  2013     1     2     1332            904       268     1616           1128       288 EV        4364 N41104  EWR    MCI        203     1092     9
+##  8  2013     1     2     1412            838       334     1710           1147       323 UA         468 N474UA  EWR    MCO        150      937     8
+##  9  2013     1     2     1607           1030       337     2003           1355       368 AA         179 N324AA  JFK    SFO        346     2586    10
+## 10  2013     1     2     2131           1512       379     2340           1741       359 UA         488 N593UA  LGA    DEN        228     1620    15
 ## # ℹ 1,514 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Neben &gt; (größer als) können Sie auch &gt;= (größer als oder
 gleich), &lt; (kleiner als), &lt;= (kleiner als oder gleich), ==
 (gleich) und != (nicht gleich) verwenden. Sie können Bedingungen auch
@@ -783,63 +779,57 @@ für den ODER-Operator.</p>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 842 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 832 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># oder</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Flüge am 1. Januar</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span>, day <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 842 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 832 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flüge im Januar oder Febraur</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> month <span class="sc">==</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 51,955 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 51,945 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Es gibt eine nützliche Abkürzung, wenn du <code>|</code>
 und<code>==</code> kombinieren willst: <code>%in%</code>. Damit bleiben
 Zeilen erhalten, in denen die Variable einem der Werte auf der rechten
@@ -848,22 +838,20 @@ Seite entspricht:</p>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 51,955 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 51,945 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Durch <code>filter()</code> wird der dataframe nicht überschrieben,
 sondern nur die Auswahl in der Konsole ausgegeben. Um das Ergebnis zu
 speichern, musst den Zuweisungsoperator <code>&lt;-</code> verwenden.
@@ -888,22 +876,20 @@ Jahres die frühesten Monate, usw.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month, day, dep_time)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Du kannsz <code>desc()</code> für eine Spalte innerhalb von
 <code>arrange()</code> verwenden, um den dataframe auf der Grundlage
 dieser Spalte in absteigender Reihenfolge (von groß nach klein) neu zu
@@ -912,22 +898,20 @@ zur geringsten Verspätung:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">arrange</span>(<span class="fu">desc</span>(dep_delay))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     9      641            900      1301     1242           1530
-##  2  2013     6    15     1432           1935      1137     1607           2120
-##  3  2013     1    10     1121           1635      1126     1239           1810
-##  4  2013     9    20     1139           1845      1014     1457           2210
-##  5  2013     7    22      845           1600      1005     1044           1815
-##  6  2013     4    10     1100           1900       960     1342           2211
-##  7  2013     3    17     2321            810       911      135           1020
-##  8  2013     6    27      959           1900       899     1236           2226
-##  9  2013     7    22     2257            759       898      121           1026
-## 10  2013    12     5      756           1700       896     1058           2020
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     9      641            900      1301     1242           1530      1272 HA          51 N384HA  JFK    HNL        640     4983     9
+##  2  2013     6    15     1432           1935      1137     1607           2120      1127 MQ        3535 N504MQ  JFK    CMH         74      483    19
+##  3  2013     1    10     1121           1635      1126     1239           1810      1109 MQ        3695 N517MQ  EWR    ORD        111      719    16
+##  4  2013     9    20     1139           1845      1014     1457           2210      1007 AA         177 N338AA  JFK    SFO        354     2586    18
+##  5  2013     7    22      845           1600      1005     1044           1815       989 MQ        3075 N665MQ  JFK    CVG         96      589    16
+##  6  2013     4    10     1100           1900       960     1342           2211       931 DL        2391 N959DL  JFK    TPA        139     1005    19
+##  7  2013     3    17     2321            810       911      135           1020       915 DL        2119 N927DA  LGA    MSP        167     1020     8
+##  8  2013     6    27      959           1900       899     1236           2226       850 DL        2007 N3762Y  JFK    PDX        313     2454    19
+##  9  2013     7    22     2257            759       898      121           1026       895 DL        2047 N6716C  LGA    ATL        109      762     7
+## 10  2013    12     5      756           1700       896     1058           2020       878 AA         172 N5DMAA  EWR    MIA        149     1085    17
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Die Anzahl der Zeilen ändert sich dabei nicht, da nicht gefiltert
 wird.</p>
 </div>
@@ -942,22 +926,20 @@ Spaltennamen angegeben werden können:</p>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>flights  <span class="sc">%&gt;%</span>  </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alle eindeutigen Herkunfts- und Zielpaare finden</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>flights  <span class="sc">%&gt;%</span> </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(origin, dest)</span></code></pre></div>
@@ -981,22 +963,20 @@ beibehalten willst, kannst du alternativ die Option
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>flights  <span class="sc">%&gt;%</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(origin, dest, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 224 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 214 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Es ist kein Zufall, dass alle diese eindeutigen Flüge am 1. Januar
 stattfinden: <code>distinct()</code> findet das erste Vorkommen einer
 eindeutigen Zeile im Datensatz und verwirft den Rest.</p>
@@ -1082,22 +1062,20 @@ berechnen:</p>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 21
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 13 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</code></pre>
+## # ℹ 4 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</code></pre>
 <p>Standardmäßig fügt <code>mutate()</code> neue Spalten auf der rechten
 Seite des Datensatzes hinzu, was es schwierig macht zu sehen, was hier
 passiert. Wir können das Argument .before verwenden, um die Variablen
@@ -1109,22 +1087,20 @@ stattdessen auf der linken Seite hinzuzufügen</p>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before =</span> <span class="dv">1</span></span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 21
-##     gain speed  year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
-##  1    -9  370.  2013     1     1      517            515         2      830
-##  2   -16  374.  2013     1     1      533            529         4      850
-##  3   -31  408.  2013     1     1      542            540         2      923
-##  4    17  517.  2013     1     1      544            545        -1     1004
-##  5    19  394.  2013     1     1      554            600        -6      812
-##  6   -16  288.  2013     1     1      554            558        -4      740
-##  7   -24  404.  2013     1     1      555            600        -5      913
-##  8    11  259.  2013     1     1      557            600        -3      709
-##  9     5  405.  2013     1     1      557            600        -3      838
-## 10   -10  319.  2013     1     1      558            600        -2      753
+##     gain speed  year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1    -9  370.  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400
+##  2   -16  374.  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416
+##  3   -31  408.  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089
+##  4    17  517.  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576
+##  5    19  394.  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762
+##  6   -16  288.  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719
+##  7   -24  404.  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065
+##  8    11  259.  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229
+##  9     5  405.  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944
+## 10   -10  319.  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733
 ## # ℹ 336,766 more rows
-## # ℹ 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 3 more variables: hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Das . ist ein Zeichen dafür, dass .before ein Argument für die
 Funktion ist und nicht der Name einer dritten neuen Variablen, die wir
 erstellen. Du kannst auch .after verwenden, um nach einer Variablen
@@ -1138,22 +1114,20 @@ wir die neuen Variablen nach dem Tag einfügen:</p>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> day</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 21
-##     year month   day  gain speed dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
-##  1  2013     1     1    -9  370.      517            515         2      830
-##  2  2013     1     1   -16  374.      533            529         4      850
-##  3  2013     1     1   -31  408.      542            540         2      923
-##  4  2013     1     1    17  517.      544            545        -1     1004
-##  5  2013     1     1    19  394.      554            600        -6      812
-##  6  2013     1     1   -16  288.      554            558        -4      740
-##  7  2013     1     1   -24  404.      555            600        -5      913
-##  8  2013     1     1    11  259.      557            600        -3      709
-##  9  2013     1     1     5  405.      557            600        -3      838
-## 10  2013     1     1   -10  319.      558            600        -2      753
+##     year month   day  gain speed dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1  2013     1     1    -9  370.      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400
+##  2  2013     1     1   -16  374.      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416
+##  3  2013     1     1   -31  408.      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089
+##  4  2013     1     1    17  517.      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576
+##  5  2013     1     1    19  394.      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762
+##  6  2013     1     1   -16  288.      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719
+##  7  2013     1     1   -24  404.      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065
+##  8  2013     1     1    11  259.      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229
+##  9  2013     1     1     5  405.      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944
+## 10  2013     1     1   -10  319.      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733
 ## # ℹ 336,766 more rows
-## # ℹ 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 3 more variables: hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Alternativ kannst du mit dem Argument .keep steuern, welche Variablen
 beibehalten werden. Ein besonders nützliches Argument ist “used”, das
 angibt, dass nur die Spalten beibehalten werden sollen, die am
@@ -1225,21 +1199,20 @@ auf den Namen der Variablen basieren:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(year, month, day))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 16
-##    dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier
-##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;  
-##  1      517            515         2      830            819        11 UA     
-##  2      533            529         4      850            830        20 UA     
-##  3      542            540         2      923            850        33 AA     
-##  4      544            545        -1     1004           1022       -18 B6     
-##  5      554            600        -6      812            837       -25 DL     
-##  6      554            558        -4      740            728        12 UA     
-##  7      555            600        -5      913            854        19 B6     
-##  8      557            600        -3      709            723       -14 EV     
-##  9      557            600        -3      838            846        -8 B6     
-## 10      558            600        -2      753            745         8 AA     
+##    dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour minute
+##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5     15
+##  2      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5     29
+##  3      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5     40
+##  4      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5     45
+##  5      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6      0
+##  6      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5     58
+##  7      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6      0
+##  8      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6      0
+##  9      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6      0
+## 10      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6      0
 ## # ℹ 336,766 more rows
-## # ℹ 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 1 more variable: time_hour &lt;dttm&gt;</code></pre>
 <ul>
 <li>Wähle alle Spalten zwischen year und day (einschließlich) aus:</li>
 </ul>
@@ -1266,21 +1239,20 @@ auf den Namen der Variablen basieren:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>flights  <span class="sc">%&gt;%</span>  </span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>year<span class="sc">:</span>day)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 16
-##    dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier
-##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;  
-##  1      517            515         2      830            819        11 UA     
-##  2      533            529         4      850            830        20 UA     
-##  3      542            540         2      923            850        33 AA     
-##  4      544            545        -1     1004           1022       -18 B6     
-##  5      554            600        -6      812            837       -25 DL     
-##  6      554            558        -4      740            728        12 UA     
-##  7      555            600        -5      913            854        19 B6     
-##  8      557            600        -3      709            723       -14 EV     
-##  9      557            600        -3      838            846        -8 B6     
-## 10      558            600        -2      753            745         8 AA     
+##    dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour minute
+##       &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5     15
+##  2      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5     29
+##  3      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5     40
+##  4      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5     45
+##  5      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6      0
+##  6      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5     58
+##  7      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6      0
+##  8      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6      0
+##  9      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6      0
+## 10      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6      0
 ## # ℹ 336,766 more rows
-## # ℹ 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 1 more variable: time_hour &lt;dttm&gt;</code></pre>
 <p>Du kannst auch <code>-</code> anstelle von <code>!</code> verwenden;
 Hadley Wickham empfiehlt !, weil es als “nicht” gelesen wird und sich
 gut mit <code>&amp;</code> und <code>|</code> kombinieren lässt.</p>
@@ -1352,25 +1324,24 @@ gut mit <code>&amp;</code> und <code>|</code> kombinieren lässt.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># für dieses Beispiel braucht es einen anderen Datensatz</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>billboard</span></code></pre></div>
 <pre><code>## # A tibble: 317 × 79
-##    artist     track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8
-##    &lt;chr&gt;      &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 2 Pac      Baby… 2000-02-26      87    82    72    77    87    94    99    NA
-##  2 2Ge+her    The … 2000-09-02      91    87    92    NA    NA    NA    NA    NA
-##  3 3 Doors D… Kryp… 2000-04-08      81    70    68    67    66    57    54    53
-##  4 3 Doors D… Loser 2000-10-21      76    76    72    69    67    65    55    59
-##  5 504 Boyz   Wobb… 2000-04-15      57    34    25    17    17    31    36    49
-##  6 98^0       Give… 2000-08-19      51    39    34    26    26    19     2     2
-##  7 A*Teens    Danc… 2000-07-08      97    97    96    95   100    NA    NA    NA
-##  8 Aaliyah    I Do… 2000-01-29      84    62    51    41    38    35    35    38
-##  9 Aaliyah    Try … 2000-03-18      59    53    38    28    21    18    16    14
-## 10 Adams, Yo… Open… 2000-08-26      76    76    74    69    68    67    61    58
+##    artist track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8   wk9  wk10  wk11  wk12  wk13  wk14  wk15  wk16  wk17  wk18  wk19  wk20  wk21
+##    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2 Pac  Baby… 2000-02-26      87    82    72    77    87    94    99    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  2 2Ge+h… The … 2000-09-02      91    87    92    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  3 3 Doo… Kryp… 2000-04-08      81    70    68    67    66    57    54    53    51    51    51    51    47    44    38    28    22    18    18    14    12
+##  4 3 Doo… Loser 2000-10-21      76    76    72    69    67    65    55    59    62    61    61    59    61    66    72    76    75    67    73    70    NA
+##  5 504 B… Wobb… 2000-04-15      57    34    25    17    17    31    36    49    53    57    64    70    75    76    78    85    92    96    NA    NA    NA
+##  6 98^0   Give… 2000-08-19      51    39    34    26    26    19     2     2     3     6     7    22    29    36    47    67    66    84    93    94    NA
+##  7 A*Tee… Danc… 2000-07-08      97    97    96    95   100    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  8 Aaliy… I Do… 2000-01-29      84    62    51    41    38    35    35    38    38    36    37    37    38    49    61    63    62    67    83    86    NA
+##  9 Aaliy… Try … 2000-03-18      59    53    38    28    21    18    16    14    12    10     9     8     6     1     2     2     2     2     3     4     5
+## 10 Adams… Open… 2000-08-26      76    76    74    69    68    67    61    58    57    59    66    68    61    67    59    63    67    71    79    89    NA
 ## # ℹ 307 more rows
-## # ℹ 68 more variables: wk9 &lt;dbl&gt;, wk10 &lt;dbl&gt;, wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;,
-## #   wk13 &lt;dbl&gt;, wk14 &lt;dbl&gt;, wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;, wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;,
-## #   wk19 &lt;dbl&gt;, wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;,
-## #   wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;,
-## #   wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;,
-## #   wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, …</code></pre>
+## # ℹ 55 more variables: wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;, wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;, wk31 &lt;dbl&gt;,
+## #   wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;, wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, wk43 &lt;dbl&gt;,
+## #   wk44 &lt;dbl&gt;, wk45 &lt;dbl&gt;, wk46 &lt;dbl&gt;, wk47 &lt;dbl&gt;, wk48 &lt;dbl&gt;, wk49 &lt;dbl&gt;, wk50 &lt;dbl&gt;, wk51 &lt;dbl&gt;, wk52 &lt;dbl&gt;, wk53 &lt;dbl&gt;, wk54 &lt;dbl&gt;, wk55 &lt;dbl&gt;,
+## #   wk56 &lt;dbl&gt;, wk57 &lt;dbl&gt;, wk58 &lt;dbl&gt;, wk59 &lt;dbl&gt;, wk60 &lt;dbl&gt;, wk61 &lt;dbl&gt;, wk62 &lt;dbl&gt;, wk63 &lt;dbl&gt;, wk64 &lt;dbl&gt;, wk65 &lt;dbl&gt;, wk66 &lt;lgl&gt;, wk67 &lt;lgl&gt;,
+## #   wk68 &lt;lgl&gt;, wk69 &lt;lgl&gt;, wk70 &lt;lgl&gt;, wk71 &lt;lgl&gt;, wk72 &lt;lgl&gt;, wk73 &lt;lgl&gt;, wk74 &lt;lgl&gt;, wk75 &lt;lgl&gt;, wk76 &lt;lgl&gt;</code></pre>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>billboard <span class="sc">%&gt;%</span> </span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">num_range</span>(<span class="st">&quot;wk&quot;</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">15</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 317 × 6
@@ -1420,22 +1391,20 @@ Reinigungsfunktionen bietet.</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">tail_num =</span> tailnum)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tail_num origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228   EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211   LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA   JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB   JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN   LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463   EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB   EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS   LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB   JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA   LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tail_num &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 <div id="relocate" class="section level3">
 <h3><code>relocate()</code></h3>
@@ -1446,63 +1415,57 @@ Variablen nach vorne verschieben. Standardmäßig verschiebt
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(time_hour, air_time)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##    time_hour           air_time  year month   day dep_time sched_dep_time
-##    &lt;dttm&gt;                 &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;
-##  1 2013-01-01 05:00:00      227  2013     1     1      517            515
-##  2 2013-01-01 05:00:00      227  2013     1     1      533            529
-##  3 2013-01-01 05:00:00      160  2013     1     1      542            540
-##  4 2013-01-01 05:00:00      183  2013     1     1      544            545
-##  5 2013-01-01 06:00:00      116  2013     1     1      554            600
-##  6 2013-01-01 05:00:00      150  2013     1     1      554            558
-##  7 2013-01-01 06:00:00      158  2013     1     1      555            600
-##  8 2013-01-01 06:00:00       53  2013     1     1      557            600
-##  9 2013-01-01 06:00:00      140  2013     1     1      557            600
-## 10 2013-01-01 06:00:00      138  2013     1     1      558            600
+##    time_hour           air_time  year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest 
+##    &lt;dttm&gt;                 &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
+##  1 2013-01-01 05:00:00      227  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH  
+##  2 2013-01-01 05:00:00      227  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH  
+##  3 2013-01-01 05:00:00      160  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA  
+##  4 2013-01-01 05:00:00      183  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN  
+##  5 2013-01-01 06:00:00      116  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL  
+##  6 2013-01-01 05:00:00      150  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD  
+##  7 2013-01-01 06:00:00      158  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL  
+##  8 2013-01-01 06:00:00       53  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD  
+##  9 2013-01-01 06:00:00      140  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO  
+## 10 2013-01-01 06:00:00      138  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD  
 ## # ℹ 336,766 more rows
-## # ℹ 12 more variables: dep_delay &lt;dbl&gt;, arr_time &lt;int&gt;, sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
-## #   dest &lt;chr&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</code></pre>
+## # ℹ 3 more variables: distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</code></pre>
 <p>Du kannst auch angeben, wo sie eingefügt werden sollen, indem du die
 Argumente <code>.before</code> und <code>.after</code> verwendest, genau
 wie bei <code>mutate()</code>:</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(year<span class="sc">:</span>dep_time, <span class="at">.after =</span> time_hour)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##    sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight
-##             &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt;
-##  1            515         2      830            819        11 UA        1545
-##  2            529         4      850            830        20 UA        1714
-##  3            540         2      923            850        33 AA        1141
-##  4            545        -1     1004           1022       -18 B6         725
-##  5            600        -6      812            837       -25 DL         461
-##  6            558        -4      740            728        12 UA        1696
-##  7            600        -5      913            854        19 B6         507
-##  8            600        -3      709            723       -14 EV        5708
-##  9            600        -3      838            846        -8 B6          79
-## 10            600        -2      753            745         8 AA         301
+##    sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour minute time_hour            year
+##             &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dttm&gt;              &lt;int&gt;
+##  1            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5     15 2013-01-01 05:00:00  2013
+##  2            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5     29 2013-01-01 05:00:00  2013
+##  3            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5     40 2013-01-01 05:00:00  2013
+##  4            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5     45 2013-01-01 05:00:00  2013
+##  5            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6      0 2013-01-01 06:00:00  2013
+##  6            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5     58 2013-01-01 05:00:00  2013
+##  7            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6      0 2013-01-01 06:00:00  2013
+##  8            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6      0 2013-01-01 06:00:00  2013
+##  9            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6      0 2013-01-01 06:00:00  2013
+## 10            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6      0 2013-01-01 06:00:00  2013
 ## # ℹ 336,766 more rows
-## # ℹ 12 more variables: tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, year &lt;int&gt;,
-## #   month &lt;int&gt;, day &lt;int&gt;, dep_time &lt;int&gt;</code></pre>
+## # ℹ 3 more variables: month &lt;int&gt;, day &lt;int&gt;, dep_time &lt;int&gt;</code></pre>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> </span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(<span class="fu">starts_with</span>(<span class="st">&quot;arr&quot;</span>), <span class="at">.before =</span> dep_time)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day arr_time arr_delay dep_time sched_dep_time dep_delay
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;
-##  1  2013     1     1      830        11      517            515         2
-##  2  2013     1     1      850        20      533            529         4
-##  3  2013     1     1      923        33      542            540         2
-##  4  2013     1     1     1004       -18      544            545        -1
-##  5  2013     1     1      812       -25      554            600        -6
-##  6  2013     1     1      740        12      554            558        -4
-##  7  2013     1     1      913        19      555            600        -5
-##  8  2013     1     1      709       -14      557            600        -3
-##  9  2013     1     1      838        -8      557            600        -3
-## 10  2013     1     1      753         8      558            600        -2
+##     year month   day arr_time arr_delay dep_time sched_dep_time dep_delay sched_arr_time carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;          &lt;int&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      830        11      517            515         2            819 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      850        20      533            529         4            830 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      923        33      542            540         2            850 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1     1004       -18      544            545        -1           1022 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      812       -25      554            600        -6            837 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      740        12      554            558        -4            728 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      913        19      555            600        -5            854 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      709       -14      557            600        -3            723 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      838        -8      557            600        -3            846 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      753         8      558            600        -2            745 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 <div id="übung-2" class="section level3">
 <h3>Übung 2</h3>
@@ -1567,22 +1530,20 @@ Gruppen für deine Analyse aufzuteilen:</p>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month)</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ## # Groups:   month [12]
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p><code>group_by()</code> verändert die Daten nicht, aber wenn du dir
 das Ergebnis genau ansiehst, wirst du bemerken, dass das Ergebnis
 anzeigt, dass es “nach Monat gruppiert” ist
@@ -1700,22 +1661,20 @@ Ankunft an jedem Zielort am meisten verspätet sind:</p>
 <span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dest)</span></code></pre></div>
 <pre><code>## # A tibble: 108 × 19
 ## # Groups:   dest [105]
-##    dest   year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
-##  1 ABQ    2013     7    22     2145           2007        98      132
-##  2 ACK    2013     7    23     1139            800       219     1250
-##  3 ALB    2013     1    25      123           2000       323      229
-##  4 ANC    2013     8    17     1740           1625        75     2042
-##  5 ATL    2013     7    22     2257            759       898      121
-##  6 AUS    2013     7    10     2056           1505       351     2347
-##  7 AVL    2013     8    13     1156            832       204     1417
-##  8 BDL    2013     2    21     1728           1316       252     1839
-##  9 BGR    2013    12     1     1504           1056       248     1628
-## 10 BHM    2013     4    10       25           1900       325      136
+##    dest   year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin air_time distance  hour
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 ABQ    2013     7    22     2145           2007        98      132           2259       153 B6        1505 N784JB  JFK         259     1826    20
+##  2 ACK    2013     7    23     1139            800       219     1250            909       221 B6        1491 N192JB  JFK          44      199     8
+##  3 ALB    2013     1    25      123           2000       323      229           2101       328 EV        4309 N13908  EWR          30      143    20
+##  4 ANC    2013     8    17     1740           1625        75     2042           2003        39 UA         887 N528UA  EWR         404     3370    16
+##  5 ATL    2013     7    22     2257            759       898      121           1026       895 DL        2047 N6716C  LGA         109      762     7
+##  6 AUS    2013     7    10     2056           1505       351     2347           1758       349 UA         503 N803UA  EWR         192     1504    15
+##  7 AVL    2013     8    13     1156            832       204     1417           1029       228 EV        4175 N13538  EWR         108      583     8
+##  8 BDL    2013     2    21     1728           1316       252     1839           1413       266 EV        4103 N16976  EWR          26      116    13
+##  9 BGR    2013    12     1     1504           1056       248     1628           1230       238 EV        5309 N615QX  LGA          57      378    10
+## 10 BHM    2013     4    10       25           1900       325      136           2045       291 EV        5038 N713EV  LGA         115      866    19
 ## # ℹ 98 more rows
-## # ℹ 11 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Beachte, dass es hier 108 Zeilen gibt, obwohl es nur 105 Zielorte
 gibt. Was ist los? <code>slice_min()</code> und <code>slice_max()</code>
 behalten gebundene Werte bei, sodass <code>n = 1</code> bedeutet, dass
@@ -1736,22 +1695,20 @@ könnten wir eine Gruppe für jedes Datum erstellen.</p>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>daily</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
 ## # Groups:   year, month, day [365]
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Wenn du eine tibble zusammenfasst, die nach mehr als einer Variable
 gruppiert ist, entfernt jede Zusammenfassung die letzte Gruppe. Laut den
 Entwickelnden war dies keine gute Methode, um diese Funktion zu
@@ -1761,8 +1718,7 @@ dplyr eine Nachricht an, die dir sagt, wie du dieses Verhalten ändern
 kannst:</p>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">%&gt;%</span> </span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;year&#39;, &#39;month&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;year&#39;, &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
 <p>Wenn du mit diesem Verhalten zufrieden bist, kannst du es explizit
 anfordern, um die Nachricht zu unterdrücken:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">%&gt;%</span> </span>
@@ -1782,22 +1738,20 @@ entfernen, ohne s<code>ummarize()</code> zu verwenden. Das kannst du mit
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">%&gt;%</span> </span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 19
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
-## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Lass uns nun sehen, was passiert, wenn du einen nicht gruppierten
 Datensatz zusammenfasst.</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">%&gt;%</span> </span>
@@ -1975,25 +1929,24 @@ Jahr 2000:</p>
 <div class="sourceCode" id="cb106"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>billboard</span></code></pre></div>
 <pre><code>## # A tibble: 317 × 79
-##    artist     track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8
-##    &lt;chr&gt;      &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 2 Pac      Baby… 2000-02-26      87    82    72    77    87    94    99    NA
-##  2 2Ge+her    The … 2000-09-02      91    87    92    NA    NA    NA    NA    NA
-##  3 3 Doors D… Kryp… 2000-04-08      81    70    68    67    66    57    54    53
-##  4 3 Doors D… Loser 2000-10-21      76    76    72    69    67    65    55    59
-##  5 504 Boyz   Wobb… 2000-04-15      57    34    25    17    17    31    36    49
-##  6 98^0       Give… 2000-08-19      51    39    34    26    26    19     2     2
-##  7 A*Teens    Danc… 2000-07-08      97    97    96    95   100    NA    NA    NA
-##  8 Aaliyah    I Do… 2000-01-29      84    62    51    41    38    35    35    38
-##  9 Aaliyah    Try … 2000-03-18      59    53    38    28    21    18    16    14
-## 10 Adams, Yo… Open… 2000-08-26      76    76    74    69    68    67    61    58
+##    artist track date.entered   wk1   wk2   wk3   wk4   wk5   wk6   wk7   wk8   wk9  wk10  wk11  wk12  wk13  wk14  wk15  wk16  wk17  wk18  wk19  wk20  wk21
+##    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2 Pac  Baby… 2000-02-26      87    82    72    77    87    94    99    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  2 2Ge+h… The … 2000-09-02      91    87    92    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  3 3 Doo… Kryp… 2000-04-08      81    70    68    67    66    57    54    53    51    51    51    51    47    44    38    28    22    18    18    14    12
+##  4 3 Doo… Loser 2000-10-21      76    76    72    69    67    65    55    59    62    61    61    59    61    66    72    76    75    67    73    70    NA
+##  5 504 B… Wobb… 2000-04-15      57    34    25    17    17    31    36    49    53    57    64    70    75    76    78    85    92    96    NA    NA    NA
+##  6 98^0   Give… 2000-08-19      51    39    34    26    26    19     2     2     3     6     7    22    29    36    47    67    66    84    93    94    NA
+##  7 A*Tee… Danc… 2000-07-08      97    97    96    95   100    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  8 Aaliy… I Do… 2000-01-29      84    62    51    41    38    35    35    38    38    36    37    37    38    49    61    63    62    67    83    86    NA
+##  9 Aaliy… Try … 2000-03-18      59    53    38    28    21    18    16    14    12    10     9     8     6     1     2     2     2     2     3     4     5
+## 10 Adams… Open… 2000-08-26      76    76    74    69    68    67    61    58    57    59    66    68    61    67    59    63    67    71    79    89    NA
 ## # ℹ 307 more rows
-## # ℹ 68 more variables: wk9 &lt;dbl&gt;, wk10 &lt;dbl&gt;, wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;,
-## #   wk13 &lt;dbl&gt;, wk14 &lt;dbl&gt;, wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;, wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;,
-## #   wk19 &lt;dbl&gt;, wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;,
-## #   wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;,
-## #   wk31 &lt;dbl&gt;, wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;,
-## #   wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, …</code></pre>
+## # ℹ 55 more variables: wk22 &lt;dbl&gt;, wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;, wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, wk27 &lt;dbl&gt;, wk28 &lt;dbl&gt;, wk29 &lt;dbl&gt;, wk30 &lt;dbl&gt;, wk31 &lt;dbl&gt;,
+## #   wk32 &lt;dbl&gt;, wk33 &lt;dbl&gt;, wk34 &lt;dbl&gt;, wk35 &lt;dbl&gt;, wk36 &lt;dbl&gt;, wk37 &lt;dbl&gt;, wk38 &lt;dbl&gt;, wk39 &lt;dbl&gt;, wk40 &lt;dbl&gt;, wk41 &lt;dbl&gt;, wk42 &lt;dbl&gt;, wk43 &lt;dbl&gt;,
+## #   wk44 &lt;dbl&gt;, wk45 &lt;dbl&gt;, wk46 &lt;dbl&gt;, wk47 &lt;dbl&gt;, wk48 &lt;dbl&gt;, wk49 &lt;dbl&gt;, wk50 &lt;dbl&gt;, wk51 &lt;dbl&gt;, wk52 &lt;dbl&gt;, wk53 &lt;dbl&gt;, wk54 &lt;dbl&gt;, wk55 &lt;dbl&gt;,
+## #   wk56 &lt;dbl&gt;, wk57 &lt;dbl&gt;, wk58 &lt;dbl&gt;, wk59 &lt;dbl&gt;, wk60 &lt;dbl&gt;, wk61 &lt;dbl&gt;, wk62 &lt;dbl&gt;, wk63 &lt;dbl&gt;, wk64 &lt;dbl&gt;, wk65 &lt;dbl&gt;, wk66 &lt;lgl&gt;, wk67 &lt;lgl&gt;,
+## #   wk68 &lt;lgl&gt;, wk69 &lt;lgl&gt;, wk70 &lt;lgl&gt;, wk71 &lt;lgl&gt;, wk72 &lt;lgl&gt;, wk73 &lt;lgl&gt;, wk74 &lt;lgl&gt;, wk75 &lt;lgl&gt;, wk76 &lt;lgl&gt;</code></pre>
 <p>In diesem Datensatz stellt jede Beobachtung einen Song dar. Die
 ersten drei Spalten (<code>artist</code>, <code>track</code> und
 <code>date.entered</code>) sind Variablen, die den Song beschreiben.
@@ -2201,25 +2154,25 @@ Variablen speichern möchtest. Nehmen wir zum Beispiel den Datensatz
 <div class="sourceCode" id="cb118"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>who2</span></code></pre></div>
 <pre><code>## # A tibble: 7,240 × 58
-##    country      year sp_m_014 sp_m_1524 sp_m_2534 sp_m_3544 sp_m_4554 sp_m_5564
-##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 Afghanistan  1980       NA        NA        NA        NA        NA        NA
-##  2 Afghanistan  1981       NA        NA        NA        NA        NA        NA
-##  3 Afghanistan  1982       NA        NA        NA        NA        NA        NA
-##  4 Afghanistan  1983       NA        NA        NA        NA        NA        NA
-##  5 Afghanistan  1984       NA        NA        NA        NA        NA        NA
-##  6 Afghanistan  1985       NA        NA        NA        NA        NA        NA
-##  7 Afghanistan  1986       NA        NA        NA        NA        NA        NA
-##  8 Afghanistan  1987       NA        NA        NA        NA        NA        NA
-##  9 Afghanistan  1988       NA        NA        NA        NA        NA        NA
-## 10 Afghanistan  1989       NA        NA        NA        NA        NA        NA
+##    country      year sp_m_014 sp_m_1524 sp_m_2534 sp_m_3544 sp_m_4554 sp_m_5564 sp_m_65 sp_f_014 sp_f_1524 sp_f_2534 sp_f_3544 sp_f_4554 sp_f_5564 sp_f_65
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Afghanistan  1980       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  2 Afghanistan  1981       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  3 Afghanistan  1982       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  4 Afghanistan  1983       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  5 Afghanistan  1984       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  6 Afghanistan  1985       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  7 Afghanistan  1986       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  8 Afghanistan  1987       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+##  9 Afghanistan  1988       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
+## 10 Afghanistan  1989       NA        NA        NA        NA        NA        NA      NA       NA        NA        NA        NA        NA        NA      NA
 ## # ℹ 7,230 more rows
-## # ℹ 50 more variables: sp_m_65 &lt;dbl&gt;, sp_f_014 &lt;dbl&gt;, sp_f_1524 &lt;dbl&gt;,
-## #   sp_f_2534 &lt;dbl&gt;, sp_f_3544 &lt;dbl&gt;, sp_f_4554 &lt;dbl&gt;, sp_f_5564 &lt;dbl&gt;,
-## #   sp_f_65 &lt;dbl&gt;, sn_m_014 &lt;dbl&gt;, sn_m_1524 &lt;dbl&gt;, sn_m_2534 &lt;dbl&gt;,
-## #   sn_m_3544 &lt;dbl&gt;, sn_m_4554 &lt;dbl&gt;, sn_m_5564 &lt;dbl&gt;, sn_m_65 &lt;dbl&gt;,
-## #   sn_f_014 &lt;dbl&gt;, sn_f_1524 &lt;dbl&gt;, sn_f_2534 &lt;dbl&gt;, sn_f_3544 &lt;dbl&gt;,
-## #   sn_f_4554 &lt;dbl&gt;, sn_f_5564 &lt;dbl&gt;, sn_f_65 &lt;dbl&gt;, ep_m_014 &lt;dbl&gt;, …</code></pre>
+## # ℹ 42 more variables: sn_m_014 &lt;dbl&gt;, sn_m_1524 &lt;dbl&gt;, sn_m_2534 &lt;dbl&gt;, sn_m_3544 &lt;dbl&gt;, sn_m_4554 &lt;dbl&gt;, sn_m_5564 &lt;dbl&gt;, sn_m_65 &lt;dbl&gt;,
+## #   sn_f_014 &lt;dbl&gt;, sn_f_1524 &lt;dbl&gt;, sn_f_2534 &lt;dbl&gt;, sn_f_3544 &lt;dbl&gt;, sn_f_4554 &lt;dbl&gt;, sn_f_5564 &lt;dbl&gt;, sn_f_65 &lt;dbl&gt;, ep_m_014 &lt;dbl&gt;, ep_m_1524 &lt;dbl&gt;,
+## #   ep_m_2534 &lt;dbl&gt;, ep_m_3544 &lt;dbl&gt;, ep_m_4554 &lt;dbl&gt;, ep_m_5564 &lt;dbl&gt;, ep_m_65 &lt;dbl&gt;, ep_f_014 &lt;dbl&gt;, ep_f_1524 &lt;dbl&gt;, ep_f_2534 &lt;dbl&gt;, ep_f_3544 &lt;dbl&gt;,
+## #   ep_f_4554 &lt;dbl&gt;, ep_f_5564 &lt;dbl&gt;, ep_f_65 &lt;dbl&gt;, rel_m_014 &lt;dbl&gt;, rel_m_1524 &lt;dbl&gt;, rel_m_2534 &lt;dbl&gt;, rel_m_3544 &lt;dbl&gt;, rel_m_4554 &lt;dbl&gt;,
+## #   rel_m_5564 &lt;dbl&gt;, rel_m_65 &lt;dbl&gt;, rel_f_014 &lt;dbl&gt;, rel_f_1524 &lt;dbl&gt;, rel_f_2534 &lt;dbl&gt;, rel_f_3544 &lt;dbl&gt;, rel_f_4554 &lt;dbl&gt;, rel_f_5564 &lt;dbl&gt;,
+## #   rel_f_65 &lt;dbl&gt;</code></pre>
 <p>Dieser Datensatz, der von der Weltgesundheitsorganisation (WHO)
 gesammelt wurde, enthält Informationen über Tuberkulose-Diagnosen. Es
 gibt zwei Spalten, die bereits Variablen sind und leicht interpretiert
@@ -2435,18 +2388,18 @@ Daten zu den Erfahrungen von Patienten sammelt:</p>
 <div class="sourceCode" id="cb132"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience</span></code></pre></div>
 <pre><code>## # A tibble: 500 × 5
-##    org_pac_id org_nm                           measure_cd measure_title prf_rate
-##    &lt;chr&gt;      &lt;chr&gt;                            &lt;chr&gt;      &lt;chr&gt;            &lt;dbl&gt;
-##  1 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       63
-##  2 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       87
-##  3 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       86
-##  4 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       57
-##  5 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       85
-##  6 0446157747 USC CARE MEDICAL GROUP INC       CAHPS_GRP… CAHPS for MI…       24
-##  7 0446162697 ASSOCIATION OF UNIVERSITY PHYSI… CAHPS_GRP… CAHPS for MI…       59
-##  8 0446162697 ASSOCIATION OF UNIVERSITY PHYSI… CAHPS_GRP… CAHPS for MI…       85
-##  9 0446162697 ASSOCIATION OF UNIVERSITY PHYSI… CAHPS_GRP… CAHPS for MI…       83
-## 10 0446162697 ASSOCIATION OF UNIVERSITY PHYSI… CAHPS_GRP… CAHPS for MI…       63
+##    org_pac_id org_nm                               measure_cd   measure_title                                                          prf_rate
+##    &lt;chr&gt;      &lt;chr&gt;                                &lt;chr&gt;        &lt;chr&gt;                                                                     &lt;dbl&gt;
+##  1 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_1  CAHPS for MIPS SSM: Getting Timely Care, Appointments, and Information       63
+##  2 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_2  CAHPS for MIPS SSM: How Well Providers Communicate                           87
+##  3 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_3  CAHPS for MIPS SSM: Patient&#39;s Rating of Provider                             86
+##  4 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_5  CAHPS for MIPS SSM: Health Promotion and Education                           57
+##  5 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_8  CAHPS for MIPS SSM: Courteous and Helpful Office Staff                       85
+##  6 0446157747 USC CARE MEDICAL GROUP INC           CAHPS_GRP_12 CAHPS for MIPS SSM: Stewardship of Patient Resources                         24
+##  7 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS_GRP_1  CAHPS for MIPS SSM: Getting Timely Care, Appointments, and Information       59
+##  8 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS_GRP_2  CAHPS for MIPS SSM: How Well Providers Communicate                           85
+##  9 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS_GRP_3  CAHPS for MIPS SSM: Patient&#39;s Rating of Provider                             83
+## 10 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS_GRP_5  CAHPS for MIPS SSM: Health Promotion and Education                           63
 ## # ℹ 490 more rows</code></pre>
 <p>Die Kerngröße, die untersucht wird, ist eine Organisation, aber jede
 Organisation ist auf sechs Zeilen verteilt, wobei jede Zeile eine
@@ -2457,13 +2410,13 @@ vollständigen Satz von Werten für <code>measure_cd</code> und
 class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>cms_patient_experience <span class="sc">%&gt;%</span>  </span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(measure_cd, measure_title)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 2
-##   measure_cd   measure_title                                                    
-##   &lt;chr&gt;        &lt;chr&gt;                                                            
-## 1 CAHPS_GRP_1  CAHPS for MIPS SSM: Getting Timely Care, Appointments, and Infor…
-## 2 CAHPS_GRP_2  CAHPS for MIPS SSM: How Well Providers Communicate               
-## 3 CAHPS_GRP_3  CAHPS for MIPS SSM: Patient&#39;s Rating of Provider                 
-## 4 CAHPS_GRP_5  CAHPS for MIPS SSM: Health Promotion and Education               
-## 5 CAHPS_GRP_8  CAHPS for MIPS SSM: Courteous and Helpful Office Staff           
+##   measure_cd   measure_title                                                         
+##   &lt;chr&gt;        &lt;chr&gt;                                                                 
+## 1 CAHPS_GRP_1  CAHPS for MIPS SSM: Getting Timely Care, Appointments, and Information
+## 2 CAHPS_GRP_2  CAHPS for MIPS SSM: How Well Providers Communicate                    
+## 3 CAHPS_GRP_3  CAHPS for MIPS SSM: Patient&#39;s Rating of Provider                      
+## 4 CAHPS_GRP_5  CAHPS for MIPS SSM: Health Promotion and Education                    
+## 5 CAHPS_GRP_8  CAHPS for MIPS SSM: Courteous and Helpful Office Staff                
 ## 6 CAHPS_GRP_12 CAHPS for MIPS SSM: Stewardship of Patient Resources</code></pre>
 <p>Keine dieser Spalten eignet sich besonders gut als Variablennamen:
 <code>measure_cd</code> gibt keinen Hinweis auf die Bedeutung der
@@ -2484,20 +2437,19 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="#cb1
 <span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
 <span id="cb136-5"><a href="#cb136-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 500 × 9
-##    org_pac_id org_nm           measure_title CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3
-##    &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;               &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-##  1 0446157747 USC CARE MEDICA… CAHPS for MI…          63          NA          NA
-##  2 0446157747 USC CARE MEDICA… CAHPS for MI…          NA          87          NA
-##  3 0446157747 USC CARE MEDICA… CAHPS for MI…          NA          NA          86
-##  4 0446157747 USC CARE MEDICA… CAHPS for MI…          NA          NA          NA
-##  5 0446157747 USC CARE MEDICA… CAHPS for MI…          NA          NA          NA
-##  6 0446157747 USC CARE MEDICA… CAHPS for MI…          NA          NA          NA
-##  7 0446162697 ASSOCIATION OF … CAHPS for MI…          59          NA          NA
-##  8 0446162697 ASSOCIATION OF … CAHPS for MI…          NA          85          NA
-##  9 0446162697 ASSOCIATION OF … CAHPS for MI…          NA          NA          83
-## 10 0446162697 ASSOCIATION OF … CAHPS for MI…          NA          NA          NA
-## # ℹ 490 more rows
-## # ℹ 3 more variables: CAHPS_GRP_5 &lt;dbl&gt;, CAHPS_GRP_8 &lt;dbl&gt;, CAHPS_GRP_12 &lt;dbl&gt;</code></pre>
+##    org_pac_id org_nm                               measure_title                  CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3 CAHPS_GRP_5 CAHPS_GRP_8 CAHPS_GRP_12
+##    &lt;chr&gt;      &lt;chr&gt;                                &lt;chr&gt;                                &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+##  1 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: Getting T…          63          NA          NA          NA          NA           NA
+##  2 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: How Well …          NA          87          NA          NA          NA           NA
+##  3 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: Patient&#39;s…          NA          NA          86          NA          NA           NA
+##  4 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: Health Pr…          NA          NA          NA          57          NA           NA
+##  5 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: Courteous…          NA          NA          NA          NA          85           NA
+##  6 0446157747 USC CARE MEDICAL GROUP INC           CAHPS for MIPS SSM: Stewardsh…          NA          NA          NA          NA          NA           24
+##  7 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS for MIPS SSM: Getting T…          59          NA          NA          NA          NA           NA
+##  8 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS for MIPS SSM: How Well …          NA          85          NA          NA          NA           NA
+##  9 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS for MIPS SSM: Patient&#39;s…          NA          NA          83          NA          NA           NA
+## 10 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS CAHPS for MIPS SSM: Health Pr…          NA          NA          NA          63          NA           NA
+## # ℹ 490 more rows</code></pre>
 <p>Die Ausgabe sieht noch nicht ganz richtig aus; es scheint immer noch
 mehrere Zeilen für jede Organisation zu geben. Das liegt daran, dass wir
 <code>pivot_wider()</code> auch mitteilen müssen, welche Spalte oder
@@ -2512,20 +2464,19 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="#cb1
 <span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> prf_rate</span>
 <span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 95 × 8
-##    org_pac_id org_nm CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3 CAHPS_GRP_5 CAHPS_GRP_8
-##    &lt;chr&gt;      &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
-##  1 0446157747 USC C…          63          87          86          57          85
-##  2 0446162697 ASSOC…          59          85          83          63          88
-##  3 0547164295 BEAVE…          49          NA          75          44          73
-##  4 0749333730 CAPE …          67          84          85          65          82
-##  5 0840104360 ALLIA…          66          87          87          64          87
-##  6 0840109864 REX H…          73          87          84          67          91
-##  7 0840513552 SCL H…          58          83          76          58          78
-##  8 0941545784 GRITM…          46          86          81          54          NA
-##  9 1052612785 COMMU…          65          84          80          58          87
-## 10 1254237779 OUR L…          61          NA          NA          65          NA
-## # ℹ 85 more rows
-## # ℹ 1 more variable: CAHPS_GRP_12 &lt;dbl&gt;</code></pre>
+##    org_pac_id org_nm                                     CAHPS_GRP_1 CAHPS_GRP_2 CAHPS_GRP_3 CAHPS_GRP_5 CAHPS_GRP_8 CAHPS_GRP_12
+##    &lt;chr&gt;      &lt;chr&gt;                                            &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+##  1 0446157747 USC CARE MEDICAL GROUP INC                          63          87          86          57          85           24
+##  2 0446162697 ASSOCIATION OF UNIVERSITY PHYSICIANS                59          85          83          63          88           22
+##  3 0547164295 BEAVER MEDICAL GROUP PC                             49          NA          75          44          73           12
+##  4 0749333730 CAPE PHYSICIANS ASSOCIATES PA                       67          84          85          65          82           24
+##  5 0840104360 ALLIANCE PHYSICIANS INC                             66          87          87          64          87           28
+##  6 0840109864 REX HOSPITAL INC                                    73          87          84          67          91           30
+##  7 0840513552 SCL HEALTH MEDICAL GROUP DENVER LLC                 58          83          76          58          78           26
+##  8 0941545784 GRITMAN MEDICAL CENTER INC                          46          86          81          54          NA           25
+##  9 1052612785 COMMUNITY MEDICAL GROUP LLC                         65          84          80          58          87           29
+## 10 1254237779 OUR LADY OF LOURDES MEMORIAL HOSPITAL, INC          61          NA          NA          65          NA           17
+## # ℹ 85 more rows</code></pre>
 <p>Damit erhalten wir die gewünschte Ausgabe.</p>
 <div id="wie-funktioniert-pivot_wider" class="section level3">
 <h3>Wie funktioniert <code>pivot_wider()</code>?</h3>
@@ -3012,16 +2963,13 @@ identifizieren!</p>
 class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>planes <span class="sc">%&gt;%</span>  </span>
 <span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(tailnum))</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 9
-## # ℹ 9 variables: tailnum &lt;chr&gt;, year &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;,
-## #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</code></pre>
+## # ℹ 9 variables: tailnum &lt;chr&gt;, year &lt;int&gt;, type &lt;chr&gt;, manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</code></pre>
 <div class="sourceCode" id="cb175"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>weather <span class="sc">%&gt;%</span>  </span>
 <span id="cb175-2"><a href="#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(time_hour) <span class="sc">|</span> <span class="fu">is.na</span>(origin))</span></code></pre></div>
 <pre><code>## # A tibble: 0 × 15
-## # ℹ 15 variables: origin &lt;chr&gt;, year &lt;int&gt;, month &lt;int&gt;, day &lt;int&gt;, hour &lt;int&gt;,
-## #   temp &lt;dbl&gt;, dewp &lt;dbl&gt;, humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;,
-## #   wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 15 variables: origin &lt;chr&gt;, year &lt;int&gt;, month &lt;int&gt;, day &lt;int&gt;, hour &lt;int&gt;, temp &lt;dbl&gt;, dewp &lt;dbl&gt;, humid &lt;dbl&gt;, wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;,
+## #   wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 <div id="ersatzschlüssel" class="section level3">
 <h3>Ersatzschlüssel</h3>
@@ -3068,22 +3016,20 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="#cb1
 <span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>(), <span class="at">.before =</span> <span class="dv">1</span>)</span>
 <span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>flights2</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 20
-##       id  year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
-##  1     1  2013     1     1      517            515         2      830
-##  2     2  2013     1     1      533            529         4      850
-##  3     3  2013     1     1      542            540         2      923
-##  4     4  2013     1     1      544            545        -1     1004
-##  5     5  2013     1     1      554            600        -6      812
-##  6     6  2013     1     1      554            558        -4      740
-##  7     7  2013     1     1      555            600        -5      913
-##  8     8  2013     1     1      557            600        -3      709
-##  9     9  2013     1     1      557            600        -3      838
-## 10    10  2013     1     1      558            600        -2      753
+##       id  year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight tailnum origin dest  air_time distance  hour
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1     1  2013     1     1      517            515         2      830            819        11 UA        1545 N14228  EWR    IAH        227     1400     5
+##  2     2  2013     1     1      533            529         4      850            830        20 UA        1714 N24211  LGA    IAH        227     1416     5
+##  3     3  2013     1     1      542            540         2      923            850        33 AA        1141 N619AA  JFK    MIA        160     1089     5
+##  4     4  2013     1     1      544            545        -1     1004           1022       -18 B6         725 N804JB  JFK    BQN        183     1576     5
+##  5     5  2013     1     1      554            600        -6      812            837       -25 DL         461 N668DN  LGA    ATL        116      762     6
+##  6     6  2013     1     1      554            558        -4      740            728        12 UA        1696 N39463  EWR    ORD        150      719     5
+##  7     7  2013     1     1      555            600        -5      913            854        19 B6         507 N516JB  EWR    FLL        158     1065     6
+##  8     8  2013     1     1      557            600        -3      709            723       -14 EV        5708 N829AS  LGA    IAD         53      229     6
+##  9     9  2013     1     1      557            600        -3      838            846        -8 B6          79 N593JB  JFK    MCO        140      944     6
+## 10    10  2013     1     1      558            600        -2      753            745         8 AA         301 N3ALAA  LGA    ORD        138      733     6
 ## # ℹ 336,766 more rows
-## # ℹ 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## # ℹ 2 more variables: minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 <p>Ersatzschlüssel können besonders nützlich sein, wenn man sich mit
 anderen Menschen austauscht: Es ist viel einfacher, jemanden darum zu
 bitten, sich den Flug 2001 anzusehen, als zu sagen, schau dir UA430 an,
@@ -3207,18 +3153,18 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="#cb1
 <span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airlines)</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(carrier)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 7
-##     year time_hour           origin dest  tailnum carrier name                  
-##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                 
-##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      United Air Lines Inc. 
-##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      United Air Lines Inc. 
-##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      American Airlines Inc.
-##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      JetBlue Airways       
-##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Delta Air Lines Inc.  
-##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      United Air Lines Inc. 
-##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      JetBlue Airways       
-##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      ExpressJet Airlines I…
-##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      JetBlue Airways       
-## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      American Airlines Inc.
+##     year time_hour           origin dest  tailnum carrier name                    
+##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                   
+##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      United Air Lines Inc.   
+##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      United Air Lines Inc.   
+##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      American Airlines Inc.  
+##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      JetBlue Airways         
+##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Delta Air Lines Inc.    
+##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      United Air Lines Inc.   
+##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      JetBlue Airways         
+##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      ExpressJet Airlines Inc.
+##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      JetBlue Airways         
+## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      American Airlines Inc.  
 ## # ℹ 336,766 more rows</code></pre>
 <p>Oder wir könnten die Temperatur und Windgeschwindigkeit herausfinden,
 als jedes Flugzeug abgeflogen ist:</p>
@@ -3246,18 +3192,18 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb1
 <span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes <span class="sc">%&gt;%</span>  <span class="fu">select</span>(tailnum, type, engines, seats))</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(tailnum)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 9
-##     year time_hour           origin dest  tailnum carrier type     engines seats
-##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;int&gt; &lt;int&gt;
-##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      Fixed w…       2   149
-##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      Fixed w…       2   149
-##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      Fixed w…       2   178
-##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      Fixed w…       2   200
-##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Fixed w…       2   178
-##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Fixed w…       2   191
-##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Fixed w…       2   200
-##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      Fixed w…       2    55
-##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      Fixed w…       2   200
-## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      &lt;NA&gt;          NA    NA
+##     year time_hour           origin dest  tailnum carrier type                    engines seats
+##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                     &lt;int&gt; &lt;int&gt;
+##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      Fixed wing multi engine       2   149
+##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      Fixed wing multi engine       2   149
+##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      Fixed wing multi engine       2   178
+##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      Fixed wing multi engine       2   200
+##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Fixed wing multi engine       2   178
+##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Fixed wing multi engine       2   191
+##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Fixed wing multi engine       2   200
+##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      Fixed wing multi engine       2    55
+##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      Fixed wing multi engine       2   200
+## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      &lt;NA&gt;                         NA    NA
 ## # ℹ 336,766 more rows</code></pre>
 <p>Wenn <code>left_join()</code> keine Übereinstimmung für eine Zeile in
 <code>x</code> findet, füllt es die neuen Variablen mit fehlenden Werten
@@ -3297,21 +3243,19 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="#cb1
 <span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes)</span></code></pre></div>
 <pre><code>## Joining with `by = join_by(year, tailnum)`</code></pre>
 <pre><code>## # A tibble: 336,776 × 13
-##     year time_hour           origin dest  tailnum carrier type  manufacturer
-##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       
-##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      &lt;NA&gt;  &lt;NA&gt;        
-##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      &lt;NA&gt;  &lt;NA&gt;        
-##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      &lt;NA&gt;  &lt;NA&gt;        
-##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      &lt;NA&gt;  &lt;NA&gt;        
-##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      &lt;NA&gt;  &lt;NA&gt;        
-##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      &lt;NA&gt;  &lt;NA&gt;        
-##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      &lt;NA&gt;  &lt;NA&gt;        
-##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      &lt;NA&gt;  &lt;NA&gt;        
-##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      &lt;NA&gt;  &lt;NA&gt;        
-## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      &lt;NA&gt;  &lt;NA&gt;        
-## # ℹ 336,766 more rows
-## # ℹ 5 more variables: model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;,
-## #   engine &lt;chr&gt;</code></pre>
+##     year time_hour           origin dest  tailnum carrier type  manufacturer model engines seats speed engine
+##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; 
+##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      &lt;NA&gt;  &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA &lt;NA&gt;  
+## # ℹ 336,766 more rows</code></pre>
 <p>Es gibt viele fehlende Übereinstimmungen, weil unser Join versucht,
 <code>tailnum</code> und <code>year</code> als zusammengesetzten
 Schlüssel zu verwenden. Sowohl <code>flights</code> als auch
@@ -3325,21 +3269,19 @@ Spezifikation mit <code>join_by()</code> angeben:</p>
 class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
 <span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(planes, <span class="fu">join_by</span>(tailnum))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 14
-##    year.x time_hour           origin dest  tailnum carrier year.y type          
-##     &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;         
-##  1   2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA        1999 Fixed wing mu…
-##  2   2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA        1998 Fixed wing mu…
-##  3   2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA        1990 Fixed wing mu…
-##  4   2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6        2012 Fixed wing mu…
-##  5   2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL        1991 Fixed wing mu…
-##  6   2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA        2012 Fixed wing mu…
-##  7   2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6        2000 Fixed wing mu…
-##  8   2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV        1998 Fixed wing mu…
-##  9   2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6        2004 Fixed wing mu…
-## 10   2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA          NA &lt;NA&gt;          
-## # ℹ 336,766 more rows
-## # ℹ 6 more variables: manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;,
-## #   seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</code></pre>
+##    year.x time_hour           origin dest  tailnum carrier year.y type                    manufacturer     model       engines seats speed engine   
+##     &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;            &lt;chr&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    
+##  1   2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA        1999 Fixed wing multi engine BOEING           737-824           2   149    NA Turbo-fan
+##  2   2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA        1998 Fixed wing multi engine BOEING           737-824           2   149    NA Turbo-fan
+##  3   2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA        1990 Fixed wing multi engine BOEING           757-223           2   178    NA Turbo-fan
+##  4   2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6        2012 Fixed wing multi engine AIRBUS           A320-232          2   200    NA Turbo-fan
+##  5   2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL        1991 Fixed wing multi engine BOEING           757-232           2   178    NA Turbo-fan
+##  6   2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA        2012 Fixed wing multi engine BOEING           737-924ER         2   191    NA Turbo-fan
+##  7   2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6        2000 Fixed wing multi engine AIRBUS INDUSTRIE A320-232          2   200    NA Turbo-fan
+##  8   2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV        1998 Fixed wing multi engine CANADAIR         CL-600-2B19       2    55    NA Turbo-fan
+##  9   2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6        2004 Fixed wing multi engine AIRBUS           A320-232          2   200    NA Turbo-fan
+## 10   2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA          NA &lt;NA&gt;                    &lt;NA&gt;             &lt;NA&gt;             NA    NA    NA &lt;NA&gt;     
+## # ℹ 336,766 more rows</code></pre>
 <p>Beachte, dass die <code>year</code>-Variablen in der Ausgabe mit
 einem Suffix (<code>year.x</code> und <code>year.y</code>) eindeutig
 gekennzeichnet sind, der angibt, ob die Variable aus dem <code>x</code>-
@@ -3359,38 +3301,36 @@ nach <code>dest</code> oder nach <code>origin</code>:</p>
 class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
 <span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(dest <span class="sc">==</span> faa))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 13
-##     year time_hour           origin dest  tailnum carrier name         lat   lon
-##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
-##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      George Bu…  30.0 -95.3
-##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      George Bu…  30.0 -95.3
-##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      Miami Intl  25.8 -80.3
-##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      &lt;NA&gt;        NA    NA  
-##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Hartsfiel…  33.6 -84.4
-##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Chicago O…  42.0 -87.9
-##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Fort Laud…  26.1 -80.2
-##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      Washingto…  38.9 -77.5
-##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      Orlando I…  28.4 -81.3
-## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      Chicago O…  42.0 -87.9
-## # ℹ 336,766 more rows
-## # ℹ 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;, tzone &lt;chr&gt;</code></pre>
+##     year time_hour           origin dest  tailnum carrier name                              lat   lon   alt    tz dst   tzone           
+##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;           
+##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      George Bush Intercontinental     30.0 -95.3    97    -6 A     America/Chicago 
+##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      George Bush Intercontinental     30.0 -95.3    97    -6 A     America/Chicago 
+##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      Miami Intl                       25.8 -80.3     8    -5 A     America/New_York
+##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      &lt;NA&gt;                             NA    NA      NA    NA &lt;NA&gt;  &lt;NA&gt;            
+##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      Hartsfield Jackson Atlanta Intl  33.6 -84.4  1026    -5 A     America/New_York
+##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Chicago Ohare Intl               42.0 -87.9   668    -6 A     America/Chicago 
+##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Fort Lauderdale Hollywood Intl   26.1 -80.2     9    -5 A     America/New_York
+##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      Washington Dulles Intl           38.9 -77.5   313    -5 A     America/New_York
+##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      Orlando Intl                     28.4 -81.3    96    -5 A     America/New_York
+## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      Chicago Ohare Intl               42.0 -87.9   668    -6 A     America/Chicago 
+## # ℹ 336,766 more rows</code></pre>
 <div class="sourceCode" id="cb205"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>flights2 <span class="sc">%&gt;%</span>  </span>
 <span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(airports, <span class="fu">join_by</span>(origin <span class="sc">==</span> faa))</span></code></pre></div>
 <pre><code>## # A tibble: 336,776 × 13
-##     year time_hour           origin dest  tailnum carrier name         lat   lon
-##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
-##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      Newark Li…  40.7 -74.2
-##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      La Guardia  40.8 -73.9
-##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      John F Ke…  40.6 -73.8
-##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      John F Ke…  40.6 -73.8
-##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      La Guardia  40.8 -73.9
-##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Newark Li…  40.7 -74.2
-##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Newark Li…  40.7 -74.2
-##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      La Guardia  40.8 -73.9
-##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      John F Ke…  40.6 -73.8
-## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      La Guardia  40.8 -73.9
-## # ℹ 336,766 more rows
-## # ℹ 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;, tzone &lt;chr&gt;</code></pre>
+##     year time_hour           origin dest  tailnum carrier name                  lat   lon   alt    tz dst   tzone           
+##    &lt;int&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;           
+##  1  2013 2013-01-01 05:00:00 EWR    IAH   N14228  UA      Newark Liberty Intl  40.7 -74.2    18    -5 A     America/New_York
+##  2  2013 2013-01-01 05:00:00 LGA    IAH   N24211  UA      La Guardia           40.8 -73.9    22    -5 A     America/New_York
+##  3  2013 2013-01-01 05:00:00 JFK    MIA   N619AA  AA      John F Kennedy Intl  40.6 -73.8    13    -5 A     America/New_York
+##  4  2013 2013-01-01 05:00:00 JFK    BQN   N804JB  B6      John F Kennedy Intl  40.6 -73.8    13    -5 A     America/New_York
+##  5  2013 2013-01-01 06:00:00 LGA    ATL   N668DN  DL      La Guardia           40.8 -73.9    22    -5 A     America/New_York
+##  6  2013 2013-01-01 05:00:00 EWR    ORD   N39463  UA      Newark Liberty Intl  40.7 -74.2    18    -5 A     America/New_York
+##  7  2013 2013-01-01 06:00:00 EWR    FLL   N516JB  B6      Newark Liberty Intl  40.7 -74.2    18    -5 A     America/New_York
+##  8  2013 2013-01-01 06:00:00 LGA    IAD   N829AS  EV      La Guardia           40.8 -73.9    22    -5 A     America/New_York
+##  9  2013 2013-01-01 06:00:00 JFK    MCO   N593JB  B6      John F Kennedy Intl  40.6 -73.8    13    -5 A     America/New_York
+## 10  2013 2013-01-01 06:00:00 LGA    ORD   N3ALAA  AA      La Guardia           40.8 -73.9    22    -5 A     America/New_York
+## # ℹ 336,766 more rows</code></pre>
 <p>In älterem Code kannst du eine andere Art der Spezifizierung der
 Join-Schlüssel sehen, indem du einen Zeichenvektor verwendest:</p>
 <ul>
@@ -3432,18 +3372,18 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="#cb2
 class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>airports <span class="sc">%&gt;%</span>  </span>
 <span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">semi_join</span>(flights2, <span class="fu">join_by</span>(faa <span class="sc">==</span> dest))</span></code></pre></div>
 <pre><code>## # A tibble: 101 × 8
-##    faa   name                                lat    lon   alt    tz dst   tzone 
-##    &lt;chr&gt; &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
-##  1 ABQ   Albuquerque International Sunport  35.0 -107.   5355    -7 A     Ameri…
-##  2 ACK   Nantucket Mem                      41.3  -70.1    48    -5 A     Ameri…
-##  3 ALB   Albany Intl                        42.7  -73.8   285    -5 A     Ameri…
-##  4 ANC   Ted Stevens Anchorage Intl         61.2 -150.    152    -9 A     Ameri…
-##  5 ATL   Hartsfield Jackson Atlanta Intl    33.6  -84.4  1026    -5 A     Ameri…
-##  6 AUS   Austin Bergstrom Intl              30.2  -97.7   542    -6 A     Ameri…
-##  7 AVL   Asheville Regional Airport         35.4  -82.5  2165    -5 A     Ameri…
-##  8 BDL   Bradley Intl                       41.9  -72.7   173    -5 A     Ameri…
-##  9 BGR   Bangor Intl                        44.8  -68.8   192    -5 A     Ameri…
-## 10 BHM   Birmingham Intl                    33.6  -86.8   644    -6 A     Ameri…
+##    faa   name                                lat    lon   alt    tz dst   tzone            
+##    &lt;chr&gt; &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            
+##  1 ABQ   Albuquerque International Sunport  35.0 -107.   5355    -7 A     America/Denver   
+##  2 ACK   Nantucket Mem                      41.3  -70.1    48    -5 A     America/New_York 
+##  3 ALB   Albany Intl                        42.7  -73.8   285    -5 A     America/New_York 
+##  4 ANC   Ted Stevens Anchorage Intl         61.2 -150.    152    -9 A     America/Anchorage
+##  5 ATL   Hartsfield Jackson Atlanta Intl    33.6  -84.4  1026    -5 A     America/New_York 
+##  6 AUS   Austin Bergstrom Intl              30.2  -97.7   542    -6 A     America/Chicago  
+##  7 AVL   Asheville Regional Airport         35.4  -82.5  2165    -5 A     America/New_York 
+##  8 BDL   Bradley Intl                       41.9  -72.7   173    -5 A     America/New_York 
+##  9 BGR   Bangor Intl                        44.8  -68.8   192    -5 A     America/New_York 
+## 10 BHM   Birmingham Intl                    33.6  -86.8   644    -6 A     America/Chicago  
 ## # ℹ 91 more rows</code></pre>
 <p><strong>Anti-Joins</strong> sind das Gegenteil: Sie geben alle Zeilen
 in <code>x</code> zurück, die keine Übereinstimmung in <code>y</code>
@@ -3484,19 +3424,108 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="#cb2
 ##  9 N3BAAA 
 ## 10 N3CYAA 
 ## # ℹ 712 more rows</code></pre>
-<!-- --- -->
-<!-- # Data Transformation -->
-<!-- ## Logische Vektoren -->
-<!-- ## Zahlen -->
-<!-- ### count() -->
-<!-- ## Strings -->
-<!-- ## Faktoren -->
-<!-- ## Daten und Zeiten -->
-<!-- ## Fehlende Werte -->
-<!-- ## Verknüpfungen (Joins) -->
-<!-- # Gut aussehen mit ggplot -->
-<!-- ## Grammatik -->
-<hr />
+</div>
+</div>
+</div>
+<div id="gut-aussehen-mit-ggplot" class="section level1">
+<h1>Gut aussehen mit ggplot</h1>
+<p>Sobald du den anfänglichen Abschnitt des Skripts gelesen hast,
+bekommst du zumindest einen oberflächlichen Einblick in die
+grundlegenden Instrumente, die für die Durchführung von Datenanalysen
+erforderlich sind. Jetzt ist es an der Zeit, in die Tiefe zu gehen und
+detailliertere Informationen zu erhalten. Im folgenden Abschnitt des
+Buches wirst du einen umfassenderen Einblick in die Kunst der
+Datenvisualisierung erhalten.</p>
+<div id="die-grundlagen" class="section level2">
+<h2>Die Grundlagen</h2>
+<p>Jeder Graph in ggplot2 besteht aus mindestens den folgenden drei
+Komponenten: - Die Daten und wie die Datenpunkte einander zugeordnet
+sind. - Einem Satz geometrischer Objekte, auch Geoms genannt (visuelle
+Markierungen, die die Datenpunkte darstellen, z.B. Balken, Punkte oder
+Linien). - Ein Koordinatensystem.</p>
+<p>Zusätzlich zu den Grundebenen bietet ggplot2 viele weitere Ebenen, um
+Diagramme durch Einfärben, Skalieren, Aufteilen oder Hinzufügen
+statistischer Transformationen an die Daten anzupassen.</p>
+</div>
+<div id="geometrische-objekte-geoms" class="section level2">
+<h2>Geometrische Objekte (Geoms)</h2>
+<p>Die verfügbaren Geoms variieren je nach Dimensionalität und Typ der
+dargestellten Variable(n). Es ist eine gute Idee, das ggplot2 Cheatsheet
+von Posit zur Hand zu haben, da es eine Zusammenfassung der verfügbaren
+Geoms bietet. Alle Geoms in ggplot haben bestimmte Anforderungen an die
+Variablen. Dazu gehört zum Beispiel, ob es sich um eine kontinuierliche
+oder diskrete Variable handelt. Einige aesthetics können nur mit
+kategorischen Variablen arbeiten, wie z.B. die Form eines Punktes:
+Dreiecke, Kreise, Quadrate, etc. Einige aesthetics arbeiten mit
+kategorischen oder kontinuierlichen Variablen, wie z. B. der x-Position
+(horizontal). Bei einem Balkendiagramm muss die Variable kategorisch
+sein - eine kontinuierliche Variable auf der x-Achse würde keinen Sinn
+ergeben. Bei einem Streudiagramm muss die Variable kontinuierlich sein.
+Beide Datentypen (kategorial und kontinuierlich) können auf den
+ästhetischen Raum der x-Position abgebildet werden, erfordern aber
+unterschiedliche Skalentypen. Neben der Skalierung ist auch die Anzahl
+der Variablen entscheidend. Einige Plots benötigen nur eine Variable,
+während andere zwei Variablen benötigen. Dies wird im Folgenden für die
+einzelnen Plots betrachtet:</p>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter Plot</h3>
+<p>Variablen: zwei Variablen, beide kontinuierlich</p>
+<p>Weitere Dimensionen: <del>alpha,</del> color, fill, shape,
+<del>size,</del> stroke</p>
+<p>Minimalbeispiel:</p>
+<div class="sourceCode" id="cb215"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(cty, hwy, <span class="at">color =</span> trans)) <span class="sc">+</span></span>
+<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p>Weiteres Beispiel:</p>
+<div class="sourceCode" id="cb216"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width)) <span class="sc">+</span></span>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<div class="sourceCode" id="cb217"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flights, <span class="fu">aes</span>(<span class="at">x =</span> air_time, <span class="at">y =</span> distance)) <span class="sc">+</span></span>
+<span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 9430 rows containing missing values (`geom_point()`).</code></pre>
+<img src="index_files/figure-html/unnamed-chunk-113-1.png" width="672" />
+<div class="hinweis"
+style="background-color: #D6EAF8; color: #34495E; border-left: solid #34495E 4px; border-radius: 4px; padding: 0.7em;">
+<p style="margin:1em;">
+Die Daten sind nicht unbedingt perfekt für ein Punktdiagramm.
+Letztendlich werden hier Strecken dargestellt - Werte dazwischen kommen
+nicht vor. Sie können jedoch theoretisch auftreten. Dennoch ist ein
+horizontaler Boxplot für ausgewählte Routen vorzuziehen.
+</p>
+</div>
+<p><br></p>
+</div>
+<div id="line-graph" class="section level3">
+<h3>Line Graph</h3>
+<p>Variablen: zwei Variablen, beide kontinuierlich</p>
+<p>Weitere Dimensionen: <del>alpha,</del> color, group, linetype,
+<del>size</del></p>
+<p>Minimalbeispiel:</p>
+<div class="sourceCode" id="cb219"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(economics, <span class="fu">aes</span>(date, unemploy)) <span class="sc">+</span></span>
+<span id="cb219-2"><a href="#cb219-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p>Weiteres Beispiel: Aktienkurs</p>
+</div>
+<div id="boxplot" class="section level3">
+<h3>Boxplot</h3>
+<p>Variablen: zwei Variablen, eine diskret, eine kontinuierlich</p>
+<p>Weitere Dimensionen: lower, middle, upper, ymax, ymin,
+<del>alpha,</del> color, fill, group, linetype, <del>shape,</del>
+<del>size,</del> <del>weight</del></p>
+<p>Minimalbeispiel:</p>
+<div class="sourceCode" id="cb220"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(class, hwy)) <span class="sc">+</span></span>
+<span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-115-1.png" width="672" /></p>
+<p>Weiteres Beispiel:</p>
+<div class="sourceCode" id="cb221"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Species)) <span class="sc">+</span></span>
+<span id="cb221-2"><a href="#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
 </div>
 </div>
 </div>
