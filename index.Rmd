@@ -1502,3 +1502,90 @@ Weiteres Beispiel:
 ggplot(iris, aes(x = Sepal.Length, y = Species)) +
   geom_boxplot()
 ```
+
+### Bar Plot
+#### geom_col()
+
+Variablen: zwei Variablen, eine kontinuierlich, eine diskret
+
+Weitere Dimensionen: ~~alpha~~, color, fill, group, ~~linetype~~, ~~size~~
+
+Minimalbeispiel:
+```{r}
+mpg %>% 
+  group_by(class) %>% 
+  summarise(hwy_mean = mean(hwy)) %>% 
+ggplot(aes(class, hwy_mean))+
+  geom_col()
+```
+
+Weiteres Beispiel:
+```{r}
+ggplot(mtcars, aes(factor(cyl), hp, fill = factor(am))) +
+  geom_col()
+```
+
+#### geom_bar()
+`geom_bar()` verwendet standardmäßig `stat_count()`: es zählt die Anzahl der Fälle an jeder x-Position. `geom_col(...)` ist in Wirklichkeit `geom_bar(stat = "identity")`
+
+Variablen: eine diskrete Variable
+
+Weitere Dimensionen: ~~alpha~~, color, fill, ~~linetype~~, ~~size~~, ~~weight~~
+
+Minimalbeispiel:
+```{r}
+ggplot(mpg, aes(fl)) +
+  geom_bar()
+```
+
+Weiteres Beispiel:
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar()
+```
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar(position = "dodge")
+```
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar(position = "dodge2")
+```
+
+### Histogram
+Variablen: eine kontinuierliche Variable
+
+Weitere Dimensionen: ~~alpha~~, color, fill, ~~linetype~~, ~~size~~, ~~weight~~
+
+Minimalbeispiel:
+```{r}
+ggplot(mpg, aes(hwy)) +
+  geom_histogram()
+```
+```{r}
+ggplot(mpg, aes(hwy)) +
+  geom_histogram(binwidth = 2.5)
+```
+
+Weiteres Beispiel:
+```{r}
+ggplot(mtcars, aes(wt)) +
+  geom_histogram()
+```
+```{r}
+ggplot(mtcars, aes(wt, fill = factor(vs))) +
+  geom_histogram()
+```
+```{r}
+ggplot(mtcars, aes(wt, fill = factor(vs))) +
+  geom_histogram(position = position_dodge(.2))
+```
+
+
+
+
+
+
+
+
+
