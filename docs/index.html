@@ -561,10 +561,9 @@ von Daten aus dem Paket nycflights13 veranschaulichen.</p>
 laden.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(gcookbook)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># wird normalerweis automatisch ausgegeben</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co"># tidyverse_conflicts()</span></span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># wird normalerweis automatisch ausgegeben</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># tidyverse_conflicts()</span></span></code></pre></div>
 <p>Achtet hierbei auf die automatisch erscheinende Konfliktmeldung, wenn
 tidyverse geladen wird. Diese zeigt an, dass dplyr einige Funktionen von
 Base R überschreibt. Wenn du nach dem Laden von dplyr die Basisversion
@@ -3478,15 +3477,10 @@ Beide Datentypen (kategorial und kontinuierlich) können auf den
 unterschiedliche Skalentypen. Neben der Skalierung ist auch die Anzahl
 der Variablen entscheidend. Einige Plots benötigen nur eine Variable,
 während andere zwei Variablen benötigen. Dies wird im Folgenden für die
-einzelnen Plots betrachtet.</p>
-<p>Als Beispiele gibt es für jeden Geom ein Minimal-Beispiel. Hier
-kannst du sehr schnell erkennen, welche Daten benötigt werden und wie
-das Endergebnis letztendlich aussieht. Weiter unten sind jeweils weitere
-Beispiele, die im Kurs entstanden sind. Hier sind häufig schon weitere
-Anpassungen vorgenommen worden, die das Aussehen des Diagramms
-verändern.</p>
-<div id="scatter-plot" class="section level3">
-<h3>Scatter Plot</h3>
+einzelnen Plots betrachtet:</p>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter Plot</h2>
 <p>Variablen: zwei Variablen, beide kontinuierlich</p>
 <p>Weitere Dimensionen: <del>alpha,</del> color, fill, shape,
 <del>size,</del> stroke</p>
@@ -3504,20 +3498,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="#cb2
 class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" tabindex="-1"></a><span class="fu">ggplot</span>(flights, <span class="fu">aes</span>(<span class="at">x =</span> air_time, <span class="at">y =</span> distance)) <span class="sc">+</span></span>
 <span id="cb217-2"><a href="#cb217-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
 <pre><code>## Warning: Removed 9430 rows containing missing values (`geom_point()`).</code></pre>
-<img src="index_files/figure-html/unnamed-chunk-113-1.png" width="672" />
-<div class="hinweis"
-style="background-color: #D6EAF8; color: #34495E; border-left: solid #34495E 4px; border-radius: 4px; padding: 0.7em;">
-<p style="margin:1em;">
-Die Daten sind nicht unbedingt perfekt für ein Punktdiagramm.
-Letztendlich werden hier Strecken dargestellt - Werte dazwischen kommen
-nicht vor. Sie können jedoch theoretisch auftreten. Dennoch ist ein
-horizontaler Boxplot für ausgewählte Routen vorzuziehen.
-</p>
+<p><img src="index_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 </div>
-<p><br></p>
-</div>
-<div id="line-graph" class="section level3">
-<h3>Line Graph</h3>
+<div id="line-graph" class="section level2">
+<h2>Line Graph</h2>
 <p>Variablen: zwei Variablen, beide kontinuierlich</p>
 <p>Weitere Dimensionen: <del>alpha,</del> color, group, linetype,
 <del>size</del></p>
@@ -3528,8 +3512,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="#cb2
 <p><img src="index_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
 <p>Weiteres Beispiel: Aktienkurs</p>
 </div>
-<div id="boxplot" class="section level3">
-<h3>Boxplot</h3>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
 <p>Variablen: zwei Variablen, eine diskret, eine kontinuierlich</p>
 <p>Weitere Dimensionen: lower, middle, upper, ymax, ymin,
 <del>alpha,</del> color, fill, group, linetype, <del>shape,</del>
@@ -3545,10 +3529,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb2
 <span id="cb221-2"><a href="#cb221-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
 </div>
-<div id="bar-plot" class="section level3">
-<h3>Bar Plot</h3>
-<div id="geom_col" class="section level4">
-<h4>geom_col()</h4>
+<div id="bar-plot" class="section level2">
+<h2>Bar Plot</h2>
+<div id="geom_col" class="section level3">
+<h3>geom_col()</h3>
 <p>Variablen: zwei Variablen, eine kontinuierlich, eine diskret</p>
 <p>Weitere Dimensionen: <del>alpha</del>, color, fill, group,
 <del>linetype</del>, <del>size</del></p>
@@ -3566,8 +3550,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="#cb2
 <span id="cb223-2"><a href="#cb223-2" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 </div>
-<div id="geom_bar" class="section level4">
-<h4>geom_bar()</h4>
+<div id="geom_bar" class="section level3">
+<h3>geom_bar()</h3>
 <p><code>geom_bar()</code> verwendet standardmäßig
 <code>stat_count()</code>: es zählt die Anzahl der Fälle an jeder
 x-Position. <code>geom_col(...)</code> ist in Wirklichkeit
@@ -3581,192 +3565,51 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="#cb2
 <span id="cb224-2"><a href="#cb224-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
 <p>Weiteres Beispiel:</p>
+<div class="sourceCode" id="cb225"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
+<span id="cb225-2"><a href="#cb225-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
+<div class="sourceCode" id="cb226"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="#cb226-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
+<span id="cb226-2"><a href="#cb226-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<div class="sourceCode" id="cb227"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
+<span id="cb227-2"><a href="#cb227-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge2&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
 </div>
 </div>
-<div id="histogram" class="section level3">
-<h3>Histogram</h3>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
 <p>Variablen: eine kontinuierliche Variable</p>
 <p>Weitere Dimensionen: <del>alpha</del>, color, fill,
 <del>linetype</del>, <del>size</del>, <del>weight</del></p>
 <p>Minimalbeispiel:</p>
-<div class="sourceCode" id="cb225"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(hwy)) <span class="sc">+</span></span>
-<span id="cb225-2"><a href="#cb225-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-120-1.png" width="672" /></p>
-<div class="sourceCode" id="cb227"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(hwy)) <span class="sc">+</span></span>
-<span id="cb227-2"><a href="#cb227-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">2.5</span>)</span></code></pre></div>
-<p><img src="index_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
-<p>Weiteres Beispiel:</p>
 <div class="sourceCode" id="cb228"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="#cb228-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt)) <span class="sc">+</span></span>
+class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="#cb228-1" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(hwy)) <span class="sc">+</span></span>
 <span id="cb228-2"><a href="#cb228-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
-<div class="sourceCode" id="cb230"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt, <span class="at">fill =</span> <span class="fu">factor</span>(vs))) <span class="sc">+</span></span>
-<span id="cb230-2"><a href="#cb230-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
-<div class="sourceCode" id="cb232"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="#cb232-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt, <span class="at">fill =</span> <span class="fu">factor</span>(vs))) <span class="sc">+</span></span>
-<span id="cb232-2"><a href="#cb232-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">2</span>))</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div class="sourceCode" id="cb230"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(hwy)) <span class="sc">+</span></span>
+<span id="cb230-2"><a href="#cb230-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">2.5</span>)</span></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-124-1.png" width="672" /></p>
-</div>
-</div>
-<div id="wichtige-geoms-im-detail" class="section level2">
-<h2>Wichtige Geoms im Detail</h2>
-<div id="bar-graphs" class="section level3">
-<h3>Bar Graphs</h3>
-<p>Balkendiagramme sind eine der gebräuchlichsten Arten von
-Datenvisualisierung. Sie dienen in der Regel dazu, numerische Werte (auf
-der y-Achse) für verschiedene Kategorien (auf der x-Achse) darzustellen.
-Ein Beispiel dafür ist ein Balkendiagramm, das die Leistung von vier
-verschiedenen Schulklassen in einem Leistungstest zeigt.</p>
-<p>Beim Erstellen von Balkendiagrammen solltest du einen wichtigen
-Unterschied beachten: Die Höhe der Balken kann entweder die Anzahl der
-Fälle im Datensatz oder die Werte im Datensatz repräsentieren. Beachte
-diese Unterscheidung, da sie eine potenzielle Quelle für Verwirrung und
-vor allem fehlerhafte Darstellungen sein kann. Obwohl beide Arten von
-Balkendiagrammen den gleichen Begriff verwenden, haben sie sehr
-unterschiedliche Beziehungen zu den Daten.</p>
-<p>Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer
-eine bestimmte Anforderung an das Balkendiagramm gestellt wird.</p>
-<div
-id="wie-kann-man-die-balken-nach-einer-zweiten-variable-stapeln-oder-nebeneinander-darstellen"
-class="section level4">
-<h4>Wie kann man die Balken nach einer zweiten Variable stapeln oder
-nebeneinander darstellen?</h4>
-<div class="sourceCode" id="cb234"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="#cb234-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
-<span id="cb234-2"><a href="#cb234-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p>Weiteres Beispiel:</p>
+<div class="sourceCode" id="cb231"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt)) <span class="sc">+</span></span>
+<span id="cb231-2"><a href="#cb231-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-125-1.png" width="672" /></p>
-<div class="sourceCode" id="cb235"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="#cb235-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
-<span id="cb235-2"><a href="#cb235-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt, <span class="at">fill =</span> <span class="fu">factor</span>(vs))) <span class="sc">+</span></span>
+<span id="cb233-2"><a href="#cb233-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
-<div class="sourceCode" id="cb236"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="#cb236-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
-<span id="cb236-2"><a href="#cb236-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="#cb235-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(wt, <span class="at">fill =</span> <span class="fu">factor</span>(vs))) <span class="sc">+</span></span>
+<span id="cb235-2"><a href="#cb235-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
-<div class="sourceCode" id="cb237"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="#cb237-1" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb237-2"><a href="#cb237-2" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(am))) <span class="sc">+</span></span>
-<span id="cb237-3"><a href="#cb237-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge2&quot;</span>) <span class="sc">+</span></span>
-<span id="cb237-4"><a href="#cb237-4" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set2&quot;</span>)</span></code></pre></div>
-<p><img src="index_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
-</div>
-<div
-id="wie-kann-man-die-breite-der-balken-und-die-abstände-zwischen-ihnen-anpassen"
-class="section level4">
-<h4>Wie kann man die Breite der Balken und die Abstände zwischen ihnen
-anpassen?</h4>
-<div class="sourceCode" id="cb238"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="#cb238-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="fu">factor</span>(cyl))) <span class="sc">+</span> </span>
-<span id="cb238-2"><a href="#cb238-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> .<span class="dv">3</span>)</span></code></pre></div>
-<p><img src="index_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
-</div>
-<div
-id="wie-kann-man-ein-gestapeltes-balkendiagramm-erstellen-das-proportionen-anzeigt-auch-100-gestapeltes-balkendiagramm-genannt."
-class="section level4">
-<h4>Wie kann man ein gestapeltes Balkendiagramm erstellen, das
-Proportionen anzeigt (auch 100% gestapeltes Balkendiagramm
-genannt).</h4>
-<div class="sourceCode" id="cb239"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> am, <span class="at">fill =</span> <span class="fu">factor</span>(vs))) <span class="sc">+</span></span>
-<span id="cb239-2"><a href="#cb239-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb239-3"><a href="#cb239-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Getriebeart&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Anteil in Prozent&quot;</span>)</span></code></pre></div>
-<p><img src="index_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
-</div>
-<div
-id="wie-kann-man-zu-den-balken-in-einem-balkendiagramm-beschriftungen-hinzufügen."
-class="section level4">
-<h4>Wie kann man zu den Balken in einem Balkendiagramm Beschriftungen
-hinzufügen.</h4>
-<div class="sourceCode" id="cb240"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="#cb240-1" tabindex="-1"></a><span class="fu">ggplot</span>(cabbage_exp, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Weight, <span class="at">fill =</span> Cultivar))<span class="sc">+</span></span>
-<span id="cb240-2"><a href="#cb240-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge2&quot;</span>) <span class="sc">+</span></span>
-<span id="cb240-3"><a href="#cb240-3" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb240-4"><a href="#cb240-4" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> Weight),</span>
-<span id="cb240-5"><a href="#cb240-5" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">9</span>),</span>
-<span id="cb240-6"><a href="#cb240-6" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="fl">1.5</span>,</span>
-<span id="cb240-7"><a href="#cb240-7" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;white&quot;</span></span>
-<span id="cb240-8"><a href="#cb240-8" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="index_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
-</div>
-<div
-id="wie-könnte-man-unterschiedliche-farben-für-negative-und-positive-balken-verwenden.-librarygcookbook-datensatz-climate_sub"
-class="section level4">
-<h4>Wie könnte man unterschiedliche Farben für negative und positive
-Balken verwenden. library(gcookbook) Datensatz: climate_sub</h4>
-</div>
-<div
-id="was-ist-ein-cleveland-punktdiagramm-und-wie-kann-man-es-erstellen."
-class="section level4">
-<h4>Was ist ein Cleveland-Punktdiagramm und wie kann man es
-erstellen.</h4>
-</div>
-</div>
-<div id="line-graphs" class="section level3">
-<h3>Line Graphs</h3>
-<p>Normalerweise werden Liniendiagramme verwendet, um die Veränderung
-einer kontinuierlichen Variable auf der y-Achse in Bezug auf eine andere
-kontinuierliche Variable auf der x-Achse darzustellen. Die x-Variable
-wird oft als Zeit interpretiert, kann aber auch eine andere
-kontinuierliche Größe repräsentieren, beispielsweise das Alter von
-Proband:innen an Versuchspersonen.</p>
-<p>Ähnlich wie bei Balkendiagrammen gibt es Ausnahmen. Liniendiagramme
-können auch mit einer diskreten Variable auf der x-Achse verwendet
-werden. Dies ist sinnvoll, wenn die Variable eine bestimmte Reihenfolge
-aufweist (z. B. “klein”, “mittel”, “groß”), jedoch nicht, wenn die
-Variable ungeordnet ist (z. B. “männlich”, “weiblich”, “divers”).</p>
-<p>Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer
-eine bestimmte Anforderung an das Liniendiagramm gestellt wird.</p>
-<div id="wie-kann-man-punkte-zu-einem-liniendiagramm-hinzufügen"
-class="section level4">
-<h4>Wie kann man Punkte zu einem Liniendiagramm hinzufügen?</h4>
-</div>
-<div
-id="wie-kann-man-ein-liniendiagramm-mit-mehr-als-einer-linie-erstellen"
-class="section level4">
-<h4>Wie kann man ein Liniendiagramm mit mehr als einer Linie
-erstellen?</h4>
-</div>
-<div
-id="wie-kann-man-das-aussehen-der-linien-in-einem-liniendiagramm-ändern"
-class="section level4">
-<h4>Wie kann man das Aussehen der Linien in einem Liniendiagramm
-ändern?</h4>
-</div>
-<div
-id="wie-kann-man-das-aussehen-der-punkte-in-einem-liniendiagramm-ändern"
-class="section level4">
-<h4>Wie kann man das Aussehen der Punkte in einem Liniendiagramm
-ändern?</h4>
-</div>
-<div
-id="wie-kann-man-ein-diagramm-mit-einer-schattierten-fläche-erstellen"
-class="section level4">
-<h4>Wie kann man ein Diagramm mit einer schattierten Fläche
-erstellen?</h4>
-</div>
-<div id="wie-kann-man-ein-gestapeltes-flächendiagramm-erstellen"
-class="section level4">
-<h4>Wie kann man ein gestapeltes Flächendiagramm erstellen?</h4>
-</div>
-<div
-id="wie-kann-man-ein-gestapeltes-flächendiagramm-erstellen-bei-dem-die-gesamthöhe-auf-einen-konstanten-wert-skaliert-ist"
-class="section level4">
-<h4>Wie kann man ein gestapeltes Flächendiagramm erstellen, bei dem die
-Gesamthöhe auf einen konstanten Wert skaliert ist?</h4>
-</div>
-<div id="wie-kann-man-einem-diagramm-einen-konfidenzbereich-hinzufügen"
-class="section level4">
-<h4>Wie kann man einem Diagramm einen Konfidenzbereich hinzufügen?</h4>
-</div>
-</div>
 </div>
 </div>
 
