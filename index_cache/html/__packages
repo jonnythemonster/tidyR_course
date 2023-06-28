@@ -11,3 +11,5 @@ forcats
 lubridate
 rmarkdown
 Lahman
+gcookbook
+RColorBrewer

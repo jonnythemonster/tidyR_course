@@ -73,6 +73,7 @@ Somit müssen wir als erstes das tidyverse und den Datensatz laden.
 ```{r}
 library(nycflights13)
 library(tidyverse)
+library(gcookbook)
 
 # wird normalerweis automatisch ausgegeben
 # tidyverse_conflicts()
@@ -1442,7 +1443,9 @@ Jeder Graph in ggplot2 besteht aus mindestens den folgenden drei Komponenten:
 Zusätzlich zu den Grundebenen bietet ggplot2 viele weitere Ebenen, um Diagramme durch Einfärben, Skalieren, Aufteilen oder Hinzufügen statistischer Transformationen an die Daten anzupassen.
 
 ## Geometrische Objekte (Geoms)
-Die verfügbaren Geoms variieren je nach Dimensionalität und Typ der dargestellten Variable(n). Es ist eine gute Idee, das ggplot2 Cheatsheet von Posit zur Hand zu haben, da es eine Zusammenfassung der verfügbaren Geoms bietet. Alle Geoms in ggplot haben bestimmte Anforderungen an die Variablen. Dazu gehört zum Beispiel, ob es sich um eine kontinuierliche oder diskrete Variable handelt. Einige aesthetics können nur mit kategorischen Variablen arbeiten, wie z.B. die Form eines Punktes: Dreiecke, Kreise, Quadrate, etc. Einige aesthetics arbeiten mit kategorischen oder kontinuierlichen Variablen, wie z. B. der x-Position (horizontal). Bei einem Balkendiagramm muss die Variable kategorisch sein - eine kontinuierliche Variable auf der x-Achse würde keinen Sinn ergeben. Bei einem Streudiagramm muss die Variable kontinuierlich sein. Beide Datentypen (kategorial und kontinuierlich) können auf den ästhetischen Raum der x-Position abgebildet werden, erfordern aber unterschiedliche Skalentypen. Neben der Skalierung ist auch die Anzahl der Variablen entscheidend. Einige Plots benötigen nur eine Variable, während andere zwei Variablen benötigen. Dies wird im Folgenden für die einzelnen Plots betrachtet:
+Die verfügbaren Geoms variieren je nach Dimensionalität und Typ der dargestellten Variable(n). Es ist eine gute Idee, das ggplot2 Cheatsheet von Posit zur Hand zu haben, da es eine Zusammenfassung der verfügbaren Geoms bietet. Alle Geoms in ggplot haben bestimmte Anforderungen an die Variablen. Dazu gehört zum Beispiel, ob es sich um eine kontinuierliche oder diskrete Variable handelt. Einige aesthetics können nur mit kategorischen Variablen arbeiten, wie z.B. die Form eines Punktes: Dreiecke, Kreise, Quadrate, etc. Einige aesthetics arbeiten mit kategorischen oder kontinuierlichen Variablen, wie z. B. der x-Position (horizontal). Bei einem Balkendiagramm muss die Variable kategorisch sein - eine kontinuierliche Variable auf der x-Achse würde keinen Sinn ergeben. Bei einem Streudiagramm muss die Variable kontinuierlich sein. Beide Datentypen (kategorial und kontinuierlich) können auf den ästhetischen Raum der x-Position abgebildet werden, erfordern aber unterschiedliche Skalentypen. Neben der Skalierung ist auch die Anzahl der Variablen entscheidend. Einige Plots benötigen nur eine Variable, während andere zwei Variablen benötigen. Dies wird im Folgenden für die einzelnen Plots betrachtet.
+
+Als Beispiele gibt es für jeden Geom ein Minimal-Beispiel. Hier kannst du sehr schnell erkennen, welche Daten benötigt werden und wie das Endergebnis letztendlich aussieht. Weiter unten sind jeweils weitere Beispiele, die im Kurs entstanden sind. Hier sind häufig schon weitere Anpassungen vorgenommen worden, die das Aussehen des Diagramms verändern.
 
 ### Scatter Plot
 Variablen: zwei Variablen, beide kontinuierlich
@@ -1539,18 +1542,7 @@ ggplot(mpg, aes(fl)) +
 ```
 
 Weiteres Beispiel:
-```{r}
-ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
-  geom_bar()
-```
-```{r}
-ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
-  geom_bar(position = "dodge")
-```
-```{r}
-ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
-  geom_bar(position = "dodge2")
-```
+
 
 ### Histogram
 Variablen: eine kontinuierliche Variable
@@ -1581,10 +1573,87 @@ ggplot(mtcars, aes(wt, fill = factor(vs))) +
   geom_histogram(position = position_dodge(.2))
 ```
 
+## Wichtige Geoms im Detail
+### Bar Graphs
+Balkendiagramme sind eine der gebräuchlichsten Arten von Datenvisualisierung. Sie dienen in der Regel dazu, numerische Werte (auf der y-Achse) für verschiedene Kategorien (auf der x-Achse) darzustellen. Ein Beispiel dafür ist ein Balkendiagramm, das die Leistung von vier verschiedenen Schulklassen in einem Leistungstest zeigt.
+
+Beim Erstellen von Balkendiagrammen solltest du einen wichtigen Unterschied beachten: Die Höhe der Balken kann entweder die Anzahl der Fälle im Datensatz oder die Werte im Datensatz repräsentieren. Beachte diese Unterscheidung, da sie eine potenzielle Quelle für Verwirrung und vor allem fehlerhafte Darstellungen sein kann. Obwohl beide Arten von Balkendiagrammen den gleichen Begriff verwenden, haben sie sehr unterschiedliche Beziehungen zu den Daten.
+
+Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer eine bestimmte Anforderung an das Balkendiagramm gestellt wird. 
+
+#### Wie kann man die Balken nach einer zweiten Variable stapeln oder nebeneinander darstellen?
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar()
+```
+
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar(position = "dodge")
+```
+
+```{r}
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar(position = "dodge2")
+```
+```{r}
+library(RColorBrewer)
+ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
+  geom_bar(position = "dodge2") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+#### Wie kann man die Breite der Balken und die Abstände zwischen ihnen anpassen?
+```{r}
+ggplot(mtcars, aes(factor(cyl))) + 
+  geom_bar(width = .3)
+```
+
+#### Wie kann man ein gestapeltes Balkendiagramm erstellen, das Proportionen anzeigt (auch 100% gestapeltes Balkendiagramm genannt).
+```{r}
+ggplot(mtcars, aes(x = am, fill = factor(vs))) +
+  geom_bar(position = "fill") +
+  labs(x = "Getriebeart", y = "Anteil in Prozent")
+```
+
+#### Wie kann man zu den Balken in einem Balkendiagramm Beschriftungen hinzufügen.
+```{r}
+ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar))+
+  geom_col(position = "dodge2") +
+  geom_text(
+    aes(label = Weight),
+    position = position_dodge(.9),
+    vjust = 1.5,
+    color = "white"
+  )
+```
 
 
+#### Wie könnte man unterschiedliche Farben für negative und positive Balken verwenden. library(gcookbook) Datensatz: climate_sub
 
+#### Was ist ein Cleveland-Punktdiagramm und wie kann man es erstellen.
+### Line Graphs
+Normalerweise werden Liniendiagramme verwendet, um die Veränderung einer kontinuierlichen Variable auf der y-Achse in Bezug auf eine andere kontinuierliche Variable auf der x-Achse darzustellen. Die x-Variable wird oft als Zeit interpretiert, kann aber auch eine andere kontinuierliche Größe repräsentieren, beispielsweise das Alter von Proband:innen an Versuchspersonen.
 
+Ähnlich wie bei Balkendiagrammen gibt es Ausnahmen. Liniendiagramme können auch mit einer diskreten Variable auf der x-Achse verwendet werden. Dies ist sinnvoll, wenn die Variable eine bestimmte Reihenfolge aufweist (z. B. "klein", "mittel", "groß"), jedoch nicht, wenn die Variable ungeordnet ist (z. B. "männlich", "weiblich", "divers").
+
+Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer eine bestimmte Anforderung an das Liniendiagramm gestellt wird. 
+
+#### Wie kann man Punkte zu einem Liniendiagramm hinzufügen?
+
+#### Wie kann man ein Liniendiagramm mit mehr als einer Linie erstellen?
+
+#### Wie kann man das Aussehen der Linien in einem Liniendiagramm ändern?
+
+#### Wie kann man das Aussehen der Punkte in einem Liniendiagramm ändern?
+
+#### Wie kann man ein Diagramm mit einer schattierten Fläche erstellen?
+
+#### Wie kann man ein gestapeltes Flächendiagramm erstellen?
+
+#### Wie kann man ein gestapeltes Flächendiagramm erstellen, bei dem die Gesamthöhe auf einen konstanten Wert skaliert ist?
+
+#### Wie kann man einem Diagramm einen Konfidenzbereich hinzufügen?
 
 
 
