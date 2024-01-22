@@ -1598,6 +1598,7 @@ ggplot(mtcars, aes(factor(cyl), fill = factor(am))) +
   scale_fill_brewer(palette = "Set2")
 ```
 
+
 #### Wie kann man die Breite der Balken und die Abstände zwischen ihnen anpassen?
 ```{r}
 ggplot(mtcars, aes(factor(cyl))) + 
@@ -1625,8 +1626,30 @@ ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar))+
 
 
 #### Wie könnte man unterschiedliche Farben für negative und positive Balken verwenden. library(gcookbook) Datensatz: climate_sub
+```{r}
+library(gcookbook)
+climate %>% 
+  filter(Source == "Berkeley" & Year >= 1900) %>% 
+  mutate(pos = Anomaly10y >= 0) %>% 
+  ggplot() + 
+  aes(Year, Anomaly10y,fill=pos) +
+  geom_col() +
+  theme(legend.position = "none")
+```
+
+
 
 #### Was ist ein Cleveland-Punktdiagramm und wie kann man es erstellen.
+```{r}
+library(gcookbook) # Load gcookbook for the tophitters2001 data set
+tophit <- tophitters2001[1:25, ] # Take the top 25 from the tophitters data set
+
+ggplot(tophit, aes(x = avg, y = name)) +
+  geom_point()
+```
+
+
+
 ### Line Graphs
 Normalerweise werden Liniendiagramme verwendet, um die Veränderung einer kontinuierlichen Variable auf der y-Achse in Bezug auf eine andere kontinuierliche Variable auf der x-Achse darzustellen. Die x-Variable wird oft als Zeit interpretiert, kann aber auch eine andere kontinuierliche Größe repräsentieren, beispielsweise das Alter von Proband:innen an Versuchspersonen.
 
@@ -1635,6 +1658,15 @@ Normalerweise werden Liniendiagramme verwendet, um die Veränderung einer kontin
 Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer eine bestimmte Anforderung an das Liniendiagramm gestellt wird. 
 
 #### Wie kann man Punkte zu einem Liniendiagramm hinzufügen?
+```{r}
+ggplot(BOD, aes(x = Time, y = demand)) +
+  geom_line() +
+  geom_line(aes(y = 0.5*demand), linetype = 3) +
+  geom_point(size = 4, shape = 22, colour = "darkred", fill = "pink") +
+  geom_point(aes(y = 0.5*demand))
+```
+
+
 
 #### Wie kann man ein Liniendiagramm mit mehr als einer Linie erstellen?
 
@@ -1643,9 +1675,50 @@ Im Folgenden siehst du ganz konkrete Anwendungsfälle, wobei immer eine bestimmt
 #### Wie kann man das Aussehen der Punkte in einem Liniendiagramm ändern?
 
 #### Wie kann man ein Diagramm mit einer schattierten Fläche erstellen?
+```{r}
+# Convert the sunspot.year data set into a data frame for this example
+sunspotyear <- data.frame(
+    Year     = as.numeric(time(sunspot.year)),
+    Sunspots = as.numeric(sunspot.year)
+  )
+
+ggplot(sunspotyear, aes(x = Year, y = Sunspots)) +
+  geom_area()
+```
+
 
 #### Wie kann man ein gestapeltes Flächendiagramm erstellen?
+```{r}
+ggplot(uspopage, aes(x = Year, y = Thousands, fill = AgeGroup)) +
+  geom_area()
+```
+
 
 #### Wie kann man ein gestapeltes Flächendiagramm erstellen, bei dem die Gesamthöhe auf einen konstanten Wert skaliert ist?
+```{r}
+ggplot(uspopage, aes(x = Year, y = Thousands, fill = AgeGroup)) +
+  geom_area(position = "fill", color = "black", size = .2, alpha = .4) +
+  scale_fill_brewer("Blues")
+```
 
 #### Wie kann man einem Diagramm einen Konfidenzbereich hinzufügen?
+```{r}
+climate_mod <- climate %>% 
+  filter(Source == "Berkeley") %>% 
+  select(Year, Anomaly10y, Unc10y)
+
+ggplot(climate_mod, aes(Year, Anomaly10y)) +
+  geom_ribbon(aes(ymin = Anomaly10y - Unc10y, ymax = Anomaly10y + Unc10y), alpha = .2) +
+  geom_line()
+```
+
+```{r}
+ggplot(climate_mod, aes(Year, Anomaly10y)) +
+  geom_ribbon(aes(ymin = Anomaly10y - Unc10y, ymax = Anomaly10y + Unc10y), alpha = .1) +
+  geom_line() +
+  geom_line(aes(y = Anomaly10y - Unc10y), colour = "grey50", linetype = "dotted") +
+  geom_line(aes(y = Anomaly10y + Unc10y), colour = "grey50", linetype = "dotted")
+```
+
+
+
